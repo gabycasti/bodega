@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+    <!-- HEADER -->
+    <div class="app-content-header">
+        <div class="container-fluid">
+            <div class="row ms-3 me-3">
+                <section class="content-header d-flex justify-content-between align-items-center">
+                    <h3 class="mb-0">
+                        <i class="fas fa-lock"></i> Agregar Usuario
+                    </h3>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item">
+                            <a href="{% url 'dashboard' %}">
+                                <i class="fa fa-home"></i> Inicio
+                            </a>
+                        </li>
+                        <li class="breadcrumb-item active">
+                            <a href="{% url 'listado_usuarios' %}">Listar Usuarios</a>
+                        </li>
+                    </ol>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="app-content">
+        <div class="container-fluid">
+
+            <hr style="border: 2px solid #3c8dbc;">
+
+            <div class="row">
+                <div class="col-8">
+                    <form action="" method="post" class="form-control border-0">
+                        {% csrf_token %}
+
+                        <!-- Usuario -->
+                        <div class="row mb-3">
+                            <div class="col-md-4 text-end">
+                                <label class="form-label">Nombre de Usuario</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="username" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="row mb-3">
+                            <div class="col-md-4 text-end">
+                                <label class="form-label">Contraseña</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="password" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Nombre -->
+                        <div class="row mb-3">
+                            <div class="col-md-4 text-end">
+                                <label class="form-label">Nombre</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="nombre" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Apellido -->
+                        <div class="row mb-3">
+                            <div class="col-md-4 text-end">
+                                <label class="form-label">Apellido</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="apellido" class="form-control">
+                            </div>
+                        </div>
+
+                        <!-- Tipo Usuario -->
+                        <div class="row mb-3">
+                            <div class="col-md-4 text-end">
+                                <label class="form-label">Tipo de Usuario</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select name="tipo_usuario" class="form-select" required>
+                                    <option value="normal">Normal</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="superAdmin">Super Admin</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Botón -->
+                        <div class="row mb-3">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    Registrar
+                                </button>
+                            </div>
+                        </div>
+
+                        {% if messages %}
+                        <div class="alert alert-success">
+                            {% for message in messages %}
+                                <p class="mb-0">{{ message }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}

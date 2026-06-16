@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  thead, th {
+        background-color: transparent !important;
+    }
+
+ .btn-orange, 
+ .btn-orange:hover, 
+ .btn-orange:focus, 
+ .btn-orange:active {
+    background-color: #f39c12 !important;
+    border-color: #e08e0b !important;
+    color: #fff !important;
+}
+
+ .link-sin-color {
+      color: inherit !important;
+      text-decoration: none !important;
+  }
+
+
+table.dataTable {
+    border-top: 2px solid #dee2e6;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 15px;
+}
+
+
+</style>
+<div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
+     <div class="row  ms-3 me-3">
+          <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Agregar  Empleado</h3>
+               <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
+                 <br>
+                 <li style="margin-right: 5px;"><a href="" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
+                 <li style="margin-right: 5px;"><a href="{% url 'empleado_listado' %}" class="link-sin-color">Listado Empleado</a></li>
+               </ol>
+          </section>
+          
+          <hr style="border: 2px solid #3c8dbc;">
+
+         <div class="col-8">
+            <form method="post" class="form-control border-0">
+              {% csrf_token %}
+              <br>
+              <!-- Nombre -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Nombre Empleado</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="text" name="nombre" class="form-control">
+                </div>
+              </div>
+
+              <!-- Rut -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Rut</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="text" name="rut" class="form-control">
+                </div>
+              </div>
+
+              <!-- Cargo (CORREGIDO) -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Cargo</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="text" name="cargo" class="form-control">
+                </div>
+              </div>
+
+              <!-- Activo (ALINEADO CORRECTAMENTE) -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Estado</label>
+                </div>
+
+                <div class="col-md-8 d-flex align-items-center">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="activo" checked>
+                    <label class="form-check-label">
+                      Activo
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botones -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end"></div>
+                <div class="col-md-8 d-flex justify-content-start gap-2">
+                  <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+
+                  <button type="button"
+                          class="btn btn-secondary btn-sm"
+                          onclick="window.location.href='{% url 'empleado_listado' %}'">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+
+              <hr>
+            </form>
+          </div>
+     </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+
+<script>
+  
+// ============================================
+// FUNCIÓN RUT
+// ============================================
+    function formatearRut(input) {
+        let valor = input.value;
+
+        // 1️⃣ Mantener solo números y K
+        valor = valor.replace(/[^\dkK]/g, "");
+
+        // 2️⃣ Pasar todo a mayúsculas
+        valor = valor.toUpperCase();
+
+        // 3️⃣ Separar cuerpo y dígito verificador
+        let cuerpo = valor.slice(0, -1);
+        let dv = valor.slice(-1);
+
+        // 4️⃣ Formatear puntos
+        cuerpo = cuerpo
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+        // 5️⃣ Agregar guión
+        if (dv) {
+            valor = `${cuerpo}-${dv}`;
+        } else {
+            valor = cuerpo;
+        }
+
+        input.value = valor;
+    }
+
+// Aplicar a ambos campos
+document.getElementById("rut").addEventListener("input", function() {
+    formatearRut(this);
+});
+
+document.getElementById("rutRe").addEventListener("input", function() {
+    formatearRut(this);
+});
+</script>
+{% endblock %}
+
+  
+
+

@@ -1,0 +1,94 @@
+{% load static %}
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+        <!--begin::Sidebar Brand-->
+        <div class="sidebar-brand">
+          <!--begin::Brand Link-->
+          <a href="./index.html" class="brand-link">
+            <!--begin::Brand Image {% static 'assets/img/logo_wl.png' %}-->
+            <img style="max-height: 80px; margin-bottom:15px; margin-top:25px;"
+                src="{% static 'assets/img/logo3.png' %}"
+              alt=""
+              class="opacity-75 shadow"
+            />
+            <!--end::Brand Image-->
+            <!--begin::Brand Text-->
+            {% comment %} <span class="brand-text fw-light">AdminLTE 4</span> {% endcomment %}
+            <!--end::Brand Text-->
+          </a>
+          <!--end::Brand Link-->
+        </div>
+        <!--end::Sidebar Brand-->
+        <!--begin::Sidebar Wrapper-->
+        <div class="sidebar-wrapper">
+          <nav class="mt-2">
+            <!--begin::Sidebar Menu-->
+            <ul
+              class="nav sidebar-menu flex-column"
+              data-lte-toggle="treeview"
+              role="menu"
+              data-accordion="false"
+            >
+              
+              <li class="nav-item">
+                <a href="{% url 'dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                  <i class="nav-icon bi bi-palette"></i>
+                  <p>Inicio</p>
+                </a>
+              </li>
+
+              <!-- CLIENTE / BENCINA -->
+              <li class="nav-item {% if 'cliente' in request.path %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
+                  <i class="nav-icon bi bi-fuel-pump"></i>
+                  <p>
+                    Bencina
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="#" class="nav-link {% if 'crear_cliente' in request.path %}active{% endif %}">
+                      <p>Entrega Tarjeta</p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                     <a href="{% url 'bencina_listado' %}" class="nav-link {% if 'listado' in request.path %}active{% endif %}">
+                      <p>Listado Bencina</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- Empleado -->
+              <li class="nav-item {% if 'cliente' in request.path %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
+                  <i class="nav-icon bi bi-speedometer"></i>
+                  <p>
+                    Empleado
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{% url 'registro_empleado' %}" class="nav-link {% if 'crear_cliente' in request.path %}active{% endif %}">
+                      <p>Registro Empleado</p>
+                    </a>
+                  </li>
+
+                  <li class="nav-item">
+                    <a href="{% url 'empleado_listado' %}" class="nav-link {% if 'listado' in request.path %}active{% endif %}">
+                      <p>Listado Empleado</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+            </ul>
+            <!--end::Sidebar Menu-->
+          </nav>
+        </div>
+        <!--end::Sidebar Wrapper-->
+    </aside>

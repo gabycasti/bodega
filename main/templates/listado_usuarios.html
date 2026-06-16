@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+<style>
+    html, body {
+    height: 100%;
+}
+
+.app-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-main {
+    flex: 1;
+}
+</style>
+{% block content %}
+
+<main class="app-main">
+
+  <!-- Header -->
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0">
+            <i class="fas fa-lock"></i> Listado de Usuarios
+          </h3>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-end">
+            <li class="breadcrumb-item">
+              <a href="{% url 'dashboard' %}">
+                <i class="fa fa-home"></i> Inicio
+              </a>
+            </li>
+            <li class="breadcrumb-item active">
+            <a href="{% url 'crear_usuario' %}">
+                 Agregar Usuario
+            </a>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="app-content">
+    <div class="container-fluid">
+
+      {% if messages %}
+        <div class="alert alert-success d-flex justify-content-between align-items-center">
+          {% for message in messages %}
+            <span>{{ message }}</span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-primary text-center">
+            <tr>
+              <th>No.</th>
+              <th>Nombre</th>
+              <th>Apellido</th>
+              <th>Usuario</th>
+              <th>Tipo de Usuario</th>
+              <th>Editar</th>
+              <th>Password</th>
+              <th>Eliminar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+              <td class="text-center">{{ forloop.counter }}</td>
+              <td>{{ usuario.nombre }}</td>
+              <td>{{ usuario.apellido }}</td>
+              <td>{{ usuario.user.username }}</td>
+              <td class="text-center">{{ usuario.tipo_usuario }}</td>
+              <td class="text-center">
+                <a href="{% url 'editar_usuario' usuario.id %}" class="btn btn-warning btn-sm">
+                  <i class="bi bi-journal"></i>
+                </a>
+              </td>
+              <td class="text-center">
+                <a href="{% url 'restablecer_password' usuario.id %}" class="btn btn-success btn-sm">
+                  <i class="bi bi-key"></i>
+                </a>
+              </td>
+              <td class="text-center">
+                <a href="{% url 'eliminar_usuario' usuario.id %}" class="btn btn-danger btn-sm">
+                  <i class="bi bi-trash"></i>
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</main>
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+{% block content %}
+<div  style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
+     <div class="row  ms-3 me-3">
+          <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+               <h3 style="margin: 10px;"><i class="fas fa-lock"></i> Editar Usuario</h3>
+               <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
+                <li style="margin-right: 5px;"><a href="{% url 'index' %}"><i class="fa fa-home"></i> Inicio ></a></li>
+                <li style="margin-right: 5px;" class="active"><a href="{% url 'listado_usuarios' %}">Listar Usuarios</a></li>
+               </ol>
+          </section>
+          <hr style="border: 2px solid #3c8dbc;">
+          <div class="col-8">
+            <form action="" method="post" class="form-control border-0">
+              {% csrf_token %} 
+              <!-- Nombre de Usuario -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label for="username" class="form-label">Nombre de Usuario</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="text" name="username" value="{{ perfil.user.username }}" required>
+                </div>
+              </div>
+          
+              <!-- Select Menu -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label for="password" class="form-label">Contraseña</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="text" name="password" class="form-control">
+                </div>
+              </div>
+
+               <!--Nombre -->
+               <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label for="nombre" class="form-label">Nombre</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="text" name="nombre" value="{{ perfil.nombre }}" required>
+                </div>
+              </div>
+
+              <!--Apellido -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label for="apellido" class="form-label">Apellido</label>
+                </div>
+                <div class="col-md-8">
+                <input type="text" name="apellido" value="{{ perfil.apellido }}" required>
+                </div>
+              </div>
+
+
+              <!--Apellido -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                   <label for="tipo_usuario" class="form-label">Tipo de Usuario:</label>
+                </div>
+                <div class="col-md-8">
+                  <select name="tipo_usuario" class="form-select" required>
+                    <option value="normal" {% if perfil.tipo_usuario == 'normal' %}selected{% endif %}>Normal</option>
+                    <option value="admin" {% if perfil.tipo_usuario == 'admin' %}selected{% endif %}>Admin</option>
+                    <option value="superAdmin" {% if perfil.tipo_usuario == 'superAdmin' %}selected{% endif %}>Super Admin</option>
+                </select>
+                </div>
+              </div>
+                 <!-- Botón -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end"></div> <!-- Columna vacía para alineación -->
+                <div class="col-md-8">
+                  <button type="submit" class="btn btn-primary btn-sm">Editar Usuario</button>
+                </div>
+              </div>
+
+              {% if messages %}
+              <div class="alert alert-success custom-alert" role="alert">
+                      {% for message in messages %}
+                          <p>{{ message }}</p>
+                      {% endfor %}
+                  </div>
+              {% endif %}
+             
+            </form>
+          </div>
+     </div>
+</div>
+{% endblock %}

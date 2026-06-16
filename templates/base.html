@@ -1,0 +1,348 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}WL | Bodega{% endblock %}</title>
+
+  <link href="{% static 'assets/img/agenda.png' %}" rel="icon">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="ColorlibHQ">
+  <meta name="description" content="AdminLTE v4 - Bootstrap 5 Dashboard">
+
+  <!-- Fuente -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+        crossorigin="anonymous">
+
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+        crossorigin="anonymous">
+
+  <!-- OverlayScrollbars -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/styles/overlayscrollbars.min.css"
+        crossorigin="anonymous">
+
+  <!-- Fancybox -->
+  <!-- <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css"> -->
+
+  <link rel="stylesheet" href="{% static 'plugins/fancybox/3.3.5/jquery.fancybox.min.css' %}" />
+
+
+
+  <!-- FontAwesome -->
+  <link rel="stylesheet"
+        href="{% static 'plugins/fontawesome-free-6.1.1-web/css/all.min.css' %}">
+
+  <!-- AdminLTE (incluye Bootstrap 5 CSS) -->
+  <link rel="stylesheet" href="{% static 'css/adminlte.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+  <!-- ApexCharts -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
+        crossorigin="anonymous">
+
+  <!-- DataTables -->
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.dataTables.min.css">
+
+  <!-- Toastr -->
+  <link rel="stylesheet"
+        href="{% static 'plugins/toastr/toastr.css' %}">
+
+  <style>
+    body { font-size: 14px; }
+
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.8)
+        url('/static/assets/img/kahda_cargando.gif') no-repeat center;
+      background-size: 250px;
+      z-index: 9999;
+      transition: opacity .5s;
+    }
+    #loader.oculto {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+
+<div class="app-wrapper">
+
+{% block navbar %}
+    {% include 'topmenu.html' %}
+  {% endblock %}
+
+     <!-- Main Sidebar Container -->
+  {% block sidebar %}
+    {% include 'menu.html' %}
+  {% endblock %}
+  
+  {% block content %}
+  {% endblock %}
+
+
+    <!-- Footer -->
+  {% block footer %}
+        {% include 'footer.html' %}
+  {% endblock %}
+
+</div>
+<!-- OverlayScrollbars -->
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.10.1/browser/overlayscrollbars.browser.es6.min.js"
+        crossorigin="anonymous"></script>
+
+<!-- Bootstrap 5 (BUNDLE) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        crossorigin="anonymous"></script>
+
+<!-- AdminLTE -->
+<script src="{% static 'js/adminlte.js' %}"></script>
+
+<!-- jQuery (solo si DataTables lo requiere) -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        crossorigin="anonymous"></script>
+
+<!-- DataTables -->
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+<!-- Fancybox -->
+<script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>
+
+<!-- ApexCharts -->
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1"></script>
+
+<!-- Toastr -->
+<script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+
+
+
+
+    <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
+    <script>
+      const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
+      const Default = {
+        scrollbarTheme: 'os-theme-light',
+        scrollbarAutoHide: 'leave',
+        scrollbarClickScroll: true,
+      };
+      document.addEventListener('DOMContentLoaded', function () {
+        const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
+        if (sidebarWrapper && OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined) {
+          OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
+            scrollbars: {
+              theme: Default.scrollbarTheme,
+              autoHide: Default.scrollbarAutoHide,
+              clickScroll: Default.scrollbarClickScroll,
+            },
+          });
+        }
+      });
+    </script>
+    <!--end::OverlayScrollbars Configure-->
+    <!-- OPTIONAL SCRIPTS -->
+    <!-- sortablejs -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"
+      integrity="sha256-ipiJrswvAR4VAx/th+6zWsdeYmVae0iJuiR+6OqHJHQ="
+      crossorigin="anonymous"
+    ></script>
+    
+    <!-- sortablejs -->
+    {% comment %} <script>
+      new Sortable(document.querySelector('.connectedSortable'), {
+        group: 'shared',
+        handle: '.card-header',
+      });
+
+      const cardHeaders = document.querySelectorAll('.connectedSortable .card-header');
+      cardHeaders.forEach((cardHeader) => {
+        cardHeader.style.cursor = 'move';
+      });
+    </script> {% endcomment %}
+    <!-- apexcharts -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js"
+      integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8="
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+
+    <!-- Responsive extension JS -->
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+
+    <!-- Moment.js (requerido por el datetimepicker v4) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <!-- Noty -->
+    <script src="{% static 'plugins/noty/packaged/jquery.noty.packaged.js' %}" type="text/javascript"></script>
+
+    <!-- Toast -->
+    <script src="{% static 'plugins/toastr/toastr.js' %}"></script>
+
+    <!-- JS de Fancybox 
+    <script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script>-->
+
+    <script src="{% static 'plugins/fancybox/3.3.5/jquery.fancybox.min.js' %}"></script>
+
+    <!-- jQuery -->
+    {% comment %} <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script> {% endcomment %}
+    <!-- jQuery UI 1.11.4 -->
+    {% comment %} <script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script> {% endcomment %}
+
+    <!-- Popper.js (OBLIGATORIO en Bootstrap 4) -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+
+
+
+    <!-- DataTables -->
+    {% comment %} <script src="{% static 'plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script> {% endcomment %}
+
+    <script>
+
+      $(window).on('load', function() {
+          $("#loader").fadeOut(500); // fadeOut dura 500ms
+      });
+
+   
+
+
+
+        $('#dataTablesListados').DataTable({
+          paging: true,
+          lengthChange: true,
+          searching: true,
+          ordering: false,
+          scrollX: true,
+          pageLength: 50,
+          info: true,
+          autoWidth: false,  
+          responsive: true,
+          columnDefs: [
+            { responsivePriority: 1, targets: 1 }, // La columna "Nombre" nunca se oculta
+            { responsivePriority: 2, targets: 0 }, // Código, también importante
+            { responsivePriority: 3, targets: -1 } // Acciones
+          ],
+          language: {
+            lengthMenu: "Mostrar  _MENU_  registros por página",
+            info: "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            search: "Buscar:",
+            emptyTable: "Ningún dato disponible en esta tabla",
+            infoFiltered: "(filtrados de un total de _MAX_ registros)",
+            infoEmpty: "Mostrando registros del 0 al 0 de un total de 0 registros",
+            paginate: {
+              first: "Primero",
+              last: "Último",
+              next: "Siguiente",
+              previous: "Anterior"
+            },
+          }
+        });
+
+
+
+       //SCRIPTS DE LOS MENSAJES
+    function gMensaje(desc,tipo) {
+            //tipo error o info
+            //desc es el mensaje
+            var n = noty({
+                fontSize  : '25px',
+                text        : desc,
+                type        : tipo,
+                progressBar : true,
+                dismissQueue: true,
+                closeWith   : ['click', 'backdrop'],
+                buttons     : [
+                    {addClass: 'btn btn-primary', text: 'Aceptar', onClick: function ($noty) {
+                        $noty.close();
+                        return false;
+                        //document.form1.submit();
+                    }
+
+                    }
+                ],
+                modal       : true,
+                layout      : 'center',
+                theme       : 'defaultTheme',
+                maxVisible  : 5
+            });
+            console.log('html: ' + n.options.id);
+        }
+    
+
+
+        
+    function mensajeConfirmar(mensaje, funcion) {
+        var n = noty({
+            fontSize  : '25px',
+            text        : mensaje,
+            type        : 'confirm',
+            dismissQueue: true,
+            closeWith   : ['click', 'backdrop'],
+            buttons     : [
+                {addClass: 'btn btn-primary', text: 'Si', onClick: function ($noty) {
+                   //ejecutar función
+                   if (typeof funcion === 'function') {
+                        funcion(); // Aquí ejecutas la función que pasaste como parámetro
+                    }
+
+                    
+
+                }
+                },
+                {addClass: 'btn btn-danger', text: 'No', onClick: function ($noty) {
+                    $noty.close();
+                    return false;
+                   
+                }
+                }
+            ],
+            modal       : true,
+            layout      : 'top',
+            theme       : 'defaultTheme',
+            maxVisible  : 5
+
+        });
+        console.log('html: ' + n.options.id);
+    }
+
+
+ 
+
+
+
+
+    </script>
+
+      
+{% block scripts %}{% endblock %}
+
+</body>
+</html>
