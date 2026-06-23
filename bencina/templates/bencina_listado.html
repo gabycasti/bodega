@@ -64,6 +64,7 @@ table.dataTable {
                  <table class="table table-bordered table-hover align-middle small-text-table table_general">
                     <thead class="table-primary text-center">
                         <tr>
+                            <th>#</th>
                             <th>Nombre</th>
                             <th>RUT</th>
                             <th>Vehículo</th>
@@ -78,6 +79,7 @@ table.dataTable {
                     <tbody>
                         {% for b in bencinas %}
                         <tr>
+                            <td> {{ forloop.counter }}</td>
                             <td>{{ b.nombre }}</td>
                             <td>{{ b.rut }}</td>
                             <td>{{ b.vehiculo }}</td>
@@ -90,7 +92,7 @@ table.dataTable {
                                     class="btn btn-sm btn-primary"
                                     data-bs-toggle="modal"
                                     data-bs-target="#imagenModal"
-                                    data-url="{{ b.recibo.url }}"
+                                    data-url="/media/{{ b.recibo }}"
                                     onclick="mostrarImagen(this)">
                                     Ver recibo
                                 </button>

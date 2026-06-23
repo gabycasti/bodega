@@ -19,17 +19,20 @@ from django.urls import path, include
 from django.shortcuts import redirect
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
     # raíz del sitio → login
     #path('', lambda request: redirect('/dashboard/login/')),
-    path('', lambda request: redirect('/dashboard/')),
+    path('', auth_views.LoginView.as_view(template_name='registration/login.html'), name='login'),
+  #  path('', lambda request: redirect('/dashboard/')),
     path('dashboard/', include('main.urls')),
     
     path('bencina/', include('bencina.urls')),
     path('empleado/', include('empleado.urls')),
+    path('formulario_bencina/', include('formulario_bencina.urls')),
 
 
    
