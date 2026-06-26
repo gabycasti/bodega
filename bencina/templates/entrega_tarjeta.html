@@ -34,10 +34,10 @@ table.dataTable {
 <div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
      <div class="row  ms-3 me-3">
           <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
-               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Agregar  Cliente</h3>
+               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Agregar  Tarjeta</h3>
                <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
                  <br>
-                 <li style="margin-right: 5px;"><a href="" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
+                 <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
                  <li style="margin-right: 5px;"><a href="{% url 'bencina_listado' %}" class="link-sin-color">Listado Bencina</a></li>
                </ol>
           </section>
@@ -53,7 +53,14 @@ table.dataTable {
                   <label for="nombre" class="form-label">Nombre Chofer</label>
                 </div>
                 <div class="col-md-8">
-                  <input type="text" name="nombre" class="form-control">
+                  <select name="empleado_id" id="empleado_id" class="form-select" required>
+                    <option value="">Seleccione un chofer</option>
+                    {% for e in empleados %}
+                        <option value="{{ e.id }}" data-rut="{{ e.rut }}">
+                            {{ e.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
                 </div>
               </div>
           
@@ -63,7 +70,7 @@ table.dataTable {
                   <label for="rut" class="form-label">Rut</label>
                 </div>
                 <div class="col-md-8">
-                  <input type="text" name="rut" id="rut" class="form-control">
+                 <input type="text" name="rut" id="rut" class="form-control" readonly>
                 </div>
               </div>
 
@@ -72,7 +79,7 @@ table.dataTable {
              <!-- Hora de Entrega -->
               <div class="row mb-3">
                 <div class="col-md-4 text-end">
-                  <label for="hora_entrega" class="form-label">Hora de Entrega</label>
+                  <label for="hora_entrega" class="form-label">Check-In</label>
                 </div>
                 <div class="col-md-8">
                   <input type="time" name="hora_entrega" id="hora_entrega" class="form-control">
@@ -83,7 +90,7 @@ table.dataTable {
                <!-- Hora de Recepción -->
               <div class="row mb-3">
                 <div class="col-md-4 text-end">
-                  <label for="hora_recepcion" class="form-label">Hora de Recepción</label>
+                  <label for="hora_recepcion" class="form-label">Check-Out</label>
                 </div>
                 <div class="col-md-8">
                   <input type="time" name="hora_recepcion" id="hora_recepcion" class="form-control">
@@ -117,46 +124,26 @@ table.dataTable {
 
 
 <script>
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const empleado = document.getElementById("empleado_id");
+    const rut = document.getElementById("rut");
+
+    empleado.addEventListener("change", function () {
+
+        const opcion = this.options[this.selectedIndex];
+
+        rut.value = opcion.dataset.rut || "";
+
+    });
+
   
-// ============================================
-// FUNCIÓN RUT
-// ============================================
-    function formatearRut(input) {
-        let valor = input.value;
-
-        // 1️⃣ Mantener solo números y K
-        valor = valor.replace(/[^\dkK]/g, "");
-
-        // 2️⃣ Pasar todo a mayúsculas
-        valor = valor.toUpperCase();
-
-        // 3️⃣ Separar cuerpo y dígito verificador
-        let cuerpo = valor.slice(0, -1);
-        let dv = valor.slice(-1);
-
-        // 4️⃣ Formatear puntos
-        cuerpo = cuerpo
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
-        // 5️⃣ Agregar guión
-        if (dv) {
-            valor = `${cuerpo}-${dv}`;
-        } else {
-            valor = cuerpo;
-        }
-
-        input.value = valor;
-    }
-
-// Aplicar a ambos campos
-document.getElementById("rut").addEventListener("input", function() {
-    formatearRut(this);
 });
 
-document.getElementById("rutRe").addEventListener("input", function() {
-    formatearRut(this);
-});
+  
 </script>
+
 {% endblock %}
 
   

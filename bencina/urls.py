@@ -6,6 +6,9 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('listado/', views.listado, name='bencina_listado'),
     path('eliminar/<int:id>/', views.eliminar_bencina, name='eliminar_bencina'),
+    path('entrega_tarjeta/', views.entrega_tarjeta, name='entrega_tarjeta'),
+    path('tarjeta_listado/', views.tarjeta_listado, name='tarjeta_listado'),
+
     path('bencina/', include('formulario_bencina.urls')),
 ]
 

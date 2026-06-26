@@ -1,4 +1,5 @@
 from django.db import models
+from empleado.models import Empleado
 
 
 class Bencina(models.Model):
@@ -13,3 +14,25 @@ class Bencina(models.Model):
         db_table = 'bencina'
         managed = False   
         
+
+
+
+class ControlTarjeta(models.Model):
+    empleado = models.ForeignKey(
+        Empleado,
+        on_delete=models.PROTECT,
+        related_name="controles_tarjeta"
+    )
+
+    fecha = models.DateTimeField(auto_now_add=True)
+
+    hora_checkin = models.TimeField()
+    hora_checkout = models.TimeField(null=True, blank=True)
+
+    activo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.empleado.nombre} - {self.fecha.date()}"
+
+    class Meta:
+        db_table = "control_tarjeta"

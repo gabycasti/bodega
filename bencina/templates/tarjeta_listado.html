@@ -39,7 +39,7 @@ table.dataTable {
 <div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
      <div class="row  ms-3 me-3">
           <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
-               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Listado Empleado</h3>
+               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Listado Tarjetas</h3>
                 <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
                  <br>
                  <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
@@ -62,39 +62,53 @@ table.dataTable {
                             <th>#</th>
                             <th>Nombre</th>
                             <th>RUT</th>
-                            <th>Cargo</th>
-                            <th>Activo</th>
-
+                            <th>Vehículo</th>
+                            <th>Monto</th>
+                            <th>Kilometraje</th>
+                            <th>Fecha</th>
                         </tr>
                     </thead>
-                    <tbody>
-                            {% for emp in empleados %}
-                                <tr>
-                                    <td> {{ forloop.counter }}</td>
-                                    <td>{{ emp.nombre }}</td>
-                                    <td>{{ emp.rut }}</td>
-                                    <td>{{ emp.cargo }}</td>
-                                    <td class="text-center">
-                                        {% if emp.activo %}
-                                            ✔️
-                                        {% else %}
-                                            ❌
-                                        {% endif %}
-                                    </td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="4" class="text-center">
-                                        No existen registros.
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
+                     <tbody>
+                        {% for t in tarjetas %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ t.empleado.nombre }}</td>
+                                <td>{{ t.empleado.rut }}</td>
+                                <td>{{ t.fecha|date:"d/m/Y" }}</td>
+                                <td>{{ t.hora_checkin }}</td>
+
+                                <td>
+                                    {% if t.hora_checkout %}
+                                        {{ t.hora_checkout }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-center">
+                                    {% if t.activo %}
+                                        ✔️
+                                    {% else %}
+                                        ❌
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="7" class="text-center">
+                                    No hay registros.
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
                 </table>
             </div>
         </div>          
     </div>
 </div>
+
+
+
 
 
 <div class="modal fade" id="imagenModal" tabindex="-1">

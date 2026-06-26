@@ -37,7 +37,7 @@
               </li>
 
               <!-- CLIENTE / BENCINA -->
-              <li class="nav-item {% if 'cliente' in request.path %}menu-open{% endif %}">
+              <li class="nav-item {% if 'bencina' in request.path %}menu-open{% endif %}">
                 <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
                   <i class="nav-icon bi bi-fuel-pump"></i>
                   <p>
@@ -48,40 +48,78 @@
 
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="#" class="nav-link {% if 'crear_cliente' in request.path %}active{% endif %}">
-                      <p>Entrega Tarjeta</p>
-                    </a>
+                      <a href="{% url 'entrega_tarjeta' %}"
+                        class="nav-link {% if request.resolver_match.url_name == 'entrega_tarjeta' %}active{% endif %}">
+                          <p>Entrega Tarjeta</p>
+                      </a>
+                  </li>
+                   <li class="nav-item">
+                      <a href="{% url 'tarjeta_listado' %}"
+                        class="nav-link {% if request.resolver_match.url_name == 'tarjeta_listado' %}active{% endif %}">
+                          <p>Listado Tarjeta</p>
+                      </a>
                   </li>
 
                   <li class="nav-item">
-                     <a href="{% url 'bencina_listado' %}" class="nav-link {% if 'listado' in request.path %}active{% endif %}">
-                      <p>Listado Bencina</p>
-                    </a>
+                      <a href="{% url 'bencina_listado' %}"
+                        class="nav-link {% if request.resolver_match.url_name == 'bencina_listado' %}active{% endif %}">
+                          <p>Listado Bencina</p>
+                      </a>
                   </li>
-                </ul>
+              </ul>
+
               </li>
 
               <!-- Empleado -->
-              <li class="nav-item {% if 'cliente' in request.path %}menu-open{% endif %}">
+              <li class="nav-item {% if 'empleado' in request.path %}menu-open{% endif %}">
                 <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
-                  <i class="nav-icon bi bi-speedometer"></i>
+                  <i class="nav-icon bi bi-person"></i>
                   <p>
                     Empleado
                     <i class="nav-arrow bi bi-chevron-right"></i>
                   </p>
                 </a>
 
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{% url 'registro_empleado' %}" class="nav-link {% if 'crear_cliente' in request.path %}active{% endif %}">
-                      <p>Registro Empleado</p>
-                    </a>
-                  </li>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="{% url 'registro_empleado' %}" class="nav-link {% if 'registro_empleado' in request.path %}active{% endif %}">
+                        <p>Registro Empleado</p>
+                      </a>
+                    </li>
 
                   <li class="nav-item">
-                    <a href="{% url 'empleado_listado' %}" class="nav-link {% if 'listado' in request.path %}active{% endif %}">
-                      <p>Listado Empleado</p>
-                    </a>
+                    <a href="{% url 'empleado_listado' %}"
+                          class="nav-link {% if request.resolver_match.url_name == 'empleado_listado' %}active{% endif %}">
+                          <p>Listado Empleado</p>
+                      </a>
+                  </li>
+                </ul>
+              </li>
+
+
+
+               <!-- Vehículo -->
+              <li class="nav-item {% if 'vehiculo' in request.path %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
+                 <i class="nav-icon bi bi-truck"></i>
+                  <p>
+                    Vehículo
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="{% url 'registro_vehiculo' %}" class="nav-link {% if 'registro_vehiculo' in request.path %}active{% endif %}">
+                        <p>Registro Vehículo</p>
+                      </a>
+                    </li>
+
+                  <li class="nav-item">
+                    <a href="{% url 'vehiculo_listado' %}"
+                          class="nav-link {% if request.resolver_match.url_name == 'vehiculo_listado' %}active{% endif %}">
+                          <p>Listado Vehículo</p>
+                      </a>
                   </li>
                 </ul>
               </li>

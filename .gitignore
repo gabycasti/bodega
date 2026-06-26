@@ -21,3 +21,5 @@ venv/
 
 # Variables de entorno
 .env
+
+agenda/settings.py

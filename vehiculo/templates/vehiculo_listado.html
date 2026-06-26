@@ -39,7 +39,7 @@ table.dataTable {
 <div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
      <div class="row  ms-3 me-3">
           <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
-               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Listado Empleado</h3>
+               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Listado Vehículos</h3>
                 <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
                  <br>
                  <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
@@ -60,20 +60,22 @@ table.dataTable {
                     <thead class="table-primary text-center">
                         <tr>
                             <th>#</th>
-                            <th>Nombre</th>
-                            <th>RUT</th>
-                            <th>Cargo</th>
+                            <th>Patente</th>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>Carga</th>
                             <th>Activo</th>
 
                         </tr>
                     </thead>
                     <tbody>
-                            {% for emp in empleados %}
+                            {% for veh in vehiculos %}
                                 <tr>
-                                    <td> {{ forloop.counter }}</td>
-                                    <td>{{ emp.nombre }}</td>
-                                    <td>{{ emp.rut }}</td>
-                                    <td>{{ emp.cargo }}</td>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ veh.patente }}</td>
+                                    <td>{{ veh.marca }}</td>
+                                    <td>{{ veh.modelo }}</td>
+                                    <td>{{ veh.carga }}</td>
                                     <td class="text-center">
                                         {% if emp.activo %}
                                             ✔️
@@ -85,7 +87,7 @@ table.dataTable {
                             {% empty %}
                                 <tr>
                                     <td colspan="4" class="text-center">
-                                        No existen registros.
+                                        No existen vehículos registrados.
                                     </td>
                                 </tr>
                             {% endfor %}
