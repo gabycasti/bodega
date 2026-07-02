@@ -63,9 +63,11 @@ table.dataTable {
                             <th>Nombre</th>
                             <th>RUT</th>
                             <th>Vehículo</th>
-                            <th>Monto</th>
-                            <th>Kilometraje</th>
                             <th>Fecha</th>
+                            <th>Check In</th>
+                            <th>Check Out</th>
+                            <th>Editar</th>
+                            <th>Eliminar</th>
                         </tr>
                     </thead>
                      <tbody>
@@ -74,24 +76,30 @@ table.dataTable {
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ t.empleado.nombre }}</td>
                                 <td>{{ t.empleado.rut }}</td>
+                                <td>{{ t.vehiculo.patente }}</td>
                                 <td>{{ t.fecha|date:"d/m/Y" }}</td>
                                 <td>{{ t.hora_checkin }}</td>
+                                <td>{{ t.hora_checkout }}</td>
+                              
 
-                                <td>
-                                    {% if t.hora_checkout %}
-                                        {{ t.hora_checkout }}
-                                    {% else %}
-                                        -
-                                    {% endif %}
-                                </td>
-
+                               
+                               
                                 <td class="text-center">
-                                    {% if t.activo %}
-                                        ✔️
-                                    {% else %}
-                                        ❌
-                                    {% endif %}
+                                    <a href="{% url 'editar_tarjeta' t.id %}"
+                                    class="btn btn-warning btn-sm">
+                                        Editar
+                                    </a>
                                 </td>
+
+                                  <td class="text-center">
+                                
+                                <a href="{% url 'eliminar_tarjeta' t.id %}"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('¿Seguro que deseas eliminar la tarjeta del chofer {{ t.empleado.nombre }} (RUT: {{ t.empleado.rut }})?')">
+                                        Eliminar
+                                    </a>
+                                </td>
+
                             </tr>
                         {% empty %}
                             <tr>
@@ -111,27 +119,7 @@ table.dataTable {
 
 
 
-<div class="modal fade" id="imagenModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">Recibo</h5>
-                <button type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal">
-                </button>
-            </div>
-
-            <div class="modal-body text-center">
-                <img id="imagenRecibo"
-                     src=""
-                     class="img-fluid rounded">
-            </div>
-
-        </div>
-    </div>
-</div>
 
 {% endblock %}
 

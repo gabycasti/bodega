@@ -8,6 +8,8 @@ urlpatterns = [
     path('eliminar/<int:id>/', views.eliminar_bencina, name='eliminar_bencina'),
     path('entrega_tarjeta/', views.entrega_tarjeta, name='entrega_tarjeta'),
     path('tarjeta_listado/', views.tarjeta_listado, name='tarjeta_listado'),
+    path('tarjeta/editar/<int:id>/', views.editar_tarjeta, name='editar_tarjeta'),
+    path('tarjeta/eliminar/<int:id>/', views.eliminar_tarjeta, name='eliminar_tarjeta'),
 
     path('bencina/', include('formulario_bencina.urls')),
 ]

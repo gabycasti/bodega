@@ -34,7 +34,7 @@ table.dataTable {
 <div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
      <div class="row  ms-3 me-3">
           <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
-               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Agregar  Tarjeta</h3>
+               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Editar Tarjeta</h3>
                <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
                  <br>
                  <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
@@ -44,93 +44,117 @@ table.dataTable {
           
           <hr style="border: 2px solid #3c8dbc;">
           <div class="col-8">
-            <form action="" method="post" class="form-control border-0">
+             <form action="" method="post" class="form-control border-0">
               {% csrf_token %}
-              <!-- Nombre Cliente -->
-             
+
+              
+              <!-- CHOFER -->
               <div class="row mb-3">
                 <div class="col-md-4 text-end">
-                  <label for="nombre" class="form-label">Nombre Chofer</label>
+                  <label class="form-label">Nombre Chofer</label>
                 </div>
+
                 <div class="col-md-8">
                   <select name="empleado_id" id="empleado_id" class="form-select" required>
                     <option value="">Seleccione un chofer</option>
+
                     {% for e in empleados %}
-                        <option value="{{ e.id }}" data-rut="{{ e.rut }}">
+                        <option value="{{ e.id }}"
+                                data-rut="{{ e.rut }}"
+                                {% if registro.empleado_id == e.id %}selected{% endif %}>
                             {{ e.nombre }}
                         </option>
                     {% endfor %}
-                </select>
+                  </select>
                 </div>
               </div>
-          
-              <!-- Rut -->
+
+              <!-- RUT -->
               <div class="row mb-3">
                 <div class="col-md-4 text-end">
-                  <label for="rut" class="form-label">Rut</label>
+                  <label class="form-label">Rut</label>
                 </div>
+
                 <div class="col-md-8">
-                 <input type="text" name="rut" id="rut" class="form-control" readonly>
+                  <input type="text"
+                         name="rut"
+                         id="rut"
+                         class="form-control"
+                         value="{{ registro.empleado.rut }}"
+                         readonly>
                 </div>
               </div>
 
 
 
               <!-- Vehículo -->
-            <div class="row mb-3">
-              <div class="col-md-4 text-end">
-                <label for="vehiculo_id" class="form-label">Vehículo</label>
-              </div>
-              <div class="col-md-8">
-                <select name="vehiculo_id" id="vehiculo_id" class="form-select" required>
-                  <option value="">Seleccione un vehículo</option>
-                  {% for v in vehiculos %}
-                    <option value="{{ v.id }}">
-                      {{ v.patente }} - {{ v.marca }} {{ v.modelo }}
-                    </option>
-                  {% endfor %}
-                </select>
-              </div>
-            </div>
-
-
-
-             <!-- Hora de Entrega -->
               <div class="row mb-3">
                 <div class="col-md-4 text-end">
-                  <label for="hora_entrega" class="form-label">Check-In</label>
+                  <label for="vehiculo_id" class="form-label">Vehículo</label>
                 </div>
                 <div class="col-md-8">
-                  <input type="time" name="hora_entrega" id="hora_entrega" class="form-control">
+                  <select name="vehiculo_id" id="vehiculo_id" class="form-select" required>
+                    <option value="">Seleccione un vehículo</option>
+
+                    {% for v in vehiculos %}
+                      <option value="{{ v.id }}"
+                        {% if registro.vehiculo.id == v.id %}selected{% endif %}>
+                        {{ v.patente }} - {{ v.marca }} {{ v.modelo }}
+                      </option>
+                    {% endfor %}
+
+                  </select>
                 </div>
               </div>
 
-
-               <!-- Hora de Recepción -->
+              <!-- CHECK-IN -->
               <div class="row mb-3">
                 <div class="col-md-4 text-end">
-                  <label for="hora_recepcion" class="form-label">Check-Out</label>
+                  <label class="form-label">Check-In</label>
                 </div>
+
                 <div class="col-md-8">
-                  <input type="time" name="hora_recepcion" id="hora_recepcion" class="form-control">
+                  <input type="time"
+                         name="hora_entrega"
+                         id="hora_entrega"
+                         class="form-control"
+                         value="{{ registro.hora_checkin|time:'H:i' }}">
                 </div>
               </div>
 
-               
-
-           <!-- Botón -->
+              <!-- CHECK-OUT -->
               <div class="row mb-3">
-                <div class="col-md-4 text-end"></div> <!-- Columna vacía para alineación -->
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Check-Out</label>
+                </div>
+
+                <div class="col-md-8">
+                  <input type="time"
+                         name="hora_recepcion"
+                         id="hora_recepcion"
+                         class="form-control"
+                         value="{{ registro.hora_checkout|time:'H:i' }}">
+                </div>
+              </div>
+
+              <!-- BOTONES -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end"></div>
+
                 <div class="col-md-4 d-flex justify-content-center gap-2">
-                  <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{% url 'bencina_listado' %}'">
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    Actualizar
+                  </button>
+
+                  <button type="button"
+                          class="btn btn-secondary btn-sm"
+                          onclick="window.location.href='{% url 'tarjeta_listado' %}'">
                     Cancelar
-                </button>
+                  </button>
                 </div>
               </div>
 
               <hr>
-              <br>
             </form>
           </div>
      </div>

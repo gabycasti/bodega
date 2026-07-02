@@ -1,5 +1,6 @@
 from django.db import models
 from empleado.models import Empleado
+from vehiculo.models import Vehiculo
 
 
 class Bencina(models.Model):
@@ -23,6 +24,14 @@ class ControlTarjeta(models.Model):
         on_delete=models.PROTECT,
         related_name="controles_tarjeta"
     )
+
+    vehiculo = models.ForeignKey(  # 👈 FALTABA ESTO
+        Vehiculo,
+        on_delete=models.PROTECT,
+        null=True,
+        blank=True
+    )
+
 
     fecha = models.DateTimeField(auto_now_add=True)
 

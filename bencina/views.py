@@ -3,6 +3,8 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404, redirect
 from django.db import connection
 from .models import Empleado,ControlTarjeta
+from vehiculo.models import Vehiculo
+
 
 
 #LISTADO BENCINA
@@ -48,26 +50,60 @@ def eliminar_bencina(request, id):
 #ENTREGAR TARJETA BENCINA
 def entrega_tarjeta(request):
     empleados = Empleado.objects.filter(activo=True, cargo__iexact="chofer")
-    
+    vehiculos = Vehiculo.objects.all()
+
     if request.method == "POST":
         empleado_id = request.POST.get("empleado_id")
+        vehiculo_id = request.POST.get("vehiculo_id")
 
-        if not empleado_id:
+        if not empleado_id or not vehiculo_id:
             return redirect("entrega_tarjeta")
 
         empleado = get_object_or_404(Empleado, id=empleado_id)
+        vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
 
         ControlTarjeta.objects.create(
             empleado=empleado,
+            vehiculo=vehiculo,  # 👈 importante
             hora_checkin=request.POST.get("hora_entrega") or None,
-            hora_checkout=request.POST.get("hora_recepcion") or None
+            hora_checkout=request.POST.get("hora_recepcion") or None,
+            activo=True 
         )
 
         return redirect("entrega_tarjeta")
 
     return render(request, "entrega_tarjeta.html", {
-        "empleados": empleados
+        "empleados": empleados,
+        "vehiculos": vehiculos
     })
+
+
+
+
+
+def editar_tarjeta(request, id):
+    registro = get_object_or_404(ControlTarjeta, id=id)
+    empleados = Empleado.objects.filter(activo=True, cargo__iexact="chofer")
+    vehiculos = Vehiculo.objects.all()
+
+    if request.method == "POST":
+        empleado_id = request.POST.get("empleado_id")
+        vehiculo_id = request.POST.get("vehiculo_id")
+
+        registro.empleado = get_object_or_404(Empleado, id=empleado_id)
+        registro.vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
+        registro.hora_checkin = request.POST.get("hora_entrega") or None
+        registro.hora_checkout = request.POST.get("hora_recepcion") or None
+
+        registro.save()
+        return redirect("tarjeta_listado")
+
+    return render(request, "editar_tarjeta.html", {
+        "registro": registro,
+        "empleados": empleados,
+        "vehiculos": vehiculos
+    })
+
 
 
 
@@ -78,3 +114,10 @@ def tarjeta_listado(request):
     return render(request, 'tarjeta_listado.html', {
         'tarjetas': tarjetas
     })
+
+
+
+def eliminar_tarjeta(request, id):
+    registro = get_object_or_404(ControlTarjeta, id=id)
+    registro.delete()
+    return redirect('tarjeta_listado')
