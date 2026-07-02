@@ -63,7 +63,9 @@ table.dataTable {
                             <th>Nombre</th>
                             <th>RUT</th>
                             <th>Cargo</th>
-                            <th>Activo</th>
+                            <th>Acción</th>
+                            <th>Editar</th>
+                          
 
                         </tr>
                     </thead>
@@ -74,13 +76,34 @@ table.dataTable {
                                     <td>{{ emp.nombre }}</td>
                                     <td>{{ emp.rut }}</td>
                                     <td>{{ emp.cargo }}</td>
+                                     <td class="text-center">
+
+                                            {% if emp.activo %}
+
+                                                <a href="{% url 'cambiar_estado_empleado' emp.id %}"
+                                                class="btn btn-danger btn-sm">
+                                                    Desactivar
+                                                </a>
+
+                                            {% else %}
+
+                                                <a href="{% url 'cambiar_estado_empleado' emp.id %}"
+                                                class="btn btn-success btn-sm">
+                                                    Activar
+                                                </a>
+
+                                            {% endif %}
+
+                                        </td>
+
+                                       <!-- BOTÓN EDITAR -->
                                     <td class="text-center">
-                                        {% if emp.activo %}
-                                            ✔️
-                                        {% else %}
-                                            ❌
-                                        {% endif %}
+                                        <a href="{% url 'editar_empleado' emp.id %}"
+                                        class="btn btn-sm btn-warning">
+                                            Editar
+                                        </a>
                                     </td>
+
                                 </tr>
                             {% empty %}
                                 <tr>

@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  thead, th {
+        background-color: transparent !important;
+    }
+
+ .btn-orange, 
+ .btn-orange:hover, 
+ .btn-orange:focus, 
+ .btn-orange:active {
+    background-color: #f39c12 !important;
+    border-color: #e08e0b !important;
+    color: #fff !important;
+}
+
+ .link-sin-color {
+      color: inherit !important;
+      text-decoration: none !important;
+  }
+
+
+table.dataTable {
+    border-top: 2px solid #dee2e6;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 15px;
+}
+
+
+</style>
+<div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
+     <div class="row  ms-3 me-3">
+          <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Agregar Documento Empleado</h3>
+               <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
+                 <br>
+                 <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
+                 <li style="margin-right: 5px;"><a href="{% url 'empleado_listado' %}" class="link-sin-color">Listado Empleado</a></li>
+               </ol>
+          </section>
+          
+          <hr style="border: 2px solid #3c8dbc;">
+          <div class="col-8">
+            <form method="post" enctype="multipart/form-data" class="form-control border-0">
+              {% csrf_token %}
+              <br>
+
+              <!-- Empleado -->
+                <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label for="nombre" class="form-label">Nombre Chofer</label>
+                </div>
+                <div class="col-md-8">
+                  <select name="empleado_id" id="empleado_id" class="form-select" required>
+                    <option value="">Seleccione un chofer</option>
+                    {% for e in empleados %}
+                        <option value="{{ e.id }}" data-rut="{{ e.rut }}">
+                            {{ e.nombre }}
+                        </option>
+                    {% endfor %}
+                </select>
+                </div>
+              </div>
+
+
+
+                <!-- Rut -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label for="rut" class="form-label">Rut</label>
+                </div>
+                <div class="col-md-8">
+                 <input type="text" name="rut" id="rut" class="form-control" readonly>
+                </div>
+              </div>
+
+          
+
+              <!-- Tipo de documento -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Tipo Documento</label>
+                </div>
+                <div class="col-md-8">
+                  <select name="tipo_documento" class="form-select">
+                    <option value="CI">Carnet de Identidad</option>
+                    <option value="LIC">Licencia de Conducir</option>
+                    <option value="HIST">Historial del Conductor</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Archivo -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Archivo</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="file" name="archivo" class="form-control">
+                </div>
+              </div>
+
+              <!-- Fecha emisión -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Fecha Emisión</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="date" name="fecha_emision" class="form-control">
+                </div>
+              </div>
+
+              <!-- Fecha vencimiento -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Fecha Vencimiento</label>
+                </div>
+                <div class="col-md-8">
+                  <input type="date" name="fecha_vencimiento" class="form-control">
+                </div>
+              </div>
+
+              <!-- Observación -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                  <label class="form-label">Observación</label>
+                </div>
+                <div class="col-md-8">
+                  <textarea name="observacion" class="form-control"></textarea>
+                </div>
+              </div>
+
+              <!-- Botones -->
+              <div class="row mb-3">
+                <div class="col-md-4 text-end"></div>
+                <div class="col-md-8 d-flex gap-2">
+                  <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+
+                  <button type="button"
+                          class="btn btn-secondary btn-sm"
+                          onclick="window.location.href='{% url 'listado_documento' %}'">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+
+              <hr>
+            </form>
+          </div>
+     </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+
+<script>
+  
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const empleado = document.getElementById("empleado_id");
+    const rut = document.getElementById("rut");
+
+    empleado.addEventListener("change", function () {
+
+        const opcion = this.options[this.selectedIndex];
+
+        rut.value = opcion.dataset.rut || "";
+
+    });
+
+  
+});
+
+</script>
+{% endblock %}
+
+  
+
+

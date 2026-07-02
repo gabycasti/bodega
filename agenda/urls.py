@@ -33,7 +33,8 @@ urlpatterns = [
     path('bencina/', include('bencina.urls')),
     path('empleado/', include('empleado.urls')),
     path('formulario_bencina/', include('formulario_bencina.urls')),
-     path('vehiculo/', include('vehiculo.urls')),
+    path('vehiculo/', include('vehiculo.urls')),
+    path('documentos_empleados/', include('documentos_empleados.urls')),
 
 
    

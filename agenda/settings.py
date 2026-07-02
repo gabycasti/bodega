@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'empleado',
     'formulario_bencina',
     'vehiculo',
-  
+    'documentos_empleados',
    
 ]
 
