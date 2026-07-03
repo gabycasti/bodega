@@ -3,15 +3,16 @@ from django.shortcuts import get_object_or_404, redirect
 from .models import Vehiculo
 
 
-
+#LISTADO VEHICULO
 def vehiculo_listado(request):
-    vehiculos = Vehiculo.objects.all().order_by('patente')
+    vehiculos = Vehiculo.objects.all().order_by('-carga')
 
     return render(request, 'vehiculo_listado.html', {
         'vehiculos': vehiculos
     })
 
 
+#REGISTRO VEHICULO
 def registro_vehiculo(request):
     if request.method == 'POST':
         patente = request.POST.get('patente')
@@ -32,3 +33,36 @@ def registro_vehiculo(request):
         return redirect('vehiculo_listado')
 
     return render(request, 'registro_vehiculo.html')
+
+
+
+
+
+#EDITAR VEHICULO
+def editar_vehiculo(request, id):
+    vehiculo = get_object_or_404(Vehiculo, id=id)
+
+    if request.method == 'POST':
+        vehiculo.patente = request.POST.get('patente')
+        vehiculo.marca = request.POST.get('marca')
+        vehiculo.modelo = request.POST.get('modelo')
+        vehiculo.carga = request.POST.get('carga')
+        vehiculo.activo = request.POST.get('activo') == 'on'
+
+        vehiculo.save()
+
+        return redirect('vehiculo_listado')
+
+    return render(request, 'editar_vehiculo.html', {
+        'vehiculo': vehiculo
+    })
+
+
+#CAMBIAR EL ESTADO DEL VEHICULO
+def cambiar_estado_vehiculo(request, id):
+    vehiculo = get_object_or_404(Vehiculo, id=id)
+
+    vehiculo.activo = not vehiculo.activo
+    vehiculo.save()
+
+    return redirect('vehiculo_listado')  # Cambia por el nombre de tu vista de listado

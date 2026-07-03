@@ -65,6 +65,7 @@ table.dataTable {
                             <th>Modelo</th>
                             <th>Carga</th>
                             <th>Activo</th>
+                            <th>Editar</th>
 
                         </tr>
                     </thead>
@@ -77,11 +78,25 @@ table.dataTable {
                                     <td>{{ veh.modelo }}</td>
                                     <td>{{ veh.carga }}</td>
                                     <td class="text-center">
-                                        {% if emp.activo %}
-                                            ✔️
-                                        {% else %}
-                                            ❌
-                                        {% endif %}
+                                            {% if veh.activo %}
+                                               
+                                                <a href="{% url 'cambiar_estado_vehiculo' veh.id %}"
+                                                class="btn btn-danger btn-sm">
+                                                    Desactivar
+                                                </a>
+                                            {% else %}
+                                                
+                                                <a href="{% url 'cambiar_estado_vehiculo' veh.id %}"
+                                                class="btn btn-success btn-sm">
+                                                    Activar
+                                                </a>
+                                            {% endif %}
+                                    </td>
+                                     <td class="text-center">
+                                        <a href="{% url 'editar_vehiculo' veh.id %}"
+                                        class="btn btn-warning btn-sm">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
                                     </td>
                                 </tr>
                             {% empty %}
