@@ -108,6 +108,47 @@ table.dataTable {
                             {% endfor %}
                         </tbody>
                 </table>
+
+
+                <div class="table-responsive">
+                    <!-- AQUÍ VA LA PAGINACIÓN -->
+                    <nav aria-label="Paginación">
+                        <ul class="pagination justify-content-center">
+
+                            {% if vehiculos.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ vehiculos.previous_page_number }}">
+                                        Anterior
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% for num in vehiculos.paginator.page_range %}
+                                {% if vehiculos.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if vehiculos.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ vehiculos.next_page_number }}">
+                                        Siguiente
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+
+                </div>
+
+
             </div>
         </div>          
     </div>

@@ -25,7 +25,7 @@ class ControlTarjeta(models.Model):
         related_name="controles_tarjeta"
     )
 
-    vehiculo = models.ForeignKey(  # 👈 FALTABA ESTO
+    vehiculo = models.ForeignKey(  
         Vehiculo,
         on_delete=models.PROTECT,
         null=True,
@@ -34,6 +34,8 @@ class ControlTarjeta(models.Model):
 
 
     fecha = models.DateTimeField(auto_now_add=True)
+
+    fecha_editable = models.DateTimeField(null=True, blank=True) #Fecha editable 
 
     hora_checkin = models.TimeField()
     hora_checkout = models.TimeField(null=True, blank=True)

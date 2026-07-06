@@ -1,6 +1,7 @@
 from .models import Empleado
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404, redirect
+from django.core.paginator import Paginator
 
 
 
@@ -9,9 +10,15 @@ from django.shortcuts import get_object_or_404, redirect
 def empleado_listado(request):
     empleados = Empleado.objects.all().order_by('-fecha_creacion')
 
+    paginator = Paginator(empleados, 10)  # 10 registros por página
+
+    page_number = request.GET.get('page')
+    empleados = paginator.get_page(page_number)
+
     return render(request, 'empleado_listado.html', {
         'empleados': empleados
     })
+
 
 
 #REGISTRO EMPLEADO

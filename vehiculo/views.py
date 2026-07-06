@@ -1,11 +1,18 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404, redirect
 from .models import Vehiculo
+from django.core.paginator import Paginator
+
 
 
 #LISTADO VEHICULO
 def vehiculo_listado(request):
     vehiculos = Vehiculo.objects.all().order_by('-carga')
+
+
+    paginator = Paginator(vehiculos, 10)  # 10 registros por página
+    page_number = request.GET.get('page')
+    vehiculos = paginator.get_page(page_number)
 
     return render(request, 'vehiculo_listado.html', {
         'vehiculos': vehiculos

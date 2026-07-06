@@ -115,6 +115,46 @@ table.dataTable {
                         {% endfor %}
                     </tbody>
                 </table>
+
+
+                
+                <div class="table-responsive">
+                    <!-- AQUÍ VA LA PAGINACIÓN -->
+                    <nav aria-label="Paginación">
+                        <ul class="pagination justify-content-center">
+
+                            {% if bencinas.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ bencinas.previous_page_number }}">
+                                        Anterior
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                            {% for num in bencinas.paginator.page_range %}
+                                {% if bencinas.number == num %}
+                                    <li class="page-item active">
+                                        <span class="page-link">{{ num }}</span>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if bencinas.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{ bencinas.next_page_number }}">
+                                        Siguiente
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        </ul>
+                    </nav>
+
+                </div>
             </div>
         </div>          
     </div>

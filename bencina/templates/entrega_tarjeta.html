@@ -76,6 +76,22 @@ table.dataTable {
 
 
 
+
+              <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Fecha</label>
+                </div>
+                <div class="col-md-8">
+                    <input
+                        type="datetime-local"
+                        name="fecha_editable"
+                        class="form-control"
+                        value="{{ fecha_actual|date:'Y-m-d\\TH:i' }}">
+                </div>
+            </div>
+
+
+
               <!-- Vehículo -->
             <div class="row mb-3">
               <div class="col-md-4 text-end">

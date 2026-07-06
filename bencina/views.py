@@ -4,6 +4,10 @@ from django.shortcuts import get_object_or_404, redirect
 from django.db import connection
 from .models import Empleado,ControlTarjeta
 from vehiculo.models import Vehiculo
+from django.core.paginator import Paginator
+from django.utils import timezone
+from django.utils.dateparse import parse_datetime
+
 
 
 
@@ -31,6 +35,10 @@ def listado(request):
             for row in cursor.fetchall()
         ]
 
+        paginator = Paginator(bencinas, 10)  # 10 registros por página
+        page_number = request.GET.get('page')
+        bencinas = paginator.get_page(page_number)
+
     return render(request, 'bencina_listado.html', {
         'bencinas': bencinas
     })
@@ -56,25 +64,30 @@ def entrega_tarjeta(request):
         empleado_id = request.POST.get("empleado_id")
         vehiculo_id = request.POST.get("vehiculo_id")
 
+
         if not empleado_id or not vehiculo_id:
             return redirect("entrega_tarjeta")
 
         empleado = get_object_or_404(Empleado, id=empleado_id)
         vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
 
+        fecha = request.POST.get("fecha_editable")
+
         ControlTarjeta.objects.create(
             empleado=empleado,
-            vehiculo=vehiculo,  # 👈 importante
+            vehiculo=vehiculo,  
+            fecha_editable=parse_datetime(fecha) if fecha else timezone.now(),
             hora_checkin=request.POST.get("hora_entrega") or None,
             hora_checkout=request.POST.get("hora_recepcion") or None,
             activo=True 
         )
 
-        return redirect("entrega_tarjeta")
+        return redirect("tarjeta_listado")
 
     return render(request, "entrega_tarjeta.html", {
         "empleados": empleados,
-        "vehiculos": vehiculos
+        "vehiculos": vehiculos,
+        "fecha_actual": timezone.now(),
     })
 
 
@@ -94,6 +107,7 @@ def editar_tarjeta(request, id):
         registro.vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
         registro.hora_checkin = request.POST.get("hora_entrega") or None
         registro.hora_checkout = request.POST.get("hora_recepcion") or None
+        registro.fecha_corregida = request.POST.get("fecha") or None
 
         registro.save()
         return redirect("tarjeta_listado")
@@ -110,6 +124,11 @@ def editar_tarjeta(request, id):
 #LISTADO TATJETA
 def tarjeta_listado(request):
     tarjetas = ControlTarjeta.objects.all().order_by('-fecha')
+
+
+    paginator = Paginator(tarjetas, 10)  # 10 registros por página
+    page_number = request.GET.get('page')
+    tarjetas = paginator.get_page(page_number)
 
     return render(request, 'tarjeta_listado.html', {
         'tarjetas': tarjetas
