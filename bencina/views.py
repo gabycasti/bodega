@@ -93,7 +93,7 @@ def entrega_tarjeta(request):
 
 
 
-
+#EDITAR TARJETA
 def editar_tarjeta(request, id):
     registro = get_object_or_404(ControlTarjeta, id=id)
     empleados = Empleado.objects.filter(activo=True, cargo__iexact="chofer")
@@ -107,7 +107,9 @@ def editar_tarjeta(request, id):
         registro.vehiculo = get_object_or_404(Vehiculo, id=vehiculo_id)
         registro.hora_checkin = request.POST.get("hora_entrega") or None
         registro.hora_checkout = request.POST.get("hora_recepcion") or None
-        registro.fecha_corregida = request.POST.get("fecha") or None
+
+        fecha = request.POST.get("fecha_editable")
+        registro.fecha_editable = parse_datetime(fecha) if fecha else None
 
         registro.save()
         return redirect("tarjeta_listado")
@@ -115,7 +117,7 @@ def editar_tarjeta(request, id):
     return render(request, "editar_tarjeta.html", {
         "registro": registro,
         "empleados": empleados,
-        "vehiculos": vehiculos
+        "vehiculos": vehiculos,
     })
 
 
