@@ -115,10 +115,8 @@ def editar_tarjeta(request, id):
         fecha = request.POST.get("fecha_editable")
 
         if fecha:
-            fecha = parse_date(fecha)
-            registro.fecha_editable = datetime.combine(fecha, time.min)
-        else:
-            registro.fecha_editable = None
+            registro.fecha_editable = datetime.combine(parse_date(fecha), time.min)
+        # Si no viene fecha, no se modifica el valor existente
 
         registro.save()
         return redirect("tarjeta_listado")
@@ -128,6 +126,11 @@ def editar_tarjeta(request, id):
         "empleados": empleados,
         "vehiculos": vehiculos,
     })
+
+
+
+
+
 
 
 #LISTADO TATJETA

@@ -93,10 +93,10 @@ table.dataTable {
 
                     <div class="col-md-8">
                         <input
-                            type="date"
-                            name="fecha_editable"
-                            class="form-control"
-                            value="{{ registro.fecha_editable|date:'Y-m-d' }}">
+                          type="date"
+                          name="fecha_editable"
+                          class="form-control"
+                          value="{% if registro.fecha_editable %}{{ registro.fecha_editable|date:'Y-m-d' }}{% else %}{{ registro.fecha|date:'Y-m-d' }}{% endif %}">
                     </div>
                 </div>
                               
