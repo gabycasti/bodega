@@ -78,10 +78,10 @@ table.dataTable {
                                 <td>{{ t.empleado.rut }}</td>
                                 <td>{{ t.vehiculo.patente }}</td>
                                <td>
-                                    {% if tarjeta.fecha_editable %}
-                                        {{ tarjeta.fecha_editable|date:"d/m/Y" }}
+                                    {% if t.fecha_editable %}
+                                        {{ t.fecha_editable|date:"d/m/Y" }}
                                     {% else %}
-                                        {{ tarjeta.fecha|date:"d/m/Y" }}
+                                        {{ t.fecha|date:"d/m/Y" }}
                                     {% endif %}
                                 </td>
                                 <td>{{ t.hora_checkin }}</td>
