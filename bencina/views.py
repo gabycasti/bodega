@@ -58,7 +58,9 @@ def eliminar_bencina(request, id):
 
 
 
-#ENTREGAR TARJETA BENCINA
+
+
+# ENTREGAR TARJETA BENCINA
 def entrega_tarjeta(request):
     empleados = Empleado.objects.filter(activo=True, cargo__iexact="chofer")
     vehiculos = Vehiculo.objects.all()
@@ -66,7 +68,6 @@ def entrega_tarjeta(request):
     if request.method == "POST":
         empleado_id = request.POST.get("empleado_id")
         vehiculo_id = request.POST.get("vehiculo_id")
-
 
         if not empleado_id or not vehiculo_id:
             return redirect("entrega_tarjeta")
@@ -76,13 +77,21 @@ def entrega_tarjeta(request):
 
         fecha = request.POST.get("fecha_editable")
 
+        if fecha:
+            fecha_guardar = datetime.combine(
+                parse_date(fecha),
+                time.min
+            )
+        else:
+            fecha_guardar = timezone.now()
+
         ControlTarjeta.objects.create(
             empleado=empleado,
-            vehiculo=vehiculo,  
-            fecha_editable=parse_datetime(fecha) if fecha else timezone.now(),
+            vehiculo=vehiculo,
+            fecha_editable=fecha_guardar,
             hora_checkin=request.POST.get("hora_entrega") or None,
             hora_checkout=request.POST.get("hora_recepcion") or None,
-            activo=True 
+            activo=True
         )
 
         return redirect("tarjeta_listado")
