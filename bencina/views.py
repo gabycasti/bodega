@@ -7,6 +7,9 @@ from vehiculo.models import Vehiculo
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
+from django.utils.dateparse import parse_date
+from datetime import datetime, time
+
 
 
 
@@ -93,7 +96,8 @@ def entrega_tarjeta(request):
 
 
 
-#EDITAR TARJETA
+
+# EDITAR TARJETA
 def editar_tarjeta(request, id):
     registro = get_object_or_404(ControlTarjeta, id=id)
     empleados = Empleado.objects.filter(activo=True, cargo__iexact="chofer")
@@ -109,7 +113,12 @@ def editar_tarjeta(request, id):
         registro.hora_checkout = request.POST.get("hora_recepcion") or None
 
         fecha = request.POST.get("fecha_editable")
-        registro.fecha_editable = parse_datetime(fecha) if fecha else None
+
+        if fecha:
+            fecha = parse_date(fecha)
+            registro.fecha_editable = datetime.combine(fecha, time.min)
+        else:
+            registro.fecha_editable = None
 
         registro.save()
         return redirect("tarjeta_listado")
@@ -119,8 +128,6 @@ def editar_tarjeta(request, id):
         "empleados": empleados,
         "vehiculos": vehiculos,
     })
-
-
 
 
 #LISTADO TATJETA
