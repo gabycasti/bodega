@@ -144,7 +144,7 @@ def editar_tarjeta(request, id):
 
 #LISTADO TATJETA
 def tarjeta_listado(request):
-    tarjetas = ControlTarjeta.objects.all().order_by('-fecha')
+    tarjetas = ControlTarjeta.objects.all().order_by("fecha_editable")
 
 
     paginator = Paginator(tarjetas, 10)  # 10 registros por página
