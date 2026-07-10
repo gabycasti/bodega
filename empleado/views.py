@@ -2,22 +2,37 @@ from .models import Empleado
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404, redirect
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
 
 
-#LISTADO EMPLEADO
+
+# LISTADO EMPLEADO
 def empleado_listado(request):
-    empleados = Empleado.objects.all().order_by('-fecha_creacion')
+    buscar = request.GET.get("buscar", "")
 
-    paginator = Paginator(empleados, 10)  # 10 registros por página
+    empleados = Empleado.objects.all()
 
-    page_number = request.GET.get('page')
+    if buscar:
+        empleados = empleados.filter(
+            Q(nombre__icontains=buscar) |
+            Q(rut__icontains=buscar) |
+            Q(cargo__icontains=buscar)
+        )
+
+    empleados = empleados.order_by("-fecha_creacion")
+
+    paginator = Paginator(empleados, 10)
+
+    page_number = request.GET.get("page")
     empleados = paginator.get_page(page_number)
 
-    return render(request, 'empleado_listado.html', {
-        'empleados': empleados
+    return render(request, "empleado_listado.html", {
+        "empleados": empleados,
+        "buscar": buscar,
     })
+
 
 
 

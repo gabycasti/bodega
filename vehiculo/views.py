@@ -2,21 +2,34 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404, redirect
 from .models import Vehiculo
 from django.core.paginator import Paginator
+from django.db.models import Q
 
 
-
-#LISTADO VEHICULO
+# LISTADO VEHÍCULO
 def vehiculo_listado(request):
-    vehiculos = Vehiculo.objects.all().order_by('-carga')
+    buscar = request.GET.get("buscar", "")
 
+    vehiculos = Vehiculo.objects.all()
 
-    paginator = Paginator(vehiculos, 10)  # 10 registros por página
-    page_number = request.GET.get('page')
+    if buscar:
+        vehiculos = vehiculos.filter(
+            Q(patente__icontains=buscar) |
+            Q(marca__icontains=buscar) |
+            Q(modelo__icontains=buscar)
+        )
+
+    vehiculos = vehiculos.order_by("-carga")
+
+    paginator = Paginator(vehiculos, 10)
+    page_number = request.GET.get("page")
     vehiculos = paginator.get_page(page_number)
 
-    return render(request, 'vehiculo_listado.html', {
-        'vehiculos': vehiculos
+    return render(request, "vehiculo_listado.html", {
+        "vehiculos": vehiculos,
+        "buscar": buscar,
     })
+
+
 
 
 #REGISTRO VEHICULO

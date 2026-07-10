@@ -10,27 +10,49 @@ from django.utils.dateparse import parse_datetime
 from django.utils.dateparse import parse_date
 from datetime import datetime, time
 from django.db.models.functions import Coalesce
+from django.db.models import Q
 
 
 
 
-#LISTADO BENCINA
+# LISTADO BENCINA
 def listado(request):
+    buscar = request.GET.get("buscar", "")
+
+    sql = """
+        SELECT 
+            b.id,
+            b.rut,
+            b.vehiculo,
+            b.monto,
+            b.kilometraje,
+            b.recibo,
+            b.fecha_creacion,
+            e.nombre
+        FROM bencina b
+        LEFT JOIN empleados e ON e.rut = b.rut
+    """
+
+    parametros = []
+
+    if buscar:
+        sql += """
+            WHERE
+                e.nombre ILIKE %s
+                OR b.rut ILIKE %s
+                OR b.vehiculo ILIKE %s
+        """
+
+        parametros.extend([
+            f"%{buscar}%",
+            f"%{buscar}%",
+            f"%{buscar}%"
+        ])
+
+    sql += " ORDER BY b.fecha_creacion DESC"
+
     with connection.cursor() as cursor:
-        cursor.execute("""
-            SELECT 
-                b.id,
-                b.rut,
-                b.vehiculo,
-                b.monto,
-                b.kilometraje,
-                b.recibo,
-                b.fecha_creacion,
-                e.nombre
-            FROM bencina b
-            LEFT JOIN empleados e ON e.rut = b.rut
-            ORDER BY b.fecha_creacion DESC
-        """)
+        cursor.execute(sql, parametros)
 
         columnas = [col[0] for col in cursor.description]
         bencinas = [
@@ -38,13 +60,17 @@ def listado(request):
             for row in cursor.fetchall()
         ]
 
-        paginator = Paginator(bencinas, 10)  # 10 registros por página
-        page_number = request.GET.get('page')
-        bencinas = paginator.get_page(page_number)
+    paginator = Paginator(bencinas, 10)
+    page_number = request.GET.get("page")
+    bencinas = paginator.get_page(page_number)
 
-    return render(request, 'bencina_listado.html', {
-        'bencinas': bencinas
+    return render(request, "bencina_listado.html", {
+        "bencinas": bencinas,
+        "buscar": buscar,
     })
+
+
+
 
 
 
@@ -150,22 +176,34 @@ def editar_tarjeta(request, id):
 
 
 
-#LISTADO TATJETA
+
+# LISTADO TARJETA
 def tarjeta_listado(request):
+    buscar = request.GET.get("buscar", "")
+
     tarjetas = (
         ControlTarjeta.objects
         .annotate(
             fecha_orden=Coalesce("fecha_editable", "fecha")
         )
-        .order_by("-fecha_orden")
     )
+
+    if buscar:
+        tarjetas = tarjetas.filter(
+            Q(empleado__nombre__icontains=buscar) |
+            Q(empleado__rut__icontains=buscar) |
+            Q(vehiculo__patente__icontains=buscar)
+        )
+
+    tarjetas = tarjetas.order_by("-fecha_orden")
 
     paginator = Paginator(tarjetas, 10)
     page_number = request.GET.get("page")
     tarjetas = paginator.get_page(page_number)
 
     return render(request, "tarjeta_listado.html", {
-        "tarjetas": tarjetas
+        "tarjetas": tarjetas,
+        "buscar": buscar,
     })
 
 

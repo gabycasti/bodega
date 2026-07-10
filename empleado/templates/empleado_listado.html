@@ -57,6 +57,35 @@ table.dataTable {
                     {% endfor %}
                 </div>
                 {% endif %}
+                <div class="row mb-3">
+                    <div class="col-12 d-flex justify-content-end">
+
+                        <form method="GET" class="d-flex align-items-center gap-2">
+
+                            <input
+                                type="text"
+                                name="buscar"
+                                class="form-control"
+                                placeholder="Buscar por nombre, RUT o cargo..."
+                                value="{{ buscar }}"
+                                style="width:320px;">
+
+                            <button type="submit" class="btn btn-primary">
+                                 <i class="bi bi-search"></i>
+                            </button>
+
+                            {% if buscar %}
+                            <a href="{% url 'empleado_listado' %}"
+                            class="btn btn-outline-secondary"
+                            title="Limpiar búsqueda">
+                                ✕
+                            </a>
+                            {% endif %}
+
+                        </form>
+
+                    </div>
+                </div>
                
                  <table class="table table-bordered table-hover align-middle small-text-table table_general">
                     <thead class="table-primary text-center">
@@ -65,7 +94,7 @@ table.dataTable {
                             <th>Nombre</th>
                             <th>RUT</th>
                             <th>Cargo</th>
-                            <th>Acción</th>
+                            <th>Activar/Desactivar</th>
                             <th>Editar</th>
                           
 
@@ -84,14 +113,14 @@ table.dataTable {
 
                                                 <a href="{% url 'cambiar_estado_empleado' emp.id %}"
                                                 class="btn btn-danger btn-sm">
-                                                    Desactivar
+                                                     <i class="bi bi-x-lg"></i>
                                                 </a>
 
                                             {% else %}
 
                                                 <a href="{% url 'cambiar_estado_empleado' emp.id %}"
                                                 class="btn btn-success btn-sm">
-                                                    Activar
+                                                    <i class="bi bi-check-lg"></i>
                                                 </a>
 
                                             {% endif %}
@@ -102,7 +131,7 @@ table.dataTable {
                                     <td class="text-center">
                                         <a href="{% url 'editar_empleado' emp.id %}"
                                         class="btn btn-sm btn-warning">
-                                            Editar
+                                             <i class="bi bi-pencil-square"></i>
                                         </a>
                                     </td>
 

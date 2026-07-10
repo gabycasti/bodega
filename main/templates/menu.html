@@ -70,62 +70,68 @@
 
               </li>
 
-              <!-- Empleado -->
-              <li class="nav-item {% if 'empleado' in request.path %}menu-open{% endif %}">
-                <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
-                  <i class="nav-icon bi bi-person"></i>
-                  <p>
-                    Empleado
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
+            <!-- Empleado -->
+                <li class="nav-item {% if request.resolver_match.url_name == 'registro_empleado' or request.resolver_match.url_name == 'empleado_listado' or request.resolver_match.url_name == 'editar_empleado' or request.resolver_match.url_name == 'cambiar_estado_empleado' %}menu-open{% endif %}">
 
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="{% url 'registro_empleado' %}" class="nav-link {% if 'registro_empleado' in request.path %}active{% endif %}">
-                        <p>Registro Empleado</p>
-                      </a>
-                    </li>
+                    <a href="#" class="nav-link {% if request.resolver_match.url_name == 'registro_empleado' or request.resolver_match.url_name == 'empleado_listado' or request.resolver_match.url_name == 'editar_empleado' or request.resolver_match.url_name == 'cambiar_estado_empleado' %}active{% endif %}">
+                        <i class="nav-icon bi bi-person"></i>
+                        <p>
+                            Empleado
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </p>
+                    </a>
 
+                    <ul class="nav nav-treeview">
 
-                  <li class="nav-item">
-                    <a href="{% url 'empleado_listado' %}"
-                          class="nav-link {% if request.resolver_match.url_name == 'empleado_listado' %}active{% endif %}">
-                          <p>Listado Empleado</p>
-                      </a>
-                  </li>
-                </ul>
-              </li>
+                        <li class="nav-item">
+                            <a href="{% url 'registro_empleado' %}"
+                              class="nav-link {% if request.resolver_match.url_name == 'registro_empleado' %}active{% endif %}">
+                                <p>Registro Empleado</p>
+                            </a>
+                        </li>
 
+                        <li class="nav-item">
+                            <a href="{% url 'empleado_listado' %}"
+                              class="nav-link {% if request.resolver_match.url_name == 'empleado_listado' %}active{% endif %}">
+                                <p>Listado Empleado</p>
+                            </a>
+                        </li>
 
-                <!-- Documentos Empleado -->
-              <li class="nav-item {% if 'documentos_empleados' in request.path %}menu-open{% endif %}">
-                <a href="#" class="nav-link {% if 'empleado' in request.path %}active{% endif %}">
-                 <i class="nav-icon bi bi-file-earmark-text"></i>
-                  <p>
-                    Documentos Empleados
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
+                    </ul>
 
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="{% url 'crear_documento' %}" class="nav-link {% if 'crear_documento' in request.path %}active{% endif %}">
-                        <p>Registro Documento</p>
-                      </a>
-                    </li>
+                </li>
 
 
-                  <li class="nav-item">
-                    <a href="{% url 'listado_documentos' %}"
-                          class="nav-link {% if request.resolver_match.url_name == 'listado_documentos' %}active{% endif %}">
-                          <p>Listado Documentos</p>
-                      </a>
-                  </li>
-                </ul>
-              </li>
+               <!-- Documentos Empleado -->
+                <li class="nav-item {% if request.resolver_match.url_name == 'crear_documento' or request.resolver_match.url_name == 'listado_documentos' %}menu-open{% endif %}">
 
+                    <a href="#" class="nav-link {% if request.resolver_match.url_name == 'crear_documento' or request.resolver_match.url_name == 'listado_documentos' %}active{% endif %}">
+                        <i class="nav-icon bi bi-file-earmark-text"></i>
+                        <p>
+                            Documentos Empleados
+                            <i class="nav-arrow bi bi-chevron-right"></i>
+                        </p>
+                    </a>
 
+                    <ul class="nav nav-treeview">
+
+                        <li class="nav-item">
+                            <a href="{% url 'crear_documento' %}"
+                              class="nav-link {% if request.resolver_match.url_name == 'crear_documento' %}active{% endif %}">
+                                <p>Registro Documento</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a href="{% url 'listado_documentos' %}"
+                              class="nav-link {% if request.resolver_match.url_name == 'listado_documentos' %}active{% endif %}">
+                                <p>Listado Documentos</p>
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </li>
 
 
                <!-- Vehículo -->
