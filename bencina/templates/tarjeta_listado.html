@@ -43,6 +43,7 @@ table.dataTable {
                 <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
                  <br>
                  <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
+                <li style="margin-right: 5px;"><a href="{% url 'entrega_tarjeta' %}" class=" me-2 link-sin-color"></i> Ingresa Tarjeta ></a></li>
                </ol>
           </section>
           <hr style="border: 2px solid #3c8dbc;">
@@ -63,8 +64,9 @@ table.dataTable {
                             <th>Nombre</th>
                             <th>RUT</th>
                             <th>Vehículo</th>
-                            <th>Fecha</th>
-                            <th>Check In</th>
+                            <th>Fecha Desde</th>
+                             <th>Check In</th>
+                            <th>Fecha Hasta</th>
                             <th>Check Out</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
@@ -84,7 +86,15 @@ table.dataTable {
                                             {{ t.fecha|date:"d/m/Y" }}
                                         {% endif %}
                                     </td>
+
                                  <td class="text-center">{{ t.hora_checkin }}</td>
+                                 <td class="text-center">
+                                    {% if t.fecha_hasta %}
+                                        {{ t.fecha_hasta|date:"d/m/Y" }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </td>
                                  <td class="text-center">{{ t.hora_checkout }}</td>
                               
 

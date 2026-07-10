@@ -88,12 +88,6 @@
                     </li>
 
 
-                    <li class="nav-item">
-                      <a href="{% url 'crear_documento' %}" class="nav-link {% if 'crear_documento' in request.path %}active{% endif %}">
-                        <p>Registro Documentos</p>
-                      </a>
-                    </li>
-
                   <li class="nav-item">
                     <a href="{% url 'empleado_listado' %}"
                           class="nav-link {% if request.resolver_match.url_name == 'empleado_listado' %}active{% endif %}">
@@ -102,6 +96,35 @@
                   </li>
                 </ul>
               </li>
+
+
+                <!-- Documentos Empleado -->
+              <li class="nav-item {% if 'documentos_empleados' in request.path %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if 'empleado' in request.path %}active{% endif %}">
+                 <i class="nav-icon bi bi-file-earmark-text"></i>
+                  <p>
+                    Documentos Empleados
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="{% url 'crear_documento' %}" class="nav-link {% if 'crear_documento' in request.path %}active{% endif %}">
+                        <p>Registro Documento</p>
+                      </a>
+                    </li>
+
+
+                  <li class="nav-item">
+                    <a href="{% url 'listado_documentos' %}"
+                          class="nav-link {% if request.resolver_match.url_name == 'listado_documentos' %}active{% endif %}">
+                          <p>Listado Documentos</p>
+                      </a>
+                  </li>
+                </ul>
+              </li>
+
 
 
 

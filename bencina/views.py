@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 from django.utils.dateparse import parse_date
 from datetime import datetime, time
-
+from django.db.models.functions import Coalesce
 
 
 
@@ -85,10 +85,13 @@ def entrega_tarjeta(request):
         else:
             fecha_guardar = timezone.now()
 
+        fecha_hasta = request.POST.get("fecha_hasta")
+
         ControlTarjeta.objects.create(
             empleado=empleado,
             vehiculo=vehiculo,
             fecha_editable=fecha_guardar,
+            fecha_hasta=parse_date(fecha_hasta) if fecha_hasta else None,
             hora_checkin=request.POST.get("hora_entrega") or None,
             hora_checkout=request.POST.get("hora_recepcion") or None,
             activo=True
@@ -101,6 +104,7 @@ def entrega_tarjeta(request):
         "vehiculos": vehiculos,
         "fecha_actual": timezone.now(),
     })
+
 
 
 
@@ -125,7 +129,12 @@ def editar_tarjeta(request, id):
 
         if fecha:
             registro.fecha_editable = datetime.combine(parse_date(fecha), time.min)
-        # Si no viene fecha, no se modifica el valor existente
+
+        # AGREGAR ESTO
+        fecha_hasta = request.POST.get("fecha_hasta")
+
+        if fecha_hasta:
+            registro.fecha_hasta = parse_date(fecha_hasta)
 
         registro.save()
         return redirect("tarjeta_listado")
@@ -141,19 +150,26 @@ def editar_tarjeta(request, id):
 
 
 
-
 #LISTADO TATJETA
 def tarjeta_listado(request):
-    tarjetas = ControlTarjeta.objects.all().order_by("-fecha_editable")
+    tarjetas = (
+        ControlTarjeta.objects
+        .annotate(
+            fecha_orden=Coalesce("fecha_editable", "fecha")
+        )
+        .order_by("-fecha_orden")
+    )
 
-
-    paginator = Paginator(tarjetas, 10)  # 10 registros por página
-    page_number = request.GET.get('page')
+    paginator = Paginator(tarjetas, 10)
+    page_number = request.GET.get("page")
     tarjetas = paginator.get_page(page_number)
 
-    return render(request, 'tarjeta_listado.html', {
-        'tarjetas': tarjetas
+    return render(request, "tarjeta_listado.html", {
+        "tarjetas": tarjetas
     })
+
+
+
 
 
 

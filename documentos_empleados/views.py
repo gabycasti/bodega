@@ -5,7 +5,7 @@ from .models import Documento
 
 
 #LISTADO DOCUMENTOS
-def listado_documento(request):
+def listado_documentos(request):
     documentos = Documento.objects.select_related('empleado').all().order_by('-id')
 
     return render(request, "listado_documentos.html", {
@@ -20,7 +20,7 @@ def crear_documento(request):
     empleados = Empleado.objects.all()
 
     if request.method == "POST":
-        empleado_id = request.POST.get("empleado")
+        empleado_id = request.POST.get("empleado_id")
         tipo_documento = request.POST.get("tipo_documento")
         archivo = request.FILES.get("archivo")
         fecha_emision = request.POST.get("fecha_emision")
@@ -38,7 +38,7 @@ def crear_documento(request):
             observacion=observacion
         )
 
-        return redirect("listado_documento")
+        return redirect("listado_documentos")
 
     return render(request, "crear_documento.html", {
         "empleados": empleados

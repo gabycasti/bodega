@@ -37,6 +37,8 @@ class ControlTarjeta(models.Model):
 
     fecha_editable = models.DateTimeField(null=True, blank=True) #Fecha editable 
 
+    fecha_hasta = models.DateField(null=True, blank=True)
+
     hora_checkin = models.TimeField()
     hora_checkout = models.TimeField(null=True, blank=True)
 

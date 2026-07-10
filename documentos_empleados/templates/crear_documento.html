@@ -38,7 +38,7 @@ table.dataTable {
                <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
                  <br>
                  <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
-                 <li style="margin-right: 5px;"><a href="{% url 'empleado_listado' %}" class="link-sin-color">Listado Empleado</a></li>
+                 <li style="margin-right: 5px;"><a href="{% url 'listado_documentos' %}" class="link-sin-color">Listado Documentos</a></li>
                </ol>
           </section>
           
@@ -141,7 +141,7 @@ table.dataTable {
 
                   <button type="button"
                           class="btn btn-secondary btn-sm"
-                          onclick="window.location.href='{% url 'listado_documento' %}'">
+                          onclick="window.location.href='{% url 'listado_documentos' %}'">
                     Cancelar
                   </button>
                 </div>

@@ -99,8 +99,22 @@ table.dataTable {
                           value="{% if registro.fecha_editable %}{{ registro.fecha_editable|date:'Y-m-d' }}{% else %}{{ registro.fecha|date:'Y-m-d' }}{% endif %}">
                     </div>
                 </div>
-                              
+                         
+                
+                
+                <div class="row mb-3">
+                  <div class="col-md-4 text-end">
+                      <label class="form-label">Fecha Hasta</label>
+                  </div>
 
+                  <div class="col-md-8">
+                      <input
+                          type="date"
+                          name="fecha_hasta"
+                          class="form-control"
+                          value="{% if registro.fecha_hasta %}{{ registro.fecha_hasta|date:'Y-m-d' }}{% endif %}">
+                  </div>
+              </div>
 
 
               <!-- Vehículo -->
