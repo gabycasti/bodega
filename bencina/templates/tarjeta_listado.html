@@ -2,9 +2,6 @@
 
 {% block content %}
 <style>
-  thead th {
-    background-color: transparent !important;
-}
 
  .btn-orange, 
  .btn-orange:hover, 
@@ -21,9 +18,7 @@
   }
 
 
-table.dataTable {
-    border-top: 2px solid #dee2e6;
-}
+
 
 .dataTables_wrapper .dataTables_filter {
     margin-bottom: 15px;
@@ -32,6 +27,15 @@ table.dataTable {
 #dataTablesListados th,
 #dataTablesListados td {
     border: 1px solid #dee2e6 !important;
+}
+
+
+.table_general tbody td {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.table_general thead th {
+    border-bottom: 2px solid #dee2e6 !important;
 }
 
 </style>
@@ -48,29 +52,6 @@ table.dataTable {
           </section>
           <hr style="border: 2px solid #3c8dbc;">
           
-          
-          <div class="d-flex justify-content-end mb-3">
-                <form method="GET" class="d-flex align-items-center gap-2">
-                    <input
-                        type="text"
-                        name="buscar"
-                        class="form-control"
-                        placeholder="Buscar por nombre, RUT o patente..."
-                        value="{{ buscar }}"
-                        style="width: 320px;">
-
-                    <button type="submit" class="btn btn-primary">
-                       <i class="bi bi-search"></i>
-                    </button>
-
-                    {% if buscar %}
-                    <a href="{% url 'tarjeta_listado' %}"
-                    class="btn btn-outline-secondary">
-                        ✕
-                    </a>
-                    {% endif %}
-                </form>
-            </div>
             <div class="table-responsive">
                 {% if messages %}
                 <div class="alert alert-success custom-alert d-flex justify-content-between align-items-center" id="success-message" role="alert">
@@ -150,45 +131,6 @@ table.dataTable {
                         {% endfor %}
                     </tbody>
                 </table>
-
-                 <div class="table-responsive">
-                    <!-- AQUÍ VA LA PAGINACIÓN -->
-                    <nav aria-label="Paginación">
-                        <ul class="pagination justify-content-center">
-
-                            {% if tarjetas.has_previous %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ tarjetas.previous_page_number }}">
-                                        Anterior
-                                    </a>
-                                </li>
-                            {% endif %}
-
-                            {% for num in tarjetas.paginator.page_range %}
-                                {% if tarjetas.number == num %}
-                                    <li class="page-item active">
-                                        <span class="page-link">{{ num }}</span>
-                                    </li>
-                                {% else %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-
-                            {% if tarjetas.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ tarjetas.next_page_number }}">
-                                        Siguiente
-                                    </a>
-                                </li>
-                            {% endif %}
-
-                        </ul>
-                    </nav>
-
-                </div>
-
 
             </div>
         </div>          

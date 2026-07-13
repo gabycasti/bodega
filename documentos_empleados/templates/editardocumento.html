@@ -1,0 +1,308 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  thead, th {
+        background-color: transparent !important;
+    }
+
+ .btn-orange, 
+ .btn-orange:hover, 
+ .btn-orange:focus, 
+ .btn-orange:active {
+    background-color: #f39c12 !important;
+    border-color: #e08e0b !important;
+    color: #fff !important;
+}
+
+ .link-sin-color {
+      color: inherit !important;
+      text-decoration: none !important;
+  }
+
+
+table.dataTable {
+    border-top: 2px solid #dee2e6;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 15px;
+}
+
+
+</style>
+<div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
+     <div class="row  ms-3 me-3">
+          <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Agregar Documento Empleado</h3>
+               <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
+                 <br>
+                 <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
+                 <li style="margin-right: 5px;"><a href="{% url 'listado_documentos' %}" class="link-sin-color">Listado Documentos</a></li>
+               </ol>
+          </section>
+          
+          <hr style="border: 2px solid #3c8dbc;">
+         <div class="col-8">
+
+            <form method="post" enctype="multipart/form-data" class="form-control border-0">
+
+            {% csrf_token %}
+
+            <br>
+
+            <!-- Empleado -->
+            <div class="row mb-3 align-items-center">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label mb-0">Nombre Chofer</label>
+                </div>
+
+                <div class="col-md-8">
+                    <input type="text"
+                          class="form-control"
+                          value="{{ empleado.nombre }}"
+                          readonly>
+                </div>
+
+            </div>
+
+
+            <!-- Rut -->
+            <div class="row mb-3 align-items-center">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label mb-0">Rut</label>
+                </div>
+
+                <div class="col-md-8">
+                    <input type="text"
+                          class="form-control"
+                          value="{{ empleado.rut }}"
+                          readonly>
+                </div>
+
+            </div>
+
+
+            <hr>
+
+            <h6>Documentos</h6>
+
+
+            <!-- CARNET -->
+            <div class="row mb-3">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Carnet de Identidad</label>
+                </div>
+
+                <div class="col-md-8">
+
+                    {% if documentos.CI %}
+                        <a href="{{ documentos.CI.archivo.url }}" target="_blank">
+                            Ver archivo actual
+                        </a>
+                    {% endif %}
+
+                    <input type="file"
+                          name="archivo_ci"
+                          class="form-control mt-2">
+
+                </div>
+
+            </div>
+
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Vencimiento CI</label>
+                </div>
+
+                <div class="col-md-8">
+
+                    <input type="date"
+                          name="fecha_vencimiento_ci"
+                          class="form-control"
+                          value="{% if documentos.CI.fecha_vencimiento %}{{ documentos.CI.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
+
+                </div>
+
+            </div>
+
+
+
+            <hr>
+
+
+            <!-- LICENCIA -->
+            <div class="row mb-3">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Licencia de Conducir</label>
+                </div>
+
+                <div class="col-md-8">
+
+                    {% if documentos.LIC %}
+                        <a href="{{ documentos.LIC.archivo.url }}" target="_blank">
+                            Ver archivo actual
+                        </a>
+                    {% endif %}
+
+                    <input type="file"
+                          name="archivo_lic"
+                          class="form-control mt-2">
+
+                </div>
+
+            </div>
+
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Vencimiento Licencia</label>
+                </div>
+
+                <div class="col-md-8">
+
+                    <input type="date"
+                          name="fecha_vencimiento_lic"
+                          class="form-control"
+                          value="{% if documentos.LIC.fecha_vencimiento %}{{ documentos.LIC.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
+
+                </div>
+
+            </div>
+
+
+
+            <hr>
+
+
+            <!-- HOJA CONDUCTOR -->
+            <div class="row mb-3">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Hoja del Conductor</label>
+                </div>
+
+                <div class="col-md-8">
+
+                    {% if documentos.HIST %}
+                        <a href="{{ documentos.HIST.archivo.url }}" target="_blank">
+                            Ver archivo actual
+                        </a>
+                    {% endif %}
+
+                    <input type="file"
+                          name="archivo_hist"
+                          class="form-control mt-2">
+
+                </div>
+
+            </div>
+
+
+            <div class="row mb-3">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Vencimiento Hoja</label>
+                </div>
+
+                <div class="col-md-8">
+
+                    <input type="date"
+                          name="fecha_vencimiento_hist"
+                          class="form-control"
+                          value="{% if documentos.HIST.fecha_vencimiento %}{{ documentos.HIST.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
+
+                </div>
+
+            </div>
+
+
+            <hr>
+
+
+            <!-- Observación -->
+            <div class="row mb-3">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Observación</label>
+                </div>
+
+                <div class="col-md-8">
+
+                    <textarea name="observacion"
+                              class="form-control">{{ documentos.LIC.observacion }}</textarea>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Botones -->
+            <div class="row mb-3">
+
+                <div class="col-md-4"></div>
+
+                <div class="col-md-8 d-flex gap-2">
+
+                    <button type="submit"
+                            class="btn btn-primary btn-sm">
+                        Guardar cambios
+                    </button>
+
+
+                    <button type="button"
+                            class="btn btn-secondary btn-sm"
+                            onclick="window.location.href='{% url 'listado_documentos' %}'">
+                        Cancelar
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            </form>
+
+            </div>
+     </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+
+
+<script>
+  
+
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const empleado = document.getElementById("empleado_id");
+    const rut = document.getElementById("rut");
+
+    empleado.addEventListener("change", function () {
+
+        const opcion = this.options[this.selectedIndex];
+
+        rut.value = opcion.dataset.rut || "";
+
+    });
+
+  
+});
+
+</script>
+{% endblock %}
+
+  
+
+

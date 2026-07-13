@@ -2,10 +2,6 @@
 
 {% block content %}
 <style>
-  thead th {
-    background-color: transparent !important;
-}
-
  .btn-orange, 
  .btn-orange:hover, 
  .btn-orange:focus, 
@@ -21,10 +17,6 @@
   }
 
 
-table.dataTable {
-    border-top: 2px solid #dee2e6;
-}
-
 .dataTables_wrapper .dataTables_filter {
     margin-bottom: 15px;
 }
@@ -35,7 +27,37 @@ table.dataTable {
 }
 
 
+.table_general tbody td {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.table_general thead th {
+    border-bottom: 2px solid #dee2e6 !important;
+}
+
+.dataTables_wrapper .row {
+    display: flex;
+    align-items: center;
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    margin-bottom: 0 !important;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    text-align: right;
+}
+
+.dataTables_filter label {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre "Buscar:" y el input */
+}
+
+
 </style>
+
 
 <div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
      <div class="row  ms-3 me-3">
@@ -58,64 +80,103 @@ table.dataTable {
                 </div>
                 {% endif %}
                
-                 <table class="table table-bordered table-hover align-middle small-text-table table_general">
-                    <thead class="table-primary text-center">
-                        <tr>
-                            <th>#</th>
-                            <th>Nombre</th>
-                            <th>RUT</th>
-                            <th>Licencia</th>
-                            <th>Hoja V</th>
-                            <th>Editar</th>
-                          
+             <table class="table table-bordered table-hover align-middle small-text-table table_general">
 
-                        </tr>
-                    </thead>
-                    <tbody>
-                            {% for emp in empleados %}
-                                <tr>
-                                    <td> {{ forloop.counter }}</td>
-                                    <td>{{ emp.nombre }}</td>
-                                    <td>{{ emp.rut }}</td>
-                                    <td>{{ emp.cargo }}</td>
-                                     <td class="text-center">
+                <thead class="table-primary text-center">
+                    <tr>
+                        <th>#</th>
+                        <th>Nombre</th>
+                        <th>RUT</th>
+                        <th>Licencia</th>
+                        <th>Fecha V Licencia</th>
+                        <th>Hoja Conductor</th>
+                        <th>Fecha V Hoja</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
 
-                                            {% if emp.activo %}
 
-                                                <a href="{% url 'cambiar_estado_empleado' emp.id %}"
-                                                class="btn btn-danger btn-sm">
-                                                    Desactivar
-                                                </a>
+                <tbody>
 
-                                            {% else %}
+                {% for emp in empleados %}
 
-                                                <a href="{% url 'cambiar_estado_empleado' emp.id %}"
-                                                class="btn btn-success btn-sm">
-                                                    Activar
-                                                </a>
+                    <tr>
 
-                                            {% endif %}
+                        <td>{{ forloop.counter }}</td>
 
-                                        </td>
+                        <td>{{ emp.nombre }}</td>
 
-                                       <!-- BOTÓN EDITAR -->
-                                    <td class="text-center">
-                                        <a href="{% url 'editar_empleado' emp.id %}"
-                                        class="btn btn-sm btn-warning">
-                                            Editar
-                                        </a>
-                                    </td>
+                        <td>{{ emp.rut }}</td>
 
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="4" class="text-center">
-                                        No existen registros.
-                                    </td>
-                                </tr>
+
+                        <!-- LICENCIA -->
+                        <td>
+                            {% for doc in emp.documentos.all %}
+                                {% if doc.tipo_documento == 'LIC' %}
+                                    <a href="{{ doc.archivo.url }}" target="_blank">
+                                        Ver Licencia
+                                    </a>
+                                {% endif %}
                             {% endfor %}
-                        </tbody>
-                </table>
+                        </td>
+
+
+                        <!-- VENCIMIENTO LICENCIA -->
+                        <td>
+                            {% for doc in emp.documentos.all %}
+                                {% if doc.tipo_documento == 'LIC' %}
+                                    {{ doc.fecha_vencimiento|date:"d-m-Y" }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+
+
+                        <!-- HOJA CONDUCTOR -->
+                        <td>
+                            {% for doc in emp.documentos.all %}
+                                {% if doc.tipo_documento == 'HIST' %}
+                                    <a href="{{ doc.archivo.url }}" target="_blank">
+                                        Ver Hoja
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+
+
+                        <!-- VENCIMIENTO HOJA -->
+                        <td>
+                            {% for doc in emp.documentos.all %}
+                                {% if doc.tipo_documento == 'HIST' %}
+                                    {{ doc.fecha_vencimiento|date:"d-m-Y" }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+
+
+                        <td class="text-center">
+                            <a href="#" class="btn btn-warning btn-sm">
+                                Editar
+                            </a>
+                        </td>
+
+
+                    </tr>
+
+
+                {% empty %}
+
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            No existen registros.
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
 
                 <div class="table-responsive">
                     <!-- AQUÍ VA LA PAGINACIÓN -->

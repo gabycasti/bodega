@@ -20,9 +20,6 @@ def vehiculo_listado(request):
 
     vehiculos = vehiculos.order_by("-carga")
 
-    paginator = Paginator(vehiculos, 10)
-    page_number = request.GET.get("page")
-    vehiculos = paginator.get_page(page_number)
 
     return render(request, "vehiculo_listado.html", {
         "vehiculos": vehiculos,

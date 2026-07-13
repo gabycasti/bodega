@@ -60,10 +60,6 @@ def listado(request):
             for row in cursor.fetchall()
         ]
 
-    paginator = Paginator(bencinas, 10)
-    page_number = request.GET.get("page")
-    bencinas = paginator.get_page(page_number)
-
     return render(request, "bencina_listado.html", {
         "bencinas": bencinas,
         "buscar": buscar,

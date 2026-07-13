@@ -44,111 +44,166 @@ table.dataTable {
           
           <hr style="border: 2px solid #3c8dbc;">
           <div class="col-8">
-            <form method="post" enctype="multipart/form-data" class="form-control border-0">
-              {% csrf_token %}
-              <br>
+           <form method="post" enctype="multipart/form-data" class="form-control border-0">
 
-              <!-- Empleado -->
+                {% csrf_token %}
+
+                <br>
+
+                <!-- Empleado -->
                 <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                  <label for="nombre" class="form-label">Nombre Chofer</label>
-                </div>
-                <div class="col-md-8">
-                  <select name="empleado_id" id="empleado_id" class="form-select" required>
-                    <option value="">Seleccione un chofer</option>
-                    {% for e in empleados %}
-                        <option value="{{ e.id }}" data-rut="{{ e.rut }}">
-                            {{ e.nombre }}
-                        </option>
-                    {% endfor %}
-                </select>
-                </div>
-              </div>
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Nombre Chofer</label>
+                    </div>
 
+                    <div class="col-md-8">
+                        <select name="empleado_id" id="empleado_id" class="form-select" required>
+                            <option value="">Seleccione un chofer</option>
+
+                            {% for e in empleados %}
+                                <option value="{{ e.id }}" data-rut="{{ e.rut }}">
+                                    {{ e.nombre }}
+                                </option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
 
 
                 <!-- Rut -->
-              <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                  <label for="rut" class="form-label">Rut</label>
-                </div>
-                <div class="col-md-8">
-                 <input type="text" name="rut" id="rut" class="form-control" readonly>
-                </div>
-              </div>
+                <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Rut</label>
+                    </div>
 
-          
+                    <div class="col-md-8">
+                        <input type="text" name="rut" id="rut" class="form-control" readonly>
+                    </div>
+                </div>
 
-              <!-- Tipo de documento -->
-              <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                  <label class="form-label">Tipo Documento</label>
-                </div>
-                <div class="col-md-8">
-                  <select name="tipo_documento" class="form-select">
-                    <option value="CI">Carnet de Identidad</option>
-                    <option value="LIC">Licencia de Conducir</option>
-                    <option value="HIST">Historial del Conductor</option>
-                  </select>
-                </div>
-              </div>
 
-              <!-- Archivo -->
-              <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                  <label class="form-label">Archivo</label>
-                </div>
-                <div class="col-md-8">
-                  <input type="file" name="archivo" class="form-control">
-                </div>
-              </div>
+                <hr>
 
-              <!-- Fecha emisión -->
-              <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                  <label class="form-label">Fecha Emisión</label>
-                </div>
-                <div class="col-md-8">
-                  <input type="date" name="fecha_emision" class="form-control">
-                </div>
-              </div>
+                <h3>Documentos del Chofer</h3>
+                <br>
+                <br>
 
-              <!-- Fecha vencimiento -->
-              <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                  <label class="form-label">Fecha Vencimiento</label>
-                </div>
-                <div class="col-md-8">
-                  <input type="date" name="fecha_vencimiento" class="form-control">
-                </div>
-              </div>
 
-              <!-- Observación -->
-              <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                  <label class="form-label">Observación</label>
-                </div>
-                <div class="col-md-8">
-                  <textarea name="observacion" class="form-control"></textarea>
-                </div>
-              </div>
 
-              <!-- Botones -->
-              <div class="row mb-3">
-                <div class="col-md-4 text-end"></div>
-                <div class="col-md-8 d-flex gap-2">
-                  <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
+                <!-- CARNET -->
+                <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Carnet de Identidad</label>
+                    </div>
 
-                  <button type="button"
-                          class="btn btn-secondary btn-sm"
-                          onclick="window.location.href='{% url 'listado_documentos' %}'">
-                    Cancelar
-                  </button>
+                    <div class="col-md-8">
+                        <input type="file" name="archivo_ci" class="form-control">
+                    </div>
                 </div>
-              </div>
 
-              <hr>
-            </form>
+
+                <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Vencimiento CI</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="date" name="fecha_vencimiento_ci" class="form-control">
+                    </div>
+                </div>
+
+
+                <hr>
+
+
+                <!-- LICENCIA -->
+                <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Licencia de Conducir</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="file" name="archivo_lic" class="form-control">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Vencimiento Licencia</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="date" name="fecha_vencimiento_lic" class="form-control">
+                    </div>
+                </div>
+
+
+                <hr>
+
+
+                <!-- HOJA CONDUCTOR -->
+                <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Hoja del Conductor</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="file" name="archivo_hist" class="form-control">
+                    </div>
+                </div>
+
+
+                <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Vencimiento Hoja</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="date" name="fecha_vencimiento_hist" class="form-control">
+                    </div>
+                </div>
+
+
+                <hr>
+
+
+                <!-- Observación -->
+                <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Observación</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <textarea name="observacion" class="form-control"></textarea>
+                    </div>
+                </div>
+
+
+                <!-- Botones -->
+                <div class="row mb-3">
+
+                    <div class="col-md-4"></div>
+
+                    <div class="col-md-8 d-flex gap-2">
+
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Guardar
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-secondary btn-sm"
+                                onclick="window.location.href='{% url 'listado_documentos' %}'">
+                            Cancelar
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                </form>
           </div>
      </div>
 </div>
