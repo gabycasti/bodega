@@ -9,11 +9,19 @@ from django.shortcuts import render, redirect, get_object_or_404
 def listado_documentos(request):
     empleados = Empleado.objects.prefetch_related('documentos').all().order_by('-id')
 
+    for emp in empleados:
+        emp.licencia = emp.documentos.filter(tipo_documento='LIC').first()
+        emp.hoja = emp.documentos.filter(tipo_documento='HIST').first()
+
     return render(request, "listado_documentos.html", {
         "empleados": empleados
     })
 
 
+
+
+
+# CREAR DOCUMENTOS
 # CREAR DOCUMENTOS
 def crear_documento(request):
     empleados = Empleado.objects.all()
@@ -26,37 +34,37 @@ def crear_documento(request):
         empleado = Empleado.objects.get(id=empleado_id)
 
 
-        documentos = [
-            {
-                "tipo": "CI",
-                "archivo": request.FILES.get("archivo_ci"),
-                "fecha_vencimiento": request.POST.get("fecha_vencimiento_ci")
-            },
-            {
-                "tipo": "LIC",
-                "archivo": request.FILES.get("archivo_lic"),
-                "fecha_vencimiento": request.POST.get("fecha_vencimiento_lic")
-            },
-            {
-                "tipo": "HIST",
-                "archivo": request.FILES.get("archivo_hist"),
-                "fecha_vencimiento": request.POST.get("fecha_vencimiento_hist")
-            },
-        ]
+        # LICENCIA
+        Documento.objects.create(
+            empleado=empleado,
+            tipo_documento="LIC",
+            archivo=request.FILES.get("archivo_lic_frente"),
+            archivo_reverso=request.FILES.get("archivo_lic_reverso"),
+            fecha_vencimiento=request.POST.get("fecha_vencimiento_lic") or None,
+            observacion=observacion
+        )
 
 
-        for doc in documentos:
+        # HOJA CONDUCTOR
+        if request.FILES.get("archivo_hist"):
+            Documento.objects.create(
+                empleado=empleado,
+                tipo_documento="HIST",
+                archivo=request.FILES.get("archivo_hist"),
+                fecha_vencimiento=request.POST.get("fecha_vencimiento_hist") or None,
+                observacion=observacion
+            )
 
-            # Solo guarda si subieron archivo
-            if doc["archivo"]:
 
-                Documento.objects.create(
-                    empleado=empleado,
-                    tipo_documento=doc["tipo"],
-                    archivo=doc["archivo"],
-                    fecha_vencimiento=doc["fecha_vencimiento"] if doc["fecha_vencimiento"] else None,
-                    observacion=observacion
-                )
+        # CI (si lo necesitas)
+        if request.FILES.get("archivo_ci"):
+            Documento.objects.create(
+                empleado=empleado,
+                tipo_documento="CI",
+                archivo=request.FILES.get("archivo_ci"),
+                fecha_vencimiento=request.POST.get("fecha_vencimiento_ci") or None,
+                observacion=observacion
+            )
 
 
         return redirect("listado_documentos")
@@ -65,6 +73,7 @@ def crear_documento(request):
     return render(request, "crear_documento.html", {
         "empleados": empleados
     })
+
 
 
 
@@ -90,7 +99,7 @@ def editar_documento(request, id):
 
         archivos = [
             ("CI", "archivo_ci", "fecha_vencimiento_ci"),
-            ("LIC", "archivo_lic", "fecha_vencimiento_lic"),
+            ("LIC", "archivo_lic_frente", "fecha_vencimiento_lic"),
             ("HIST", "archivo_hist", "fecha_vencimiento_hist"),
         ]
 
@@ -99,7 +108,6 @@ def editar_documento(request, id):
 
             archivo = request.FILES.get(campo_archivo)
             fecha_vencimiento = request.POST.get(campo_fecha)
-
 
             documento = documentos[tipo]
 
@@ -110,8 +118,16 @@ def editar_documento(request, id):
                 if archivo:
                     documento.archivo = archivo
 
+                # Actualiza reverso de licencia
+                if tipo == "LIC":
+                    archivo_reverso = request.FILES.get("archivo_lic_reverso")
+
+                    if archivo_reverso:
+                        documento.archivo_reverso = archivo_reverso
+
+
                 documento.fecha_vencimiento = (
-                    fecha_vencimiento 
+                    fecha_vencimiento
                     if fecha_vencimiento else None
                 )
 
@@ -123,10 +139,12 @@ def editar_documento(request, id):
 
                 # Si no existe lo crea
                 if archivo:
+
                     Documento.objects.create(
                         empleado=empleado,
                         tipo_documento=tipo,
                         archivo=archivo,
+                        archivo_reverso=request.FILES.get("archivo_lic_reverso") if tipo == "LIC" else None,
                         fecha_vencimiento=fecha_vencimiento if fecha_vencimiento else None,
                         observacion=observacion
                     )

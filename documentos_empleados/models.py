@@ -22,6 +22,8 @@ class Documento(models.Model):
     )
 
     archivo = models.FileField(upload_to='documentos/')
+    archivo_reverso = models.FileField(upload_to='documentos/', null=True, blank=True)
+
 
     fecha_emision = models.DateField(null=True, blank=True)
     fecha_vencimiento = models.DateField(null=True, blank=True)

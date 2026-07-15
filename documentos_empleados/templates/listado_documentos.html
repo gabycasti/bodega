@@ -109,56 +109,77 @@
                         <td>{{ emp.rut }}</td>
 
 
-                        <!-- LICENCIA -->
-                        <td>
-                            {% for doc in emp.documentos.all %}
-                                {% if doc.tipo_documento == 'LIC' %}
-                                    <a href="{{ doc.archivo.url }}" target="_blank">
-                                        Ver Licencia
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        </td>
+                        
+                      <!-- LICENCIA -->
+                       
+                                    
+                    <td class="text-center">
+                        {% if emp.licencia %}
 
+                            <!-- Frente -->
+                            {% if emp.licencia.archivo %}
+                            <button class="btn btn-sm btn-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#documentoModal"
+                                    data-url="{{ emp.licencia.archivo.url }}"
+                                    onclick="mostrarDocumento(this)"
+                                    title="Licencia - Frente">
+                                <i class="bi bi-person-vcard-fill"></i>
+                            </button>
+                            {% endif %}
 
-                        <!-- VENCIMIENTO LICENCIA -->
-                        <td>
-                            {% for doc in emp.documentos.all %}
-                                {% if doc.tipo_documento == 'LIC' %}
-                                    {{ doc.fecha_vencimiento|date:"d-m-Y" }}
-                                {% endif %}
-                            {% endfor %}
-                        </td>
+                            <!-- Reverso -->
+                            {% if emp.licencia.archivo_reverso %}
+                            <button class="btn btn-sm btn-secondary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#documentoModal"
+                                    data-url="{{ emp.licencia.archivo_reverso.url }}"
+                                    onclick="mostrarDocumento(this)"
+                                    title="Licencia - Reverso">
+                                <i class="bi bi-person-vcard-fill"></i>
+                            </button>
+                            {% endif %}
+
+                        {% endif %}
+                    </td>
+
+                    <!-- VENCIMIENTO LICENCIA -->
+                    <td>
+                        {% if emp.licencia %}
+                            {{ emp.licencia.fecha_vencimiento|date:"d-m-Y" }}
+                        {% endif %}
+                    </td>
+
 
 
                         <!-- HOJA CONDUCTOR -->
-                        <td>
-                            {% for doc in emp.documentos.all %}
-                                {% if doc.tipo_documento == 'HIST' %}
-                                    <a href="{{ doc.archivo.url }}" target="_blank">
-                                        Ver Hoja
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        </td>
+                        <td class="text-center">
+                            {% if emp.hoja %}
 
+                                <button class="btn btn-sm btn-primary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#documentoModal"
+                                        data-url="{{ emp.hoja.archivo.url }}"
+                                        onclick="mostrarDocumento(this)"
+                                        title="Hoja de Conductor">
+                                    <i class="bi bi-file-earmark-text-fill"></i>
+                                </button>
+
+                            {% endif %}
+                        </td>
 
                         <!-- VENCIMIENTO HOJA -->
                         <td>
-                            {% for doc in emp.documentos.all %}
-                                {% if doc.tipo_documento == 'HIST' %}
-                                    {{ doc.fecha_vencimiento|date:"d-m-Y" }}
-                                {% endif %}
-                            {% endfor %}
+                            {% if emp.hoja %}
+                                {{ emp.hoja.fecha_vencimiento|date:"d-m-Y" }}
+                            {% endif %}
                         </td>
-
-
                         <td class="text-center">
-                            <a href="#" class="btn btn-warning btn-sm">
+                            <a href="{% url 'editar_documento' emp.id %}" 
+                            class="btn btn-warning btn-sm">
                                 Editar
                             </a>
                         </td>
-
 
                     </tr>
 
@@ -178,50 +199,13 @@
 
             </table>
 
-                <div class="table-responsive">
-                    <!-- AQUÍ VA LA PAGINACIÓN -->
-                    <nav aria-label="Paginación">
-                        <ul class="pagination justify-content-center">
-
-                            {% if empleados.has_previous %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ empleados.previous_page_number }}">
-                                        Anterior
-                                    </a>
-                                </li>
-                            {% endif %}
-
-                            {% for num in empleados.paginator.page_range %}
-                                {% if empleados.number == num %}
-                                    <li class="page-item active">
-                                        <span class="page-link">{{ num }}</span>
-                                    </li>
-                                {% else %}
-                                    <li class="page-item">
-                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
-                                    </li>
-                                {% endif %}
-                            {% endfor %}
-
-                            {% if empleados.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{ empleados.next_page_number }}">
-                                        Siguiente
-                                    </a>
-                                </li>
-                            {% endif %}
-
-                        </ul>
-                    </nav>
-
-                </div>
             </div>
         </div>          
     </div>
 </div>
 
 
-<div class="modal fade" id="imagenModal" tabindex="-1">
+<div class="modal fade" id="documentoModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
 
@@ -298,27 +282,13 @@ $(document).on("click", ".btn-eliminar", function() {
 });
 
 
-// 🔥 AQUÍ VA LO NUEVO
-function mostrarImagen(btn) {
+// 🔥 Mostrar Modal
+function mostrarDocumento(btn) {
     let url = btn.getAttribute('data-url');
 
-    console.log(url);
+   // alert(url);   // <-- agrega esto
 
     document.getElementById('imagenRecibo').src = url;
-}
-
-
-
-function cargarBencinas() {
-    fetch(window.location.href)
-        .then(response => response.text())
-        .then(html => {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(html, 'text/html');
-
-            let nuevaTabla = doc.querySelector('tbody');
-            document.querySelector('tbody').innerHTML = nuevaTabla.innerHTML;
-        });
 }
 
 
