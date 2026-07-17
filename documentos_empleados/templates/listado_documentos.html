@@ -90,7 +90,7 @@
                         <th>Licencia</th>
                         <th>Fecha V Licencia</th>
                         <th>Hoja Conductor</th>
-                        <th>Fecha V Hoja</th>
+                        <th>Fecha Emisión</th>
                         <th>Editar</th>
                     </tr>
                 </thead>
@@ -153,38 +153,35 @@
 
 
                         
-                        <!-- HOJA CONDUCTOR -->
+                     
+                       <!-- HOJA CONDUCTOR -->
                         <td class="text-center">
 
                             {% if emp.hoja %}
 
-                                <!-- Frente -->
+                                <!-- Frente PDF -->
                                 {% if emp.hoja.archivo %}
-                                <button class="btn btn-sm btn-primary"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#documentoModal"
-                                        data-url="{{ emp.hoja.archivo.url }}"
-                                        onclick="mostrarDocumento(this)"
-                                        title="Hoja Conductor - Frente">
+                                <a href="{{ emp.hoja.archivo.url }}"
+                                target="_blank"
+                                class="btn btn-sm btn-danger"
+                                title="Hoja Conductor - Frente PDF">
 
-                                    <i class="bi bi-file-earmark-text-fill"></i>
+                                    <i class="bi bi-file-earmark-pdf-fill"></i>
 
-                                </button>
+                                </a>
                                 {% endif %}
 
 
-                                <!-- Reverso -->
+                                <!-- Reverso PDF -->
                                 {% if emp.hoja.archivo_reverso %}
-                                <button class="btn btn-sm btn-secondary"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#documentoModal"
-                                        data-url="{{ emp.hoja.archivo_reverso.url }}"
-                                        onclick="mostrarDocumento(this)"
-                                        title="Hoja Conductor - Reverso">
+                                <a href="{{ emp.hoja.archivo_reverso.url }}"
+                                target="_blank"
+                                class="btn btn-sm btn-secondary"
+                                title="Hoja Conductor - Reverso PDF">
 
-                                    <i class="bi bi-file-earmark-text-fill"></i>
+                                    <i class="bi bi-file-earmark-pdf-fill"></i>
 
-                                </button>
+                                </a>
                                 {% endif %}
 
                             {% endif %}
