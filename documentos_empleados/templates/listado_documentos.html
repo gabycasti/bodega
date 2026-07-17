@@ -87,11 +87,11 @@
                         <th>#</th>
                         <th>Nombre</th>
                         <th>RUT</th>
-                        <th>Licencia</th>
-                        <th>Fecha V Licencia</th>
-                        <th>Hoja Conductor</th>
-                        <th>Fecha Emisión</th>
-                        <th>Editar</th>
+                        <th class="text-center">Licencia</th>
+                        <th class="text-center">Fecha V Licencia</th>
+                        <th class="text-center">Hoja Conductor</th>
+                        <th class="text-center">Fecha Emisión</th>
+                        <th class="text-center">Editar</th>
                     </tr>
                 </thead>
 
@@ -144,7 +144,7 @@
                     </td>
 
                     <!-- VENCIMIENTO LICENCIA -->
-                    <td>
+                   <td class="text-center">
                         {% if emp.licencia %}
                             {{ emp.licencia.fecha_vencimiento|date:"d-m-Y" }}
                         {% endif %}
@@ -189,7 +189,7 @@
                         </td>
 
                         <!-- VENCIMIENTO HOJA -->
-                        <td>
+                        <td class="text-center">
                             {% if emp.hoja %}
                                 {{ emp.hoja.fecha_vencimiento|date:"d-m-Y" }}
                             {% endif %}
