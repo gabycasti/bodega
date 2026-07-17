@@ -31,198 +31,397 @@ table.dataTable {
 
 
 </style>
-<div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
-     <div class="row  ms-3 me-3">
-          <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
-               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Agregar Documento Empleado</h3>
-               <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
-                 <br>
-                 <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
-                 <li style="margin-right: 5px;"><a href="{% url 'listado_documentos' %}" class="link-sin-color">Listado Documentos</a></li>
-               </ol>
-          </section>
-          
-          <hr style="border: 2px solid #3c8dbc;">
-         <div class="col-8">
+<div class="main-container" style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
+    <div class="row ms-3 me-3">
+
+        <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 10px;">
+                <i class="fa fa-user icon-title"></i> Agregar Documento Empleado
+            </h3>
+
+            <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
+                <br>
+                <li style="margin-right: 5px;">
+                    <a href="{% url 'dashboard' %}" class="me-2 link-sin-color">
+                        <i class="fa fa-home"></i> Inicio >
+                    </a>
+                </li>
+
+                <li style="margin-right: 5px;">
+                    <a href="{% url 'listado_documentos' %}" class="link-sin-color">
+                        Listado Documentos
+                    </a>
+                </li>
+            </ol>
+
+        </section>
+
+        <hr style="border: 2px solid #3c8dbc;">
+
+        <div class="col-8">
 
             <form method="post" enctype="multipart/form-data" class="form-control border-0">
 
-            {% csrf_token %}
+                {% csrf_token %}
 
-            <br>
+                <br>
 
-            <!-- Empleado -->
-            <div class="row mb-3 align-items-center">
+                <!-- EMPLEADO -->
+                <div class="row mb-3 align-items-center">
+
+                    <div class="col-md-4 text-end">
+                        <label class="form-label mb-0">Nombre Chofer</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control"
+                               value="{{ empleado.nombre }}"
+                               readonly>
+                    </div>
+
+                </div>
+
+
+                <!-- RUT -->
+                <div class="row mb-3 align-items-center">
+
+                    <div class="col-md-4 text-end">
+                        <label class="form-label mb-0">Rut</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control"
+                               value="{{ empleado.rut }}"
+                               readonly>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <h4>DOCUMENTOS</h4>
+                <BR></BR>
+
+
+
+                    <!-- ========================= -->
+                    <!-- CARNET DE IDENTIDAD -->
+                    <!-- ========================= -->
+
+                    <!-- Frente -->
+                    <div class="row mb-3">
+
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">
+                                Carnet de Identidad (Frente)
+                            </label>
+                        </div>
+
+                        <div class="col-md-8">
+
+                            <div class="input-group">
+
+                                <input
+                                    type="file"
+                                    name="archivo_ci"
+                                    class="form-control">
+
+                                {% if documentos.CI %}
+                                <button
+                                    type="button"
+                                    class="btn btn-light border"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#documentoModal"
+                                    data-url="{{ documentos.CI.archivo.url }}"
+                                    onclick="mostrarDocumento(this)"
+                                    title="Ver Carnet Frente">
+
+                                    <i class="bi bi-file-earmark-image-fill text-primary fs-5"></i>
+
+                                </button>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Reverso -->
+                    <div class="row mb-3">
+
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">
+                                Carnet de Identidad (Reverso)
+                            </label>
+                        </div>
+
+                        <div class="col-md-8">
+
+                            <div class="input-group">
+
+                                <input
+                                    type="file"
+                                    name="archivo_ci_reverso"
+                                    class="form-control">
+
+                                {% if documentos.CI and documentos.CI.archivo_reverso %}
+                                <button
+                                    type="button"
+                                    class="btn btn-light border"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#documentoModal"
+                                    data-url="{{ documentos.CI.archivo_reverso.url }}"
+                                    onclick="mostrarDocumento(this)"
+                                    title="Ver Carnet Reverso">
+
+                                    <i class="bi bi-file-earmark-image-fill text-primary fs-5"></i>
+
+                                </button>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Fecha -->
+                    <div class="row mb-3">
+
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">
+                                Vencimiento CI
+                            </label>
+                        </div>
+
+                        <div class="col-md-8">
+
+                            <input
+                                type="date"
+                                name="fecha_vencimiento_ci"
+                                class="form-control"
+                                value="{% if documentos.CI.fecha_vencimiento %}{{ documentos.CI.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
+
+                        </div>
+
+                    </div>
+
+                <hr>
+
+
+
+
+          
+           <!-- ========================= -->
+            <!-- LICENCIA DE CONDUCIR -->
+            <!-- ========================= -->
+
+            <!-- Frente -->
+            <div class="row mb-3">
 
                 <div class="col-md-4 text-end">
-                    <label class="form-label mb-0">Nombre Chofer</label>
+                    <label class="form-label">Licencia de Conducir (Frente)</label>
                 </div>
 
                 <div class="col-md-8">
-                    <input type="text"
-                          class="form-control"
-                          value="{{ empleado.nombre }}"
-                          readonly>
+
+                    <div class="input-group">
+
+                        <input type="file"
+                            name="archivo_lic"
+                            class="form-control">
+
+                        {% if documentos.LIC %}
+                        <button
+                            type="button"
+                            class="btn btn-light border"
+                            data-bs-toggle="modal"
+                            data-bs-target="#documentoModal"
+                            data-url="{{ documentos.LIC.archivo.url }}"
+                            onclick="mostrarDocumento(this)"
+                            title="Ver frente">
+                            <i class="bi bi-file-earmark-fill fs-5 text-primary"></i>
+                        </button>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Reverso -->
+            <div class="row mb-3">
+
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Licencia de Conducir (Reverso)</label>
+                </div>
+
+                <div class="col-md-8">
+
+                    <div class="input-group">
+
+                        <input type="file"
+                            name="archivo_lic_reverso"
+                            class="form-control">
+
+                        {% if documentos.LIC and documentos.LIC.archivo_reverso %}
+                        <button
+                            type="button"
+                            class="btn btn-light border"
+                            data-bs-toggle="modal"
+                            data-bs-target="#documentoModal"
+                            data-url="{{ documentos.LIC.archivo_reverso.url }}"
+                            onclick="mostrarDocumento(this)"
+                            title="Ver reverso">
+                            <i class="bi bi-file-earmark-fill fs-5 text-primary"></i>
+                        </button>
+                        {% endif %}
+
+                    </div>
+
                 </div>
 
             </div>
 
 
-            <!-- Rut -->
-            <div class="row mb-3 align-items-center">
+            <!-- Fecha vencimiento Licencia -->
+            <div class="row mb-3">
 
                 <div class="col-md-4 text-end">
-                    <label class="form-label mb-0">Rut</label>
+                    <label class="form-label">
+                        Vencimiento Licencia
+                    </label>
                 </div>
 
                 <div class="col-md-8">
-                    <input type="text"
-                          class="form-control"
-                          value="{{ empleado.rut }}"
-                          readonly>
+
+                    <input
+                        type="date"
+                        name="fecha_vencimiento_lic"
+                        class="form-control"
+                        value="{% if documentos.LIC.fecha_vencimiento %}{{ documentos.LIC.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
+
                 </div>
 
-            </div>
+            </div>              
 
 
             <hr>
 
-            <h6>Documentos</h6>
 
 
-            <!-- CARNET -->
+            <!-- ========================= -->
+            <!-- HOJA DEL CONDUCTOR -->
+            <!-- ========================= -->
+
+            <!-- Frente -->
             <div class="row mb-3">
 
                 <div class="col-md-4 text-end">
-                    <label class="form-label">Carnet de Identidad</label>
+                    <label class="form-label">
+                        Hoja del Conductor (Frente)
+                    </label>
                 </div>
 
                 <div class="col-md-8">
 
-                    {% if documentos.CI %}
-                        <a href="{{ documentos.CI.archivo.url }}" target="_blank">
-                            Ver archivo actual
-                        </a>
-                    {% endif %}
+                    <div class="input-group">
 
-                    <input type="file"
-                          name="archivo_ci"
-                          class="form-control mt-2">
+                        <input
+                            type="file"
+                            name="archivo_hist_frente"
+                            class="form-control">
+
+
+                        {% if documentos.HIST %}
+                        <button
+                            type="button"
+                            class="btn btn-light border"
+                            data-bs-toggle="modal"
+                            data-bs-target="#documentoModal"
+                            data-url="{{ documentos.HIST.archivo.url }}"
+                            onclick="mostrarDocumento(this)"
+                            title="Ver Hoja Conductor Frente">
+
+                            <i class="bi bi-file-earmark-image-fill text-primary fs-5"></i>
+
+                        </button>
+                        {% endif %}
+
+                    </div>
 
                 </div>
 
             </div>
 
 
+            <!-- Reverso -->
             <div class="row mb-3">
 
                 <div class="col-md-4 text-end">
-                    <label class="form-label">Vencimiento CI</label>
+                    <label class="form-label">
+                        Hoja del Conductor (Reverso)
+                    </label>
                 </div>
 
                 <div class="col-md-8">
 
-                    <input type="date"
-                          name="fecha_vencimiento_ci"
-                          class="form-control"
-                          value="{% if documentos.CI.fecha_vencimiento %}{{ documentos.CI.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
+                    <div class="input-group">
+
+                        <input
+                            type="file"
+                            name="archivo_hist_reverso"
+                            class="form-control">
+
+
+                        {% if documentos.HIST and documentos.HIST.archivo_reverso %}
+                        <button
+                            type="button"
+                            class="btn btn-light border"
+                            data-bs-toggle="modal"
+                            data-bs-target="#documentoModal"
+                            data-url="{{ documentos.HIST.archivo_reverso.url }}"
+                            onclick="mostrarDocumento(this)"
+                            title="Ver Hoja Conductor Reverso">
+
+                            <i class="bi bi-file-earmark-image-fill text-primary fs-5"></i>
+
+                        </button>
+                        {% endif %}
+
+                    </div>
 
                 </div>
 
             </div>
 
 
-
-            <hr>
-
-
-            <!-- LICENCIA -->
+            <!-- Fecha vencimiento -->
             <div class="row mb-3">
 
                 <div class="col-md-4 text-end">
-                    <label class="form-label">Licencia de Conducir</label>
+                    <label class="form-label">
+                        Vencimiento Hoja del Conductor
+                    </label>
                 </div>
 
                 <div class="col-md-8">
 
-                    {% if documentos.LIC %}
-                        <a href="{{ documentos.LIC.archivo.url }}" target="_blank">
-                            Ver archivo actual
-                        </a>
-                    {% endif %}
+                    <input
+                        type="date"
+                        name="fecha_vencimiento_hist"
+                        class="form-control"
+                        value="{% if documentos.HIST.fecha_vencimiento %}{{ documentos.HIST.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
 
-                    <input type="file"
-                          name="archivo_lic"
-                          class="form-control mt-2">
+    </div>
 
-                </div>
-
-            </div>
-
-
-            <div class="row mb-3">
-
-                <div class="col-md-4 text-end">
-                    <label class="form-label">Vencimiento Licencia</label>
-                </div>
-
-                <div class="col-md-8">
-
-                    <input type="date"
-                          name="fecha_vencimiento_lic"
-                          class="form-control"
-                          value="{% if documentos.LIC.fecha_vencimiento %}{{ documentos.LIC.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
-
-                </div>
-
-            </div>
-
-
-
-            <hr>
-
-
-            <!-- HOJA CONDUCTOR -->
-            <div class="row mb-3">
-
-                <div class="col-md-4 text-end">
-                    <label class="form-label">Hoja del Conductor</label>
-                </div>
-
-                <div class="col-md-8">
-
-                    {% if documentos.HIST %}
-                        <a href="{{ documentos.HIST.archivo.url }}" target="_blank">
-                            Ver archivo actual
-                        </a>
-                    {% endif %}
-
-                    <input type="file"
-                          name="archivo_hist"
-                          class="form-control mt-2">
-
-                </div>
-
-            </div>
-
-
-            <div class="row mb-3">
-
-                <div class="col-md-4 text-end">
-                    <label class="form-label">Vencimiento Hoja</label>
-                </div>
-
-                <div class="col-md-8">
-
-                    <input type="date"
-                          name="fecha_vencimiento_hist"
-                          class="form-control"
-                          value="{% if documentos.HIST.fecha_vencimiento %}{{ documentos.HIST.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
-
-                </div>
-
-            </div>
-
+</div>
 
             <hr>
 
@@ -275,6 +474,32 @@ table.dataTable {
      </div>
 </div>
 
+
+
+
+
+<div class="modal fade" id="documentoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Documento</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                </button>
+            </div>
+
+            <div class="modal-body text-center">
+                <img id="imagenRecibo"
+                     src=""
+                     class="img-fluid rounded">
+            </div>
+
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block scripts %}
@@ -299,6 +524,19 @@ table.dataTable {
 
   
 });
+
+
+
+
+// Mostrar Modal
+function mostrarDocumento(btn) {
+    let url = btn.getAttribute('data-url');
+
+   // alert(url);   // <-- agrega esto
+
+    document.getElementById('imagenRecibo').src = url;
+}
+
 
 </script>
 {% endblock %}

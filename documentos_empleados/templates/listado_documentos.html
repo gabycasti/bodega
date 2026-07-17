@@ -152,20 +152,43 @@
 
 
 
+                        
                         <!-- HOJA CONDUCTOR -->
                         <td class="text-center">
+
                             {% if emp.hoja %}
 
+                                <!-- Frente -->
+                                {% if emp.hoja.archivo %}
                                 <button class="btn btn-sm btn-primary"
                                         data-bs-toggle="modal"
                                         data-bs-target="#documentoModal"
                                         data-url="{{ emp.hoja.archivo.url }}"
                                         onclick="mostrarDocumento(this)"
-                                        title="Hoja de Conductor">
+                                        title="Hoja Conductor - Frente">
+
                                     <i class="bi bi-file-earmark-text-fill"></i>
+
                                 </button>
+                                {% endif %}
+
+
+                                <!-- Reverso -->
+                                {% if emp.hoja.archivo_reverso %}
+                                <button class="btn btn-sm btn-secondary"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#documentoModal"
+                                        data-url="{{ emp.hoja.archivo_reverso.url }}"
+                                        onclick="mostrarDocumento(this)"
+                                        title="Hoja Conductor - Reverso">
+
+                                    <i class="bi bi-file-earmark-text-fill"></i>
+
+                                </button>
+                                {% endif %}
 
                             {% endif %}
+
                         </td>
 
                         <!-- VENCIMIENTO HOJA -->

@@ -21,7 +21,7 @@ def listado_documentos(request):
 
 
 
-# CREAR DOCUMENTOS
+
 # CREAR DOCUMENTOS
 def crear_documento(request):
     empleados = Empleado.objects.all()
@@ -46,22 +46,24 @@ def crear_documento(request):
 
 
         # HOJA CONDUCTOR
-        if request.FILES.get("archivo_hist"):
-            Documento.objects.create(
-                empleado=empleado,
-                tipo_documento="HIST",
-                archivo=request.FILES.get("archivo_hist"),
-                fecha_vencimiento=request.POST.get("fecha_vencimiento_hist") or None,
-                observacion=observacion
-            )
+        Documento.objects.create(
+            empleado=empleado,
+            tipo_documento="HIST",
+            archivo=request.FILES.get("archivo_hist_frente"),
+            archivo_reverso=request.FILES.get("archivo_hist_reverso"),
+            fecha_vencimiento=request.POST.get("fecha_vencimiento_hist") or None,
+            observacion=observacion
+        )
 
 
-        # CI (si lo necesitas)
-        if request.FILES.get("archivo_ci"):
+        
+       # CI
+        if request.FILES.get("archivo_ci_frente"):
             Documento.objects.create(
                 empleado=empleado,
                 tipo_documento="CI",
-                archivo=request.FILES.get("archivo_ci"),
+                archivo=request.FILES.get("archivo_ci_frente"),
+                archivo_reverso=request.FILES.get("archivo_ci_reverso"),
                 fecha_vencimiento=request.POST.get("fecha_vencimiento_ci") or None,
                 observacion=observacion
             )
@@ -73,6 +75,10 @@ def crear_documento(request):
     return render(request, "crear_documento.html", {
         "empleados": empleados
     })
+
+
+
+
 
 
 
@@ -99,8 +105,8 @@ def editar_documento(request, id):
 
         archivos = [
             ("CI", "archivo_ci", "fecha_vencimiento_ci"),
-            ("LIC", "archivo_lic_frente", "fecha_vencimiento_lic"),
-            ("HIST", "archivo_hist", "fecha_vencimiento_hist"),
+            ("LIC", "archivo_lic", "fecha_vencimiento_lic"),
+            ("HIST", "archivo_hist_frente", "fecha_vencimiento_hist"),
         ]
 
 
@@ -112,24 +118,37 @@ def editar_documento(request, id):
             documento = documentos[tipo]
 
 
+            # Define reverso según documento
+            archivo_reverso = None
+
+            if tipo == "CI":
+                archivo_reverso = request.FILES.get("archivo_ci_reverso")
+
+            elif tipo == "LIC":
+                archivo_reverso = request.FILES.get("archivo_lic_reverso")
+
+            elif tipo == "HIST":
+                archivo_reverso = request.FILES.get("archivo_hist_reverso")
+
+
             if documento:
 
-                # Actualiza documento existente
+                # Actualiza frente
                 if archivo:
                     documento.archivo = archivo
 
-                # Actualiza reverso de licencia
-                if tipo == "LIC":
-                    archivo_reverso = request.FILES.get("archivo_lic_reverso")
 
-                    if archivo_reverso:
-                        documento.archivo_reverso = archivo_reverso
+                # Actualiza reverso
+                if archivo_reverso:
+                    documento.archivo_reverso = archivo_reverso
 
 
+                # Actualiza fecha
                 documento.fecha_vencimiento = (
                     fecha_vencimiento
                     if fecha_vencimiento else None
                 )
+
 
                 documento.observacion = observacion
                 documento.save()
@@ -137,15 +156,18 @@ def editar_documento(request, id):
 
             else:
 
-                # Si no existe lo crea
+                # Crear documento si no existe
                 if archivo:
 
                     Documento.objects.create(
                         empleado=empleado,
                         tipo_documento=tipo,
                         archivo=archivo,
-                        archivo_reverso=request.FILES.get("archivo_lic_reverso") if tipo == "LIC" else None,
-                        fecha_vencimiento=fecha_vencimiento if fecha_vencimiento else None,
+                        archivo_reverso=archivo_reverso,
+                        fecha_vencimiento=(
+                            fecha_vencimiento
+                            if fecha_vencimiento else None
+                        ),
                         observacion=observacion
                     )
 

@@ -151,28 +151,34 @@ table.dataTable {
           <hr>
 
 
-                <!-- HOJA CONDUCTOR -->
-                <div class="row mb-3">
-                    <div class="col-md-4 text-end">
-                        <label class="form-label">Hoja del Conductor</label>
-                    </div>
-
-                    <div class="col-md-8">
-                        <input type="file" name="archivo_hist" class="form-control">
-                    </div>
+             <!-- HOJA CONDUCTOR FRENTE -->
+            <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Hoja del Conductor (Frente)</label>
                 </div>
 
+                <div class="col-md-8">
+                    <input type="file"
+                        name="archivo_hist_frente"
+                        class="form-control"
+                        required>
+                </div>
+            </div>
 
-                <div class="row mb-3">
-                    <div class="col-md-4 text-end">
-                        <label class="form-label">Vencimiento Hoja</label>
-                    </div>
 
-                    <div class="col-md-8">
-                        <input type="date" name="fecha_vencimiento_hist" class="form-control">
-                    </div>
+            <!-- HOJA CONDUCTOR REVERSO -->
+            <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Hoja del Conductor (Reverso)</label>
                 </div>
 
+                <div class="col-md-8">
+                    <input type="file"
+                        name="archivo_hist_reverso"
+                        class="form-control"
+                        required>
+                </div>
+            </div>
 
                 <hr>
 
