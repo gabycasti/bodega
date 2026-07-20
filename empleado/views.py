@@ -23,6 +23,14 @@ def empleado_listado(request):
 
     empleados = empleados.order_by("-fecha_creacion")
 
+     # PAGINACIÓN 20 POR PÁGINA
+    paginator = Paginator(empleados, 20)
+
+    pagina = request.GET.get("page")
+
+    empleados = paginator.get_page(pagina)
+
+
     return render(request, "empleado_listado.html", {
         "empleados": empleados,
         "buscar": buscar,
