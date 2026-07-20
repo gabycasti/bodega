@@ -90,15 +90,26 @@ table.dataTable {
                 <br>
 
 
-
-                <!-- CARNET -->
+                <!-- CARNE DE IDENTIDAD -->
+                <!-- Frente -->
                 <div class="row mb-3">
                     <div class="col-md-4 text-end">
-                        <label class="form-label">Carnet de Identidad</label>
+                        <label class="form-label">Carnet de Identidad (Frente)</label>
                     </div>
 
                     <div class="col-md-8">
                         <input type="file" name="archivo_ci" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Reverso -->
+                <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Carnet de Identidad (Reverso)</label>
+                    </div>
+
+                    <div class="col-md-8">
+                        <input type="file" name="archivo_ci_reverso" class="form-control">
                     </div>
                 </div>
 
@@ -124,7 +135,7 @@ table.dataTable {
                     </div>
 
                     <div class="col-md-8">
-                        <input type="file" name="archivo_lic_frente" class="form-control" required>>
+                        <input type="file" name="archivo_lic_frente" class="form-control" required>
                     </div>
                 </div>
 
@@ -176,7 +187,21 @@ table.dataTable {
                     <input type="file"
                         name="archivo_hist_reverso"
                         class="form-control"
-                        required>
+                        >
+                </div>
+            </div>
+
+
+            <!-- Vencimiento Hoja del Conductor -->
+            <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Emisión Hoja del Conductor</label>
+                </div>
+
+                <div class="col-md-8">
+                    <input type="date"
+                        name="fecha_vencimiento_hist"
+                        class="form-control">
                 </div>
             </div>
 

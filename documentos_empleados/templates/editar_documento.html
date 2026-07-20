@@ -36,7 +36,7 @@ table.dataTable {
 
         <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h3 style="margin: 10px;">
-                <i class="fa fa-user icon-title"></i> Agregar Documento Empleado
+                <i class="fa fa-user icon-title"></i> Editar Documento Empleado
             </h3>
 
             <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
@@ -128,7 +128,7 @@ table.dataTable {
                                     name="archivo_ci"
                                     class="form-control">
 
-                                {% if documentos.CI %}
+                                {% if documentos.CI and documentos.CI.archivo %}
                                 <button
                                     type="button"
                                     class="btn btn-light border"
@@ -236,7 +236,7 @@ table.dataTable {
                             name="archivo_lic"
                             class="form-control">
 
-                        {% if documentos.LIC %}
+                        {% if documentos.LIC and documentos.LIC.archivo %}
                         <button
                             type="button"
                             class="btn btn-light border"
@@ -343,7 +343,7 @@ table.dataTable {
                         <button
                             type="button"
                             class="btn btn-light border"
-                            data-bs-toggle="modal"
+                            target="_blank"
                             data-bs-target="#documentoModal"
                             data-url="{{ documentos.HIST.archivo.url }}"
                             onclick="mostrarDocumento(this)"
@@ -380,19 +380,14 @@ table.dataTable {
                             class="form-control">
 
 
-                        {% if documentos.HIST and documentos.HIST.archivo_reverso %}
-                        <button
-                            type="button"
-                            class="btn btn-light border"
-                            data-bs-toggle="modal"
-                            data-bs-target="#documentoModal"
-                            data-url="{{ documentos.HIST.archivo_reverso.url }}"
-                            onclick="mostrarDocumento(this)"
-                            title="Ver Hoja Conductor Reverso">
+                       {% if documentos.HIST and documentos.HIST.archivo_reverso %}
+                        <a href="{{ documentos.HIST.archivo_reverso.url }}"
+                        target="_blank"
+                        class="btn btn-light border"
+                        title="Ver Hoja Conductor Reverso">
+                       <i class="bi bi-file-earmark-pdf-fill text-primary fs-5"></i>
 
-                            <i class="bi bi-file-earmark-image-fill text-primary fs-5"></i>
-
-                        </button>
+                        </a>
                         {% endif %}
 
                     </div>
@@ -418,7 +413,6 @@ table.dataTable {
                         name="fecha_vencimiento_hist"
                         class="form-control"
                         value="{% if documentos.HIST.fecha_vencimiento %}{{ documentos.HIST.fecha_vencimiento|date:'Y-m-d' }}{% endif %}">
-
     </div>
 
 </div>

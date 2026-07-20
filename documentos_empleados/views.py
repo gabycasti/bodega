@@ -102,6 +102,8 @@ def editar_documento(request, id):
 
         observacion = request.POST.get("observacion")
 
+        
+
 
         archivos = [
             ("CI", "archivo_ci", "fecha_vencimiento_ci"),
