@@ -54,11 +54,15 @@ def registro_empleado(request):
 
     return render(request, 'registro_empleado.html', {
         'cargos': Empleado.CARGOS,
+        'bodegas': Empleado.BODEGAS,
     })
 
 
 
-#EDITAR EMPLEADO
+
+
+
+# EDITAR EMPLEADO
 def editar_empleado(request, id):
     empleado = get_object_or_404(Empleado, id=id)
 
@@ -66,6 +70,7 @@ def editar_empleado(request, id):
         empleado.nombre = request.POST.get('nombre')
         empleado.rut = request.POST.get('rut')
         empleado.cargo = request.POST.get('cargo')
+        empleado.bodega = request.POST.get('bodega')
         empleado.activo = request.POST.get('activo') == 'on'
 
         empleado.save()
@@ -75,7 +80,10 @@ def editar_empleado(request, id):
     return render(request, 'editar_empleado.html', {
         'empleado': empleado,
         'cargos': Empleado.CARGOS,
+        'bodegas': Empleado.BODEGAS,
     })
+
+
 
 
 

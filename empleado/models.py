@@ -13,10 +13,17 @@ class Empleado(models.Model):
         ("PEONETA", "PEONETA"),
     ]
 
+    BODEGAS = [
+        ("ALDUNATE", "ALDUNATE"),
+        ("VIEL", "VIEL"),
+        ("SAN FRANCISCO", "SAN FRANCISCO"),
+        
+    ]
+
     nombre = models.CharField(max_length=150)
     rut = models.CharField(max_length=12, unique=True)
     cargo = models.CharField(max_length=50, choices=CARGOS)
-
+    bodega = models.CharField(max_length=50, choices=BODEGAS, null=True,blank=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
     activo = models.BooleanField(default=True)
 

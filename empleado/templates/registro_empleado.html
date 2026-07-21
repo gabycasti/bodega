@@ -85,6 +85,24 @@ table.dataTable {
                 </div>
             </div>
 
+
+            <!-- Bodega -->
+          <div class="row mb-3">
+              <div class="col-md-4 text-end">
+                  <label class="form-label">Bodega</label>
+              </div>
+              <div class="col-md-8">
+                  <select name="bodega" class="form-select">
+                      <option value="">Seleccione una bodega</option>
+
+                      {% for valor, texto in bodegas %}
+                          <option value="{{ valor }}">{{ texto }}</option>
+                      {% endfor %}
+                  </select>
+              </div>
+          </div>
+            
+
               <!-- Activo (ALINEADO CORRECTAMENTE) -->
               <div class="row mb-3">
                 <div class="col-md-4 text-end">

@@ -7,7 +7,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 # LISTADO DOCUMENTOS
 def listado_documentos(request):
-    empleados = Empleado.objects.prefetch_related('documentos').all().order_by('-id')
+    empleados = (
+        Empleado.objects
+        .filter(bodega="ALDUNATE")
+        .prefetch_related('documentos')
+        .order_by('-id')
+    )
 
     for emp in empleados:
         emp.licencia = emp.documentos.filter(tipo_documento='LIC').first()
@@ -16,6 +21,52 @@ def listado_documentos(request):
     return render(request, "listado_documentos.html", {
         "empleados": empleados
     })
+
+
+
+
+# LISTADO SAN FRANCISCO
+def listado_francisco(request):
+    empleados = (
+        Empleado.objects
+        .filter(bodega="SAN FRANCISCO")
+        .prefetch_related('documentos')
+        .order_by('-id')
+    )
+
+    for emp in empleados:
+        emp.licencia = emp.documentos.filter(tipo_documento='LIC').first()
+        emp.hoja = emp.documentos.filter(tipo_documento='HIST').first()
+
+    return render(request, "listado_viel.html", {
+        "empleados": empleados
+    })
+
+
+
+
+# LISTADO VIEL
+def listado_viel(request):
+    empleados = (
+        Empleado.objects
+        .filter(bodega="VIEL")
+        .prefetch_related('documentos')
+        .order_by('-id')
+    )
+
+    for emp in empleados:
+        emp.licencia = emp.documentos.filter(tipo_documento='LIC').first()
+        emp.hoja = emp.documentos.filter(tipo_documento='HIST').first()
+
+    return render(request, "listado_viel.html", {
+        "empleados": empleados
+    })
+
+
+
+
+
+
 
 
 

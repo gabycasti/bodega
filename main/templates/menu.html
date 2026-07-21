@@ -125,7 +125,19 @@
                         <li class="nav-item">
                             <a href="{% url 'listado_documentos' %}"
                               class="nav-link {% if request.resolver_match.url_name == 'listado_documentos' %}active{% endif %}">
-                                <p>Listado Documentos</p>
+                                <p>Listado Aldunate</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'listado_viel' %}"
+                              class="nav-link {% if request.resolver_match.url_name == 'listado_viel' %}active{% endif %}">
+                                <p>Listado Viel</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'listado_francisco' %}"
+                              class="nav-link {% if request.resolver_match.url_name == 'listado_francisco' %}active{% endif %}">
+                                <p>Listado San Francisco</p>
                             </a>
                         </li>
 
