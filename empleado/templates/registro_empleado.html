@@ -68,15 +68,22 @@ table.dataTable {
                 </div>
               </div>
 
-              <!-- Cargo (CORREGIDO) -->
-              <div class="row mb-3">
+        
+              <!-- Cargo -->
+            <div class="row mb-3">
                 <div class="col-md-4 text-end">
-                  <label class="form-label">Cargo</label>
+                    <label class="form-label">Cargo</label>
                 </div>
                 <div class="col-md-8">
-                  <input type="text" name="cargo" class="form-control">
+                    <select name="cargo" class="form-select" required>
+                        <option value="">Seleccione un cargo</option>
+
+                        {% for valor, texto in cargos %}
+                            <option value="{{ valor }}">{{ texto }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-              </div>
+            </div>
 
               <!-- Activo (ALINEADO CORRECTAMENTE) -->
               <div class="row mb-3">

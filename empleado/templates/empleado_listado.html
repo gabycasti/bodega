@@ -61,7 +61,17 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-                
+
+             <div id="contenedorFiltroCargo" class="me-3">
+                    <label for="filtroCargo" class="me-2 fw-bold">Cargo:</label>
+                    <select id="filtroCargo" class="form-select form-select-sm d-inline-block" style="width:200px;">
+                        <option value="">Todos</option>
+                        {% for valor, texto in cargos %}
+                            <option value="{{ valor }}">{{ texto }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                                            
               <table class="table table-bordered table-hover align-middle small-text-table table_general">
                     <thead class="table-primary text-center">
                         <tr>
@@ -200,6 +210,24 @@ $(document).on("click", ".btn-eliminar", function() {
             }
         });
     });
+});
+
+
+
+
+$(document).ready(function () {
+
+    var tabla = $('.table_general').DataTable();
+
+    $('#filtroCargo').on('change', function () {
+        tabla.column(3).search($(this).val()).draw();
+    });
+
+    // Mover el filtro de Cargo al lado del buscador
+    $('.dataTables_filter').addClass('d-flex align-items-center justify-content-end gap-2');
+
+    $('#filtroCargo').parent().insertBefore('.dataTables_filter label');
+
 });
 
 

@@ -55,7 +55,14 @@
     gap: 10px; /* Espacio entre "Buscar:" y el input */
 }
 
-
+.dataTables_wrapper .dataTables_filter{
+    float: none !important;
+    display: flex !important;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px !important;
+}
 </style>
 
 
@@ -79,8 +86,9 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-               
+
              <table class="table table-bordered table-hover align-middle small-text-table table_general">
+                
 
                 <thead class="table-primary text-center">
                     <tr>

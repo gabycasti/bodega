@@ -34,6 +34,7 @@ def empleado_listado(request):
     return render(request, "empleado_listado.html", {
         "empleados": empleados,
         "buscar": buscar,
+        "cargos": Empleado.CARGOS,
     })
 
 
@@ -59,7 +60,9 @@ def registro_empleado(request):
 
         return redirect('empleado_listado')
 
-    return render(request, 'registro_empleado.html')
+    return render(request, 'registro_empleado.html', {
+        'cargos': Empleado.CARGOS,
+    })
 
 
 
@@ -78,8 +81,10 @@ def editar_empleado(request, id):
         return redirect('empleado_listado')
 
     return render(request, 'editar_empleado.html', {
-        'empleado': empleado
+        'empleado': empleado,
+        'cargos': Empleado.CARGOS,
     })
+
 
 
 # CAMBIAR ESTADO EMPLEADO
