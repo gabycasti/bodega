@@ -14,6 +14,7 @@ class Empleado(models.Model):
         ("EMPAQUE", "EMPAQUE"),
         ("CHOFER", "CHOFER"),
         ("PEONETA", "PEONETA"),
+        ("APILADOR", "APILADOR")
     ]
 
     BODEGAS = [
