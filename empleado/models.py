@@ -1,5 +1,8 @@
 from django.db import models
 
+
+
+
 class Empleado(models.Model):
 
     CARGOS = [

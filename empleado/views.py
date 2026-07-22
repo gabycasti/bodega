@@ -40,6 +40,7 @@ def registro_empleado(request):
         nombre = request.POST.get('nombre')
         rut = request.POST.get('rut')
         cargo = request.POST.get('cargo')
+        bodega = request.POST.get('bodega')
 
         activo = request.POST.get('activo') == 'on'
 
@@ -47,6 +48,7 @@ def registro_empleado(request):
             nombre=nombre,
             rut=rut,
             cargo=cargo,
+            bodega=bodega,
             activo=activo
         )
 

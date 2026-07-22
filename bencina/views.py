@@ -193,9 +193,7 @@ def tarjeta_listado(request):
 
     tarjetas = tarjetas.order_by("-fecha_orden")
 
-    paginator = Paginator(tarjetas, 10)
-    page_number = request.GET.get("page")
-    tarjetas = paginator.get_page(page_number)
+   
 
     return render(request, "tarjeta_listado.html", {
         "tarjetas": tarjetas,
