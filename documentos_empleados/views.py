@@ -38,7 +38,7 @@ def listado_francisco(request):
         emp.licencia = emp.documentos.filter(tipo_documento='LIC').first()
         emp.hoja = emp.documentos.filter(tipo_documento='HIST').first()
 
-    return render(request, "listado_viel.html", {
+    return render(request, "listado_francisco.html", {
         "empleados": empleados
     })
 
