@@ -102,47 +102,51 @@
                 </li>
 
 
-               <!-- Documentos Empleado -->
-                <li class="nav-item {% if request.resolver_match.url_name == 'crear_documento' or request.resolver_match.url_name == 'listado_documentos' %}menu-open{% endif %}">
+              <!-- Documentos Empleado -->
+              <li class="nav-item {% if request.resolver_match.url_name == 'crear_documento' or request.resolver_match.url_name == 'listado_documentos' or request.resolver_match.url_name == 'listado_viel' or request.resolver_match.url_name == 'listado_francisco' %}menu-open{% endif %}">
 
-                   <a href="#" class="nav-link {% if request.resolver_match.url_name in 'crear_documento listado_documentos listado_viel listado_francisco' %}active{% endif %}">
-                        <p>
-                            Documentos Empleados
-                            <i class="nav-arrow bi bi-chevron-right"></i>
-                        </p>
-                    </a>
+                  <a href="#"
+                    class="nav-link {% if request.resolver_match.url_name == 'crear_documento' or request.resolver_match.url_name == 'listado_documentos' or request.resolver_match.url_name == 'listado_viel' or request.resolver_match.url_name == 'listado_francisco' %}active{% endif %}">
+                      <i class="nav-icon bi bi-file-earmark-text"></i>
+                      <p>
+                          Documentos Empleados
+                          <i class="nav-arrow bi bi-chevron-right"></i>
+                      </p>
+                  </a>
 
-                    <ul class="nav nav-treeview">
+                  <ul class="nav nav-treeview">
 
-                        <li class="nav-item">
-                            <a href="{% url 'crear_documento' %}"
-                              class="nav-link {% if request.resolver_match.url_name == 'crear_documento' %}active{% endif %}">
-                                <p>Registro Documento</p>
-                            </a>
-                        </li>
+                      <li class="nav-item">
+                          <a href="{% url 'crear_documento' %}"
+                            class="nav-link {% if request.resolver_match.url_name == 'crear_documento' %}active{% endif %}">
+                              <p>Registro Documento</p>
+                          </a>
+                      </li>
 
-                        <li class="nav-item">
-                            <a href="{% url 'listado_documentos' %}"
-                              class="nav-link {% if request.resolver_match.url_name == 'listado_documentos' %}active{% endif %}">
-                                <p>Listado Aldunate</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'listado_viel' %}"
-                              class="nav-link {% if request.resolver_match.url_name == 'listado_viel' %}active{% endif %}">
-                                <p>Listado Viel</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{% url 'listado_francisco' %}"
-                              class="nav-link {% if request.resolver_match.url_name == 'listado_francisco' %}active{% endif %}">
-                                <p>Listado San Francisco</p>
-                            </a>
-                        </li>
+                      <li class="nav-item">
+                          <a href="{% url 'listado_documentos' %}"
+                            class="nav-link {% if request.resolver_match.url_name == 'listado_documentos' %}active{% endif %}">
+                              <p>Listado Aldunate</p>
+                          </a>
+                      </li>
 
-                    </ul>
+                      <li class="nav-item">
+                          <a href="{% url 'listado_viel' %}"
+                            class="nav-link {% if request.resolver_match.url_name == 'listado_viel' %}active{% endif %}">
+                              <p>Listado Viel</p>
+                          </a>
+                      </li>
 
-                </li>
+                      <li class="nav-item">
+                          <a href="{% url 'listado_francisco' %}"
+                            class="nav-link {% if request.resolver_match.url_name == 'listado_francisco' %}active{% endif %}">
+                              <p>Listado San Francisco</p>
+                          </a>
+                      </li>
+
+                  </ul>
+
+              </li>
 
 
                <!-- Vehículo -->
