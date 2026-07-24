@@ -36,12 +36,9 @@ class ControlTarjeta(models.Model):
     ("SI", "Utilizada"),
     ("NO", "No utilizada"),
     ]
-
-    uso_tarjeta = models.CharField(
-        max_length=2,
-        choices=USO_TARJETA,
-        null=True,
-        blank=True,
+    
+    uso_tarjeta = models.BooleanField(
+        default=True
     )
 
 

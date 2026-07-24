@@ -157,7 +157,8 @@ def editar_tarjeta(request, id):
 
         if fecha_hasta:
             registro.fecha_hasta = parse_date(fecha_hasta)
-            registro.uso_tarjeta = request.POST.get("uso_tarjeta") or None
+
+        registro.uso_tarjeta = request.POST.get("uso_tarjeta") or None
 
         registro.save()
         return redirect("tarjeta_listado")
