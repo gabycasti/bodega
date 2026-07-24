@@ -63,6 +63,20 @@
     gap: 10px;
     margin-bottom: 20px !important;
 }
+.bell-alert {
+    color: #dc3545;
+    animation: vibrar 0.8s infinite;
+    display: inline-block;
+}
+
+@keyframes vibrar {
+    0%   { transform: rotate(0deg); }
+    20%  { transform: rotate(-15deg); }
+    40%  { transform: rotate(15deg); }
+    60%  { transform: rotate(-15deg); }
+    80%  { transform: rotate(15deg); }
+    100% { transform: rotate(0deg); }
+}
 </style>
 
 
@@ -119,8 +133,7 @@
 
                         
                       <!-- LICENCIA -->
-                       
-                                    
+                         
                     <td class="text-center">
                         {% if emp.licencia %}
 
@@ -158,7 +171,7 @@
                                     {{ emp.licencia.fecha_vencimiento|date:"d-m-Y" }}
 
                                     {% if emp.alerta_licencia %}
-                                        <i class="fa fa-bell text-danger ms-1"
+                                        <i class="fa fa-bell bell-alert ms-1"
                                         title="La licencia vence en menos de un mes"></i>
                                     {% endif %}
                                 </span>
