@@ -32,6 +32,18 @@ class ControlTarjeta(models.Model):
         blank=True
     )
 
+    USO_TARJETA = [
+    ("SI", "Utilizada"),
+    ("NO", "No utilizada"),
+    ]
+
+    uso_tarjeta = models.CharField(
+        max_length=2,
+        choices=USO_TARJETA,
+        null=True,
+        blank=True,
+    )
+
 
     fecha = models.DateTimeField(auto_now_add=True)
 

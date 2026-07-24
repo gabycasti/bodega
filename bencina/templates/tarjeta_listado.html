@@ -73,6 +73,7 @@
                              <th>Check In</th>
                             <th>Fecha Hasta</th>
                             <th>Check Out</th>
+                            <th>Estado</th>
                             <th>Editar</th>
                             <th>Eliminar</th>
                         </tr>
@@ -100,7 +101,28 @@
                                         -
                                     {% endif %}
                                 </td>
-                                 <td class="text-center">{{ t.hora_checkout }}</td>
+                                 <td class="text-center">
+                                        {{ t.hora_checkout|default:"-" }}
+                                    </td>
+
+
+                                 <td class="text-center">
+                                    {% if not t.hora_checkout %}
+                                        <span class="badge bg-warning text-dark">
+                                            En poder del chofer
+                                        </span>
+
+                                    {% elif t.uso_tarjeta == "SI" %}
+                                        <span class="badge bg-success">
+                                            Utilizada
+                                        </span>
+
+                                    {% elif t.uso_tarjeta == "NO" %}
+                                        <span class="badge bg-secondary">
+                                            No utilizada
+                                        </span>
+                                    {% endif %}
+                                </td>
                               
 
                                
