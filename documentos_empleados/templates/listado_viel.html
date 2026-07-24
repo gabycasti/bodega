@@ -152,11 +152,19 @@
                     </td>
 
                     <!-- VENCIMIENTO LICENCIA -->
-                   <td class="text-center">
-                        {% if emp.licencia %}
-                            {{ emp.licencia.fecha_vencimiento|date:"d-m-Y" }}
-                        {% endif %}
-                    </td>
+                      <td class="text-center">
+                            {% if emp.licencia %}
+                                <span {% if emp.alerta_licencia %}class="text-danger fw-bold"{% endif %}>
+                                    {{ emp.licencia.fecha_vencimiento|date:"d-m-Y" }}
+
+                                    {% if emp.alerta_licencia %}
+                                        <i class="fa fa-bell text-danger ms-1"
+                                        title="La licencia vence en menos de un mes"></i>
+                                    {% endif %}
+                                </span>
+                            {% endif %}
+                        </td>
+
 
 
 

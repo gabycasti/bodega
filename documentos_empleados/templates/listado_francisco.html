@@ -198,10 +198,19 @@
 
                         <!-- VENCIMIENTO HOJA -->
                         <td class="text-center">
-                            {% if emp.hoja %}
-                                {{ emp.hoja.fecha_vencimiento|date:"d-m-Y" }}
+                            {% if emp.licencia %}
+                                <span {% if emp.alerta_licencia %}class="text-danger fw-bold"{% endif %}>
+                                    {{ emp.licencia.fecha_vencimiento|date:"d-m-Y" }}
+
+                                    {% if emp.alerta_licencia %}
+                                        <i class="fa fa-bell text-danger ms-1"
+                                        title="La licencia vence en menos de un mes"></i>
+                                    {% endif %}
+                                </span>
                             {% endif %}
                         </td>
+
+
                         <td class="text-center">
                             <a href="{% url 'editar_documento' emp.id %}" 
                             class="btn btn-warning btn-sm">

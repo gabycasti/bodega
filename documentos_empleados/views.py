@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from empleado.models import Empleado
 from .models import Documento
 from django.shortcuts import render, redirect, get_object_or_404
+from datetime import date, timedelta
 
 
 
+# LISTADO DOCUMENTOS
 # LISTADO DOCUMENTOS
 def listado_documentos(request):
     empleados = (
@@ -14,14 +16,34 @@ def listado_documentos(request):
         .order_by('-id')
     )
 
+    hoy = date.today()
+    un_mes = hoy + timedelta(days=30)
+
     for emp in empleados:
         emp.licencia = emp.documentos.filter(tipo_documento='LIC').first()
         emp.hoja = emp.documentos.filter(tipo_documento='HIST').first()
 
+        # Licencia
+        emp.alerta_licencia = False
+        if (
+            emp.licencia
+            and emp.licencia.fecha_vencimiento
+            and emp.licencia.fecha_vencimiento <= un_mes
+        ):
+            emp.alerta_licencia = True
+
+        # Hoja del conductor (opcional)
+        emp.alerta_hoja = False
+        if (
+            emp.hoja
+            and emp.hoja.fecha_vencimiento
+            and emp.hoja.fecha_vencimiento <= un_mes
+        ):
+            emp.alerta_hoja = True
+
     return render(request, "listado_documentos.html", {
         "empleados": empleados
     })
-
 
 
 
@@ -34,13 +56,36 @@ def listado_francisco(request):
         .order_by('-id')
     )
 
+    hoy = date.today()
+    un_mes = hoy + timedelta(days=30)
+
     for emp in empleados:
         emp.licencia = emp.documentos.filter(tipo_documento='LIC').first()
         emp.hoja = emp.documentos.filter(tipo_documento='HIST').first()
 
+        # Alerta licencia
+        emp.alerta_licencia = False
+        if (
+            emp.licencia
+            and emp.licencia.fecha_vencimiento
+            and emp.licencia.fecha_vencimiento <= un_mes
+        ):
+            emp.alerta_licencia = True
+
+        # Alerta hoja conductor
+        emp.alerta_hoja = False
+        if (
+            emp.hoja
+            and emp.hoja.fecha_vencimiento
+            and emp.hoja.fecha_vencimiento <= un_mes
+        ):
+            emp.alerta_hoja = True
+
     return render(request, "listado_francisco.html", {
         "empleados": empleados
     })
+
+
 
 
 
@@ -54,9 +99,30 @@ def listado_viel(request):
         .order_by('-id')
     )
 
+    hoy = date.today()
+    un_mes = hoy + timedelta(days=30)
+
     for emp in empleados:
         emp.licencia = emp.documentos.filter(tipo_documento='LIC').first()
         emp.hoja = emp.documentos.filter(tipo_documento='HIST').first()
+
+        # Alerta licencia
+        emp.alerta_licencia = False
+        if (
+            emp.licencia
+            and emp.licencia.fecha_vencimiento
+            and emp.licencia.fecha_vencimiento <= un_mes
+        ):
+            emp.alerta_licencia = True
+
+        # Alerta hoja conductor
+        emp.alerta_hoja = False
+        if (
+            emp.hoja
+            and emp.hoja.fecha_vencimiento
+            and emp.hoja.fecha_vencimiento <= un_mes
+        ):
+            emp.alerta_hoja = True
 
     return render(request, "listado_viel.html", {
         "empleados": empleados
