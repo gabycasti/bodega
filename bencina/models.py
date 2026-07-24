@@ -32,11 +32,6 @@ class ControlTarjeta(models.Model):
         blank=True
     )
 
-    USO_TARJETA = [
-    ("SI", "Utilizada"),
-    ("NO", "No utilizada"),
-    ]
-    
     uso_tarjeta = models.BooleanField(
         default=True
     )

@@ -131,7 +131,6 @@ def entrega_tarjeta(request):
 
 
 
-
 # EDITAR TARJETA
 def editar_tarjeta(request, id):
     registro = get_object_or_404(ControlTarjeta, id=id)
@@ -148,17 +147,15 @@ def editar_tarjeta(request, id):
         registro.hora_checkout = request.POST.get("hora_recepcion") or None
 
         fecha = request.POST.get("fecha_editable")
-
         if fecha:
             registro.fecha_editable = datetime.combine(parse_date(fecha), time.min)
 
-        # AGREGAR ESTO
         fecha_hasta = request.POST.get("fecha_hasta")
-
         if fecha_hasta:
             registro.fecha_hasta = parse_date(fecha_hasta)
 
-        registro.uso_tarjeta = request.POST.get("uso_tarjeta") or None
+        # Si el checkbox está marcado significa que NO utilizó la tarjeta
+        registro.uso_tarjeta = not bool(request.POST.get("no_uso_tarjeta"))
 
         registro.save()
         return redirect("tarjeta_listado")
