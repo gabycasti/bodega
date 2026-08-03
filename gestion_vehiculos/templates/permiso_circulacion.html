@@ -69,16 +69,78 @@ table.dataTable {
 
 
 
+           
+            <!-- Municipalidad -->
             <div class="row mb-3">
                 <div class="col-md-4 text-end">
-                    <label class="form-label">Fecha</label>
+                    <label class="form-label">Municipalidad</label>
                 </div>
+
                 <div class="col-md-8">
-                    <input
-                        type="date"
-                        name="fecha_editable"
-                        class="form-control"
-                        value="{{ fecha_actual|date:'Y-m-d' }}">
+                    <input type="text"
+                          name="municipalidad"
+                          class="form-control"
+                          required>
+                </div>
+            </div>
+
+
+            <!-- Fecha emisión -->
+            <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Fecha emisión</label>
+                </div>
+
+                <div class="col-md-8">
+                    <input type="date"
+                          name="fecha_emision"
+                          class="form-control"
+                          required>
+                </div>
+            </div>
+
+
+            <!-- Fecha vencimiento -->
+            <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Fecha vencimiento</label>
+                </div>
+
+                <div class="col-md-8">
+                    <input type="date"
+                          name="fecha_vencimiento"
+                          class="form-control"
+                          required>
+                </div>
+            </div>
+
+
+            <!-- Archivo -->
+            <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Archivo</label>
+                </div>
+
+                <div class="col-md-8">
+                    <input type="file"
+                          name="archivo"
+                          class="form-control"
+                          accept=".pdf"
+                          required>
+                </div>
+            </div>
+
+
+            <!-- Observación -->
+            <div class="row mb-3">
+                <div class="col-md-4 text-end">
+                    <label class="form-label">Observación</label>
+                </div>
+
+                <div class="col-md-8">
+                    <textarea name="observacion"
+                              class="form-control"
+                              rows="3"></textarea>
                 </div>
             </div>
 
