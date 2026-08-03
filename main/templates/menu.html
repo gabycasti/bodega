@@ -70,6 +70,9 @@
 
               </li>
 
+
+
+
             <!-- Empleado -->
                 <li class="nav-item {% if request.resolver_match.url_name == 'registro_empleado' or request.resolver_match.url_name == 'empleado_listado' or request.resolver_match.url_name == 'editar_empleado' or request.resolver_match.url_name == 'cambiar_estado_empleado' %}menu-open{% endif %}">
 
@@ -170,6 +173,36 @@
                     <a href="{% url 'vehiculo_listado' %}"
                           class="nav-link {% if request.resolver_match.url_name == 'vehiculo_listado' %}active{% endif %}">
                           <p>Listado Vehículo</p>
+                      </a>
+                  </li>
+                </ul>
+              </li>
+
+
+
+
+              
+               <!-- Gestión Vehículos -->
+              <li class="nav-item {% if 'gestion_vehiculos' in request.path %}menu-open{% endif %}">
+                <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
+                 <i class="nav-icon bi bi-truck"></i>
+                  <p>
+                    Gestion Vehículo
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="{% url 'permiso_circulacion' %}" class="nav-link {% if 'permiso_circulacion' in request.path %}active{% endif %}">
+                        <p>Permiso Circulación</p>
+                      </a>
+                    </li>
+
+                  <li class="nav-item">
+                    <a href="{% url 'gestion_listado' %}"
+                          class="nav-link {% if request.resolver_match.url_name == 'gestion_listado' %}active{% endif %}">
+                          <p>Listado  Permiso Circulación</p>
                       </a>
                   </li>
                 </ul>

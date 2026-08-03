@@ -202,8 +202,6 @@ def tarjeta_listado(request):
 
 
 
-
-
 def eliminar_tarjeta(request, id):
     registro = get_object_or_404(ControlTarjeta, id=id)
     registro.delete()

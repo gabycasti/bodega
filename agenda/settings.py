@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'formulario_bencina',
     'vehiculo',
     'documentos_empleados',
+    'gestion_vehiculos',
    
 ]
 
