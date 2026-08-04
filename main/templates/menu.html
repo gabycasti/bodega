@@ -153,7 +153,10 @@
 
 
                <!-- Vehículo -->
-              <li class="nav-item {% if 'vehiculo' in request.path %}menu-open{% endif %}">
+             <li class="nav-item 
+              {% if request.resolver_match.url_name == 'registro_vehiculo' or request.resolver_match.url_name == 'vehiculo_listado' %}
+              menu-open
+              {% endif %}">
                 <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
                  <i class="nav-icon bi bi-truck"></i>
                   <p>

@@ -6,7 +6,7 @@ from datetime import date, timedelta
 
 
 
-# LISTADO DOCUMENTOS
+
 # LISTADO DOCUMENTOS
 def listado_documentos(request):
     empleados = (
