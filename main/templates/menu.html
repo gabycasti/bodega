@@ -47,12 +47,6 @@
                 </a>
 
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                      <a href="{% url 'entrega_tarjeta' %}"
-                        class="nav-link {% if request.resolver_match.url_name == 'entrega_tarjeta' %}active{% endif %}">
-                          <p>Entrega Tarjeta</p>
-                      </a>
-                  </li>
                    <li class="nav-item">
                       <a href="{% url 'tarjeta_listado' %}"
                         class="nav-link {% if request.resolver_match.url_name == 'tarjeta_listado' %}active{% endif %}">
@@ -85,14 +79,6 @@
                     </a>
 
                     <ul class="nav nav-treeview">
-
-                        <li class="nav-item">
-                            <a href="{% url 'registro_empleado' %}"
-                              class="nav-link {% if request.resolver_match.url_name == 'registro_empleado' %}active{% endif %}">
-                                <p>Registro Empleado</p>
-                            </a>
-                        </li>
-
                         <li class="nav-item">
                             <a href="{% url 'empleado_listado' %}"
                               class="nav-link {% if request.resolver_match.url_name == 'empleado_listado' %}active{% endif %}">
@@ -120,30 +106,23 @@
                   <ul class="nav nav-treeview">
 
                       <li class="nav-item">
-                          <a href="{% url 'crear_documento' %}"
-                            class="nav-link {% if request.resolver_match.url_name == 'crear_documento' %}active{% endif %}">
-                              <p>Registro Documento</p>
-                          </a>
-                      </li>
-
-                      <li class="nav-item">
                           <a href="{% url 'listado_documentos' %}"
                             class="nav-link {% if request.resolver_match.url_name == 'listado_documentos' %}active{% endif %}">
-                              <p>Listado Aldunate</p>
+                              <p>Bodega Aldunate</p>
                           </a>
                       </li>
 
                       <li class="nav-item">
                           <a href="{% url 'listado_viel' %}"
                             class="nav-link {% if request.resolver_match.url_name == 'listado_viel' %}active{% endif %}">
-                              <p>Listado Viel</p>
+                              <p>Bodega Viel</p>
                           </a>
                       </li>
 
                       <li class="nav-item">
                           <a href="{% url 'listado_francisco' %}"
                             class="nav-link {% if request.resolver_match.url_name == 'listado_francisco' %}active{% endif %}">
-                              <p>Listado San Francisco</p>
+                              <p>Bodega San Francisco</p>
                           </a>
                       </li>
 
@@ -166,12 +145,6 @@
                 </a>
 
                   <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="{% url 'registro_vehiculo' %}" class="nav-link {% if 'registro_vehiculo' in request.path %}active{% endif %}">
-                        <p>Registro Vehículo</p>
-                      </a>
-                    </li>
-
                   <li class="nav-item">
                     <a href="{% url 'vehiculo_listado' %}"
                           class="nav-link {% if request.resolver_match.url_name == 'vehiculo_listado' %}active{% endif %}">
@@ -184,59 +157,39 @@
 
 
 
-              
-            <!-- Gestión Vehículos -->
-              <li class="nav-item {% if 'gestion_vehiculos' in request.path %}menu-open{% endif %}">
+          <!-- Gestión Vehículos -->
+            <li class="nav-item 
+                {% if request.resolver_match.url_name == 'gestion_listado' or request.resolver_match.url_name == 'listado_mantencion' %}menu-open{% endif %}">
 
-                  <a href="#" class="nav-link">
-                      <i class="nav-icon bi bi-truck"></i>
-                      <p>
-                          Gestión Vehículos
-                          <i class="nav-arrow bi bi-chevron-right"></i>
-                      </p>
-                  </a>
+                <a href="#" class="nav-link">
+                    <i class="nav-icon bi bi-truck"></i>
+                    <p>
+                        Gestión Vehículos
+                        <i class="nav-arrow bi bi-chevron-right"></i>
+                    </p>
+                </a>
 
-                  <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview">
 
-                      <!-- Permiso Circulación -->
-                      <li class="nav-item">
-                          <a href="{% url 'permiso_circulacion' %}"
-                            class="nav-link {% if request.resolver_match.url_name == 'permiso_circulacion' %}active{% endif %}">
-                              <p>Permiso Circulación</p>
-                          </a>
-                      </li>
+                    <!-- Listado Permiso -->
+                    <li class="nav-item">
+                        <a href="{% url 'gestion_listado' %}"
+                          class="nav-link {% if request.resolver_match.url_name == 'gestion_listado' %}active{% endif %}">
+                            <p>Permiso Circulación</p>
+                        </a>
+                    </li>
 
-                      <!-- Listado Permiso -->
-                      <li class="nav-item">
-                          <a href="{% url 'gestion_listado' %}"
-                            class="nav-link {% if request.resolver_match.url_name == 'gestion_listado' %}active{% endif %}">
-                              <p>Listado Permiso Circulación</p>
-                          </a>
-                      </li>
+                    <!-- Listado Mantenciones -->
+                    <li class="nav-item">
+                        <a href="{% url 'listado_mantencion' %}"
+                          class="nav-link {% if request.resolver_match.url_name == 'listado_mantencion' %}active{% endif %}">
+                            <p>Mantención Vehículos</p>
+                        </a>
+                    </li>
 
+                </ul>
+            </li>
 
-                         <!-- Agregar  Mantenciones -->
-                      <li class="nav-item">
-                          <a href="{% url 'agregar_mantencion' %}"
-                            class="nav-link {% if request.resolver_match.url_name == 'agregar_mantencion' %}active{% endif %}">
-                              <p>Agregar Mantención Vehículos</p>
-                          </a>
-                      </li>
-
-
-                     
-
-                      <!-- Listado Mantenciones -->
-                      <li class="nav-item">
-                          <a href="{% url 'listado_mantencion' %}"
-                            class="nav-link {% if request.resolver_match.url_name == 'listado_mantencion' %}active{% endif %}">
-                              <p>Listado Mantención Vehículos</p>
-                          </a>
-                      </li>
-
-                  </ul>
-
-              </li>
 
             </ul>
             <!--end::Sidebar Menu-->

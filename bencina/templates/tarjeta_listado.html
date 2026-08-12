@@ -42,14 +42,32 @@
 
 <div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
      <div class="row  ms-3 me-3">
-          <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
-               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Listado Tarjetas</h3>
-                <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
-                 <br>
-                 <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
-                <li style="margin-right: 5px;"><a href="{% url 'entrega_tarjeta' %}" class=" me-2 link-sin-color"></i> Ingresa Tarjeta ></a></li>
-               </ol>
-          </section>
+         <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+
+                <h3 style="margin: 10px;">
+                    <i class="fa fa-user icon-title"></i> Listado Tarjeta
+                </h3>
+
+                <div style="display: flex; align-items: center; gap: 10px;">
+
+                    <!-- BOTÓN NUEVO -->
+                    <a href="{% url 'entrega_tarjeta' %}" class="btn btn-primary btn-sm">
+                        <i class="bi bi-plus-circle"></i> Nuevo
+                    </a>
+
+                    <!-- BREADCRUMB -->
+                    <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
+                        <li style="margin-right: 5px;">
+                            <a href="{% url 'dashboard' %}" class="me-2 link-sin-color">
+                                <i class="fa fa-home"></i> Inicio 
+                            </a>
+                        </li>
+
+                    </ol>
+
+                </div>
+
+        </section>
           <hr style="border: 2px solid #3c8dbc;">
           
             <div class="table-responsive">

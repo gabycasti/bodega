@@ -42,14 +42,32 @@
 
 <div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
      <div class="row  ms-3 me-3">
-          <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
-               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Listado Permiso Circulación</h3>
+         <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+
+            <h3 style="margin: 10px;">
+                <i class="fa fa-user icon-title"></i> Listado Permiso Circulación
+            </h3>
+
+            <div style="display: flex; align-items: center; gap: 10px;">
+
+                <!-- BOTÓN NUEVO -->
+                <a href="{% url 'permiso_circulacion' %}" class="btn btn-primary btn-sm">
+                    <i class="bi bi-plus-circle"></i> Nuevo
+                </a>
+
+                <!-- BREADCRUMB -->
                 <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
-                 <br>
-                 <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
-                <li style="margin-right: 5px;"><a href="{% url 'permiso_circulacion' %}" class=" me-2 link-sin-color"></i> Ingresa Permiso ></a></li>
-               </ol>
-          </section>
+                    <li style="margin-right: 5px;">
+                        <a href="{% url 'dashboard' %}" class="me-2 link-sin-color">
+                            <i class="fa fa-home"></i> Inicio 
+                        </a>
+                    </li>
+
+                </ol>
+
+            </div>
+
+        </section>
           <hr style="border: 2px solid #3c8dbc;">
           
             <div class="table-responsive">
@@ -62,7 +80,7 @@
                 </div>
                 {% endif %}
                
-                <table class="table table-bordered table-hover align-middle small-text-table table_general">
+                <table class="table table-bordered table-hover align-middle small-text-table table_general tabla-permisos">
                         <thead class="table-primary text-center">
                             <tr>
                                 <th>#</th>
@@ -214,7 +232,7 @@ $(document).on("click", ".btn-eliminar", function() {
 });
 
 
-// 🔥 AQUÍ VA LO NUEVO
+//
 function mostrarImagen(btn) {
     let url = btn.getAttribute('data-url');
 
@@ -225,19 +243,15 @@ function mostrarImagen(btn) {
 
 
 
-function cargarBencinas() {
-    fetch(window.location.href)
-        .then(response => response.text())
-        .then(html => {
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(html, 'text/html');
+if ($('.tabla-permisos').length) {
 
-            let nuevaTabla = doc.querySelector('tbody');
-            document.querySelector('tbody').innerHTML = nuevaTabla.innerHTML;
-        });
+    $('.tabla-permisos_wrapper .dataTables_filter').prepend(`
+        <a href="{% url 'permiso_circulacion' %}" class="btn btn-primary btn-sm me-3">
+            <i class="bi bi-plus-circle"></i> Nuevo
+        </a>
+    `);
+
 }
-
-
 
 
 </script>
