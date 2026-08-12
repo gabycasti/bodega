@@ -28,14 +28,16 @@ def vehiculo_listado(request):
 
 
 
-
-#REGISTRO VEHICULO
+# REGISTRO VEHICULO
 def registro_vehiculo(request):
     if request.method == 'POST':
         patente = request.POST.get('patente')
         marca = request.POST.get('marca')
         modelo = request.POST.get('modelo')
         carga = request.POST.get('carga')
+        propietario = request.POST.get('propietario')
+        municipalidad = request.POST.get('municipalidad')
+        lugar_mantencion = request.POST.get('lugar_mantencion')
 
         activo = request.POST.get('activo') == 'on'
 
@@ -44,6 +46,9 @@ def registro_vehiculo(request):
             marca=marca,
             carga=carga,
             modelo=modelo,
+            propietario=propietario,
+            municipalidad=municipalidad,
+            lugar_mantencion=lugar_mantencion,
             activo=activo
         )
 
@@ -55,7 +60,7 @@ def registro_vehiculo(request):
 
 
 
-#EDITAR VEHICULO
+# EDITAR VEHICULO
 def editar_vehiculo(request, id):
     vehiculo = get_object_or_404(Vehiculo, id=id)
 
@@ -64,6 +69,9 @@ def editar_vehiculo(request, id):
         vehiculo.marca = request.POST.get('marca')
         vehiculo.modelo = request.POST.get('modelo')
         vehiculo.carga = request.POST.get('carga')
+        vehiculo.propietario = request.POST.get('propietario')
+        vehiculo.municipalidad = request.POST.get('municipalidad')
+        vehiculo.lugar_mantencion = request.POST.get('lugar_mantencion')
         vehiculo.activo = request.POST.get('activo') == 'on'
 
         vehiculo.save()
@@ -73,6 +81,10 @@ def editar_vehiculo(request, id):
     return render(request, 'editar_vehiculo.html', {
         'vehiculo': vehiculo
     })
+
+
+
+
 
 
 #CAMBIAR EL ESTADO DEL VEHICULO

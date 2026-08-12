@@ -93,6 +93,53 @@ table.dataTable {
                       </div>
                   </div>
 
+
+
+                  <!-- PROPIETARIO -->
+                    <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Propietario</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input 
+                        type="text" 
+                        name="propietario" 
+                        class="form-control"
+                        value="{{ vehiculo.propietario|default:'' }}"
+                        >
+                    </div>
+                    </div>
+
+                    <!-- MUNICIPALIDAD -->
+                    <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Municipalidad</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input 
+                        type="text" 
+                        name="municipalidad" 
+                        class="form-control"
+                        value="{{ vehiculo.municipalidad|default:'' }}"
+                        >
+                    </div>
+                    </div>
+
+                    <!-- LUGAR DE MANTENCIÓN -->
+                    <div class="row mb-3">
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Lugar de mantención</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input 
+                        type="text" 
+                        name="lugar_mantencion" 
+                        class="form-control"
+                        value="{{ vehiculo.lugar_mantencion|default:'' }}"
+                        >
+                    </div>
+                    </div>
+
                   <!-- ACTIVO -->
                   <div class="row mb-3">
                       <div class="col-md-4 text-end">
@@ -104,6 +151,8 @@ table.dataTable {
                       </div>
                   </div>
 
+
+                  
                   <!-- Botones -->
                   <div class="row mb-3">
                       <div class="col-md-4"></div>

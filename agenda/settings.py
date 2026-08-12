@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'vehiculo',
     'documentos_empleados',
     'gestion_vehiculos',
+    'mantencion',
    
 ]
 

@@ -185,30 +185,57 @@
 
 
               
-               <!-- Gestión Vehículos -->
+            <!-- Gestión Vehículos -->
               <li class="nav-item {% if 'gestion_vehiculos' in request.path %}menu-open{% endif %}">
-                <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
-                 <i class="nav-icon bi bi-truck"></i>
-                  <p>
-                    Gestion Vehículo
-                    <i class="nav-arrow bi bi-chevron-right"></i>
-                  </p>
-                </a>
+
+                  <a href="#" class="nav-link">
+                      <i class="nav-icon bi bi-truck"></i>
+                      <p>
+                          Gestión Vehículos
+                          <i class="nav-arrow bi bi-chevron-right"></i>
+                      </p>
+                  </a>
 
                   <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="{% url 'permiso_circulacion' %}" class="nav-link {% if 'permiso_circulacion' in request.path %}active{% endif %}">
-                        <p>Permiso Circulación</p>
-                      </a>
-                    </li>
 
-                  <li class="nav-item">
-                    <a href="{% url 'gestion_listado' %}"
-                          class="nav-link {% if request.resolver_match.url_name == 'gestion_listado' %}active{% endif %}">
-                          <p>Listado  Permiso Circulación</p>
-                      </a>
-                  </li>
-                </ul>
+                      <!-- Permiso Circulación -->
+                      <li class="nav-item">
+                          <a href="{% url 'permiso_circulacion' %}"
+                            class="nav-link {% if request.resolver_match.url_name == 'permiso_circulacion' %}active{% endif %}">
+                              <p>Permiso Circulación</p>
+                          </a>
+                      </li>
+
+                      <!-- Listado Permiso -->
+                      <li class="nav-item">
+                          <a href="{% url 'gestion_listado' %}"
+                            class="nav-link {% if request.resolver_match.url_name == 'gestion_listado' %}active{% endif %}">
+                              <p>Listado Permiso Circulación</p>
+                          </a>
+                      </li>
+
+
+                         <!-- Agregar  Mantenciones -->
+                      <li class="nav-item">
+                          <a href="{% url 'agregar_mantencion' %}"
+                            class="nav-link {% if request.resolver_match.url_name == 'agregar_mantencion' %}active{% endif %}">
+                              <p>Agregar Mantención Vehículos</p>
+                          </a>
+                      </li>
+
+
+                     
+
+                      <!-- Listado Mantenciones -->
+                      <li class="nav-item">
+                          <a href="{% url 'listado_mantencion' %}"
+                            class="nav-link {% if request.resolver_match.url_name == 'listado_mantencion' %}active{% endif %}">
+                              <p>Listado Mantención Vehículos</p>
+                          </a>
+                      </li>
+
+                  </ul>
+
               </li>
 
             </ul>
