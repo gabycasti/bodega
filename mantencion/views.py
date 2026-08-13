@@ -3,18 +3,80 @@ from .models import Mantencion
 from vehiculo.models import Vehiculo
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
+from datetime import date, timedelta
 
 
 
 
-#LISTADO MANTENCIÓN
+# LISTADO MANTENCIÓN
 
 def listado_mantencion(request):
 
-    mantenciones = Mantencion.objects.select_related("vehiculo").all()
+    mantenciones = Mantencion.objects.select_related(
+        "vehiculo"
+    ).prefetch_related(
+        "vehiculo__permisos_circulacion"
+    ).all()
 
-    return render( request, "listado_mantencion.html",
-        {"mantenciones": mantenciones,} )
+    hoy = date.today()
+    limite = hoy + timedelta(days=30)
+
+    for p in mantenciones:
+
+        # REVISIÓN TÉCNICA
+        p.rt_proxima = False
+        p.rt_vencida = False
+
+        if p.fecha_revision_tecnica:
+
+            if p.fecha_revision_tecnica < hoy:
+                p.rt_vencida = True
+
+            elif p.fecha_revision_tecnica <= limite:
+                p.rt_proxima = True
+
+
+        # GASES
+        p.gases_proxima = False
+        p.gases_vencida = False
+
+        if p.fecha_gases:
+
+            if p.fecha_gases < hoy:
+                p.gases_vencida = True
+
+            elif p.fecha_gases <= limite:
+                p.gases_proxima = True
+
+
+        # CAMBIO DE ACEITE
+        p.aceite_1000 = False
+        p.aceite_500 = False
+        p.aceite_300 = False
+        p.aceite_vencido = False
+
+        if p.kilometraje is not None and p.kilometraje_cambio_aceite is not None:
+
+            faltan = p.kilometraje_cambio_aceite - p.kilometraje
+
+            if faltan <= 0:
+                p.aceite_vencido = True
+
+            elif faltan <= 300:
+                p.aceite_300 = True
+
+            elif faltan <= 500:
+                p.aceite_500 = True
+
+            elif faltan <= 1000:
+                p.aceite_1000 = True
+
+
+    return render(
+        request,
+        "listado_mantencion.html",
+        {"mantenciones": mantenciones}
+    )
 
 
 

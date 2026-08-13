@@ -6,7 +6,6 @@ class Vehiculo(models.Model):
     modelo = models.CharField(max_length=50, blank=True, null=True)
     carga = models.CharField(max_length=50, blank=True, null=True)
     propietario = models.CharField(max_length=100, blank=True, null=True)
-    municipalidad = models.CharField(max_length=100, blank=True, null=True)
     lugar_mantencion = models.CharField(max_length=150, blank=True, null=True)
     activo = models.BooleanField(default=True)
 

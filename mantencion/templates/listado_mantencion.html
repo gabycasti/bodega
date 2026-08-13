@@ -18,8 +18,6 @@
   }
 
 
-
-
 .dataTables_wrapper .dataTables_filter {
     margin-bottom: 15px;
 }
@@ -38,10 +36,30 @@
     border-bottom: 2px solid #dee2e6 !important;
 }
 
+
+.propietario-bancos {
+        background-color: #5b9bd5 !important;
+        color: white;
+        font-weight: 600;
+    }
+
+    .propietario-chile {
+        background-color: #70ad47 !important;
+        color: white;
+        font-weight: 600;
+    }
+
+    .propietario-check {
+        background-color: #ed7d31 !important;
+        color: white;
+        font-weight: 600;
+    }
+
 </style>
 
-<div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
-     <div class="row  ms-3 me-3">
+<div class="main-container" style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
+
+    <div class="row ms-3 me-3">
 
         <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
 
@@ -58,9 +76,10 @@
 
                 <!-- BREADCRUMB -->
                 <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
+
                     <li style="margin-right: 5px;">
                         <a href="{% url 'dashboard' %}" class="me-2 link-sin-color">
-                            <i class="fa fa-home"></i> Inicio 
+                            <i class="fa fa-home"></i> Inicio
                         </a>
                     </li>
 
@@ -71,19 +90,71 @@
         </section>
 
 
-          <hr style="border: 2px solid #3c8dbc;">
-          
-            <div class="table-responsive">
-                {% if messages %}
-                <div class="alert alert-success custom-alert d-flex justify-content-between align-items-center" id="success-message" role="alert">
-                    {% for message in messages %}
-                        <p class="mb-0">{{ message }}</p> 
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    {% endfor %}
-                </div>
-                {% endif %}
-               
-               <table class="table table-bordered table-hover align-middle small-text-table table_general">
+        <hr style="border: 2px solid #3c8dbc;">
+        
+
+       <!-- LEYENDA DE ALERTAS -->
+            <div class="mb-3"
+                style="display: flex; align-items: center; gap: 25px; flex-wrap: wrap;">
+
+                <!-- ALERTAS POR FECHA -->
+                <span style="font-weight: 600;">
+                    <i class="bi bi-bell-fill" style="color: #f0ad4e;"></i>
+                    Próximo vencimiento (30 días)
+                </span>
+
+                <span style="font-weight: 600;">
+                    <i class="bi bi-bell-fill" style="color: red;"></i>
+                    Vencido
+                </span>
+
+                <!-- SEPARADOR -->
+                <span style="color: #999;">|</span>
+
+                <!-- CAMBIO DE ACEITE -->
+                <span style="font-weight: 600;">
+                    <i class="bi bi-bell-fill" style="color: #ffc107;"></i>
+                    Cambio aceite: 1.000 km
+                </span>
+
+                <span style="font-weight: 600;">
+                    <i class="bi bi-bell-fill" style="color: #f0ad4e;"></i>
+                    Cambio aceite: 500 km
+                </span>
+
+                <span style="font-weight: 600;">
+                    <i class="bi bi-bell-fill" style="color: red;"></i>
+                    Cambio aceite: 300 km / vencido
+                </span>
+
+            </div>
+
+        <div class="table-responsive">
+
+            {% if messages %}
+
+            <div class="alert alert-success custom-alert d-flex justify-content-between align-items-center"
+                 id="success-message"
+                 role="alert">
+
+                {% for message in messages %}
+
+                    <p class="mb-0">{{ message }}</p>
+
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="alert"
+                            aria-label="Close">
+                    </button>
+
+                {% endfor %}
+
+            </div>
+
+            {% endif %}
+
+
+            <table class="table table-bordered table-hover align-middle small-text-table table_general">
 
                 <thead class="table-primary text-center">
 
@@ -93,9 +164,19 @@
 
                         <th>Patente</th>
 
+                        <th>Propietario</th>
+
                         <th>Marca</th>
 
                         <th>Modelo</th>
+
+                        <th>Carga</th>
+
+                        <th>Permiso Circulación</th>
+
+                        <th>Archivo Permiso</th>
+
+                        <th>Municipalidad</th>
 
                         <th>Fecha RT</th>
 
@@ -108,6 +189,8 @@
                         <th>KM</th>
 
                         <th>KM Cambio Aceite</th>
+
+                        <th>Lugar Mantención</th>
 
                         <th>Observación</th>
 
@@ -123,31 +206,47 @@
                 <tbody>
 
                     {% for p in mantenciones %}
+
+                    {% with permiso=p.vehiculo.permisos_circulacion.first %}
+
                     <tr>
+
+                        <!-- NÚMERO -->
                         <td>
                             {{ forloop.counter }}
                         </td>
+
 
                         <!-- PATENTE -->
                         <td class="text-center">
                             {{ p.vehiculo.patente }}
                         </td>
 
+
+                        <!-- PROPIETARIO -->
+
+                        <td class="text-center
+                            {% if p.vehiculo.propietario == 'Bancos Estado' %}
+                                propietario-bancos
+                            {% elif p.vehiculo.propietario == 'Banco de Chile' %}
+                                propietario-chile
+                            {% elif p.vehiculo.propietario == 'Transportes Check' %}
+                                propietario-check
+                            {% endif %}">
+
+                            {% if p.vehiculo.propietario %}
+                                {{ p.vehiculo.propietario }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+
                         <!-- MARCA -->
                         <td>
-                            {{ p.vehiculo.marca }}
-                        </td>
 
-                        <!-- MODELO -->
-                        <td>
-                            {{ p.vehiculo.modelo }}
-                        </td>
-
-                        <!-- FECHA RT -->
-                        <td class="text-center">
-
-                            {% if p.fecha_revision_tecnica %}
-                                {{ p.fecha_revision_tecnica|date:"d/m/Y" }}
+                            {% if p.vehiculo.marca %}
+                                {{ p.vehiculo.marca }}
                             {% else %}
                                 -
                             {% endif %}
@@ -155,15 +254,55 @@
                         </td>
 
 
-                        <!-- ARCHIVO RT -->
+                        <!-- MODELO -->
+                        <td>
+
+                            {% if p.vehiculo.modelo %}
+                                {{ p.vehiculo.modelo }}
+                            {% else %}
+                                -
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- CARGA -->
+                        <td>
+
+                            {% if p.vehiculo.carga %}
+                                {{ p.vehiculo.carga }}
+                            {% else %}
+                                -
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- PERMISO CIRCULACIÓN -->
                         <td class="text-center">
 
-                            {% if p.archivo_revision_tecnica %}
+                            {% if permiso %}
 
-                                <a href="{{ p.archivo_revision_tecnica.url }}"
-                                target="_blank"
-                                class="btn btn-info btn-sm"
-                                title="Ver Revisión Técnica">
+                                {{ permiso.fecha_vencimiento|date:"d/m/Y" }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- ARCHIVO PERMISO -->
+                        <td class="text-center">
+
+                            {% if permiso and permiso.archivo %}
+
+                                <a href="{{ permiso.archivo.url }}"
+                                   target="_blank"
+                                   class="btn btn-info btn-sm"
+                                   title="Ver Permiso de Circulación">
 
                                     <i class="bi bi-file-earmark-pdf"></i>
 
@@ -178,17 +317,108 @@
                         </td>
 
 
-                        <!-- GASES -->
-                        <td class="text-center">
+                        <!-- MUNICIPALIDAD -->
+                        <td>
 
-                            {% if p.fecha_gases %}
-                                {{ p.fecha_gases|date:"d/m/Y" }}
+                            {% if permiso and permiso.municipalidad %}
+
+                                {{ permiso.municipalidad }}
+
                             {% else %}
+
                                 -
+
                             {% endif %}
 
                         </td>
 
+
+                       <!-- FECHA RT -->
+                            <td class="text-center">
+
+                                {% if p.fecha_revision_tecnica %}
+
+                                    {% if p.rt_vencida %}
+
+                                        <span style="color: red; font-weight: bold;">
+                                            🔔 {{ p.fecha_revision_tecnica|date:"d/m/Y" }}
+                                        </span>
+
+                                    {% elif p.rt_proxima %}
+
+                                        <span style="color: #f0ad4e; font-weight: bold;">
+                                            🔔 {{ p.fecha_revision_tecnica|date:"d/m/Y" }}
+                                        </span>
+
+                                    {% else %}
+
+                                        {{ p.fecha_revision_tecnica|date:"d/m/Y" }}
+
+                                    {% endif %}
+
+                                {% else %}
+
+                                    -
+
+                                {% endif %}
+
+                            </td>
+
+                        <!-- ARCHIVO RT -->
+                        <td class="text-center">
+
+                            {% if p.archivo_revision_tecnica %}
+
+                                <a href="{{ p.archivo_revision_tecnica.url }}"
+                                   target="_blank"
+                                   class="btn btn-info btn-sm"
+                                   title="Ver Revisión Técnica">
+
+                                    <i class="bi bi-file-earmark-pdf"></i>
+
+                                </a>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+
+
+                     <!-- GASES -->
+                        <td class="text-center">
+
+                            {% if p.fecha_gases %}
+
+                                {% if p.gases_vencida %}
+
+                                    <span style="color: red; font-weight: bold;">
+                                        🔔 {{ p.fecha_gases|date:"d/m/Y" }}
+                                    </span>
+
+                                {% elif p.gases_proxima %}
+
+                                    <span style="color: #f0ad4e; font-weight: bold;">
+                                        🔔 {{ p.fecha_gases|date:"d/m/Y" }}
+                                    </span>
+
+                                {% else %}
+
+                                    {{ p.fecha_gases|date:"d/m/Y" }}
+
+                                {% endif %}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
 
                         <!-- ARCHIVO GASES -->
                         <td class="text-center">
@@ -196,9 +426,9 @@
                             {% if p.archivo_gases %}
 
                                 <a href="{{ p.archivo_gases.url }}"
-                                target="_blank"
-                                class="btn btn-info btn-sm"
-                                title="Ver documento de gases">
+                                   target="_blank"
+                                   class="btn btn-info btn-sm"
+                                   title="Ver documento de gases">
 
                                     <i class="bi bi-file-earmark-pdf"></i>
 
@@ -217,21 +447,89 @@
                         <td class="text-center">
 
                             {% if p.kilometraje %}
+
                                 {{ p.kilometraje }}
+
                             {% else %}
+
                                 -
+
                             {% endif %}
 
                         </td>
 
 
-                        <!-- KM CAMBIO ACEITE -->
+                     <!-- KM CAMBIO ACEITE -->
                         <td class="text-center">
 
                             {% if p.kilometraje_cambio_aceite %}
-                                {{ p.kilometraje_cambio_aceite }}
+
+                                {% if p.aceite_vencido %}
+
+                                    <div style="color: red; font-weight: bold;">
+                                        <i class="bi bi-bell-fill"></i>
+                                    </div>
+
+                                    <span style="color: red; font-weight: bold;">
+                                        {{ p.kilometraje_cambio_aceite }}
+                                    </span>
+
+                                {% elif p.aceite_300 %}
+
+                                    <div style="color: red; font-weight: bold;">
+                                        <i class="bi bi-bell-fill"></i>
+                                    </div>
+
+                                    <span style="color: red; font-weight: bold;">
+                                        {{ p.kilometraje_cambio_aceite }}
+                                    </span>
+
+                                {% elif p.aceite_500 %}
+
+                                    <div style="color: #f0ad4e; font-weight: bold;">
+                                        <i class="bi bi-bell-fill"></i>
+                                    </div>
+
+                                    <span style="color: #f0ad4e; font-weight: bold;">
+                                        {{ p.kilometraje_cambio_aceite }}
+                                    </span>
+
+                                {% elif p.aceite_1000 %}
+
+                                    <div style="color: #ffc107; font-weight: bold;">
+                                        <i class="bi bi-bell-fill"></i>
+                                    </div>
+
+                                    <span style="color: #ffc107; font-weight: bold;">
+                                        {{ p.kilometraje_cambio_aceite }}
+                                    </span>
+
+                                {% else %}
+
+                                    {{ p.kilometraje_cambio_aceite }}
+
+                                {% endif %}
+
                             {% else %}
+
                                 -
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <!-- LUGAR MANTENCIÓN -->
+                        <td>
+
+                            {% if p.vehiculo.lugar_mantencion %}
+
+                                {{ p.vehiculo.lugar_mantencion }}
+
+                            {% else %}
+
+                                -
+
                             {% endif %}
 
                         </td>
@@ -241,9 +539,13 @@
                         <td>
 
                             {% if p.observacion %}
+
                                 {{ p.observacion }}
+
                             {% else %}
+
                                 -
+
                             {% endif %}
 
                         </td>
@@ -253,8 +555,8 @@
                         <td class="text-center">
 
                             <a href="{% url 'editar_mantencion' p.id %}"
-                            class="btn btn-warning btn-sm"
-                            title="Editar">
+                               class="btn btn-warning btn-sm"
+                               title="Editar">
 
                                 <i class="bi bi-pencil-square"></i>
 
@@ -267,9 +569,9 @@
                         <td class="text-center">
 
                             <a href="{% url 'eliminar_mantencion' p.id %}"
-                            class="btn btn-danger btn-sm"
-                            title="Eliminar"
-                            onclick="return confirm('¿Seguro que deseas eliminar la mantención del vehículo {{ p.vehiculo.patente }}?')">
+                               class="btn btn-danger btn-sm"
+                               title="Eliminar"
+                               onclick="return confirm('¿Seguro que deseas eliminar la mantención del vehículo {{ p.vehiculo.patente }}?')">
 
                                 <i class="bi bi-trash"></i>
 
@@ -279,12 +581,14 @@
 
                     </tr>
 
+                    {% endwith %}
+
 
                     {% empty %}
 
                     <tr>
 
-                        <td colspan="13" class="text-center">
+                        <td colspan="19" class="text-center">
                             No hay mantenciones registradas.
                         </td>
 
@@ -296,10 +600,11 @@
 
             </table>
 
-        </div>          
-    </div>
-</div>
+        </div>
 
+    </div>
+
+</div>
 
 
 
