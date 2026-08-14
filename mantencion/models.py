@@ -59,3 +59,39 @@ class Mantencion(models.Model):
     class Meta:
         db_table = "mantenciones"
         
+
+
+
+
+
+## Telegram
+class TelegramDestinatario(models.Model):
+    nombre = models.CharField(max_length=100)
+    chat_id = models.CharField(max_length=50, unique=True)
+    activo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.nombre
+
+
+
+
+class TelegramAvisoAceite(models.Model):
+    vehiculo = models.ForeignKey(
+        Vehiculo,
+        on_delete=models.CASCADE
+    )
+
+    tipo_aviso = models.CharField(
+        max_length=20
+    )
+
+    fecha_envio = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        unique_together = ("vehiculo", "tipo_aviso")
+
+    def __str__(self):
+        return f"{self.vehiculo} - {self.tipo_aviso}"
