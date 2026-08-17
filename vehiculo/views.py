@@ -36,7 +36,7 @@ def registro_vehiculo(request):
         modelo = request.POST.get('modelo')
         carga = request.POST.get('carga')
         propietario = request.POST.get('propietario')
-        municipalidad = request.POST.get('municipalidad')
+        #municipalidad = request.POST.get('municipalidad')
         lugar_mantencion = request.POST.get('lugar_mantencion')
 
         activo = request.POST.get('activo') == 'on'
@@ -47,7 +47,7 @@ def registro_vehiculo(request):
             carga=carga,
             modelo=modelo,
             propietario=propietario,
-            municipalidad=municipalidad,
+           # municipalidad=municipalidad,
             lugar_mantencion=lugar_mantencion,
             activo=activo
         )
@@ -70,7 +70,7 @@ def editar_vehiculo(request, id):
         vehiculo.modelo = request.POST.get('modelo')
         vehiculo.carga = request.POST.get('carga')
         vehiculo.propietario = request.POST.get('propietario')
-        vehiculo.municipalidad = request.POST.get('municipalidad')
+        #vehiculo.municipalidad = request.POST.get('municipalidad')
         vehiculo.lugar_mantencion = request.POST.get('lugar_mantencion')
         vehiculo.activo = request.POST.get('activo') == 'on'
 
