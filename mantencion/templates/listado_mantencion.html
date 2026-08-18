@@ -164,11 +164,11 @@
 
                         <th>Patente</th>
 
-                        <th>Propietario</th>
-
                         <th>Marca</th>
 
                         <th>Modelo</th>
+
+                         <th>Propietario</th>
 
                         <th>Carga</th>
 
@@ -223,24 +223,6 @@
                         </td>
 
 
-                        <!-- PROPIETARIO -->
-
-                        <td class="text-center
-                            {% if p.vehiculo.propietario == 'Bancos Estado' %}
-                                propietario-bancos
-                            {% elif p.vehiculo.propietario == 'Banco de Chile' %}
-                                propietario-chile
-                            {% elif p.vehiculo.propietario == 'Transportes Check' %}
-                                propietario-check
-                            {% endif %}">
-
-                            {% if p.vehiculo.propietario %}
-                                {{ p.vehiculo.propietario }}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
-
 
                         <!-- MARCA -->
                         <td>
@@ -266,15 +248,33 @@
                         </td>
 
 
+
+                        <!-- PROPIETARIO -->
+
+                        <td class="text-center
+                            {% if p.vehiculo.propietario == 'Bancos Estado' %}
+                                propietario-bancos
+                            {% elif p.vehiculo.propietario == 'Banco de Chile' %}
+                                propietario-chile
+                            {% elif p.vehiculo.propietario == 'Transportes Check' %}
+                                propietario-check
+                            {% endif %}">
+
+                            {% if p.vehiculo.propietario %}
+                                {{ p.vehiculo.propietario }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+
                         <!-- CARGA -->
                         <td>
-
                             {% if p.vehiculo.carga %}
                                 {{ p.vehiculo.carga }}
                             {% else %}
                                 -
                             {% endif %}
-
                         </td>
 
 
@@ -290,7 +290,6 @@
                                 -
 
                             {% endif %}
-
                         </td>
 
 
