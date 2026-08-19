@@ -251,20 +251,34 @@
 
                         <!-- PROPIETARIO -->
 
-                        <td class="text-center
-                            {% if p.vehiculo.propietario == 'Bancos Estado' %}
-                                propietario-bancos
-                            {% elif p.vehiculo.propietario == 'Banco de Chile' %}
-                                propietario-chile
-                            {% elif p.vehiculo.propietario == 'Transportes Check' %}
-                                propietario-check
-                            {% endif %}">
+                       <td class="text-center">
 
-                            {% if p.vehiculo.propietario %}
-                                {{ p.vehiculo.propietario }}
+                            {% if p.vehiculo.propietario == "Bancos Estado" %}
+
+                                <span class="badge propietario-bancos">
+                                    {{ p.vehiculo.propietario }}
+                                </span>
+
+                            {% elif p.vehiculo.propietario == "Banco de Chile" %}
+
+                                <span class="badge propietario-chile">
+                                    {{ p.vehiculo.propietario }}
+                                </span>
+
+                            {% elif p.vehiculo.propietario == "Transportes Check" %}
+
+                                <span class="badge propietario-check">
+                                    {{ p.vehiculo.propietario }}
+                                </span>
+
                             {% else %}
-                                -
+
+                                <span class="badge bg-secondary">
+                                    {{ p.vehiculo.propietario|default:"-" }}
+                                </span>
+
                             {% endif %}
+
                         </td>
 
 
