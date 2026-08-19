@@ -38,20 +38,20 @@
 
 
 .propietario-bancos {
-    background-color: #facc15 !important;
-    color: #000;
-    font-weight: bold;
-}
-
-.propietario-chile {
-    background-color: #dc2626 !important;
-    color: white;
+    background-color: #fef3a6 !important;
+    color: #5c4a00;
     font-weight: bold;
 }
 
 .propietario-check {
-    background-color: #1e40af !important;
-    color: white;
+    background-color: #a8c7f5 !important;
+    color: #173b70;
+    font-weight: bold;
+}
+
+.propietario-check {
+    background-color: #8bb5f2 !important;
+    color: #173b70;
     font-weight: bold;
 }
 </style>
@@ -253,7 +253,7 @@
                       <td class="text-center
                             {% if p.vehiculo.propietario == 'BANCO ESTADO' %}
                                 propietario-bancos
-                            {% elif p.vehiculo.propietario == 'BANCO DE CHILE' %}
+                            {% elif p.vehiculo.propietario == 'BANCO CHILE' %}
                                 propietario-chile
                             {% elif p.vehiculo.propietario == 'TRANSPORTES CHECK SPA.' %}
                                 propietario-check
