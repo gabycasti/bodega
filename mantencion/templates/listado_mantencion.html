@@ -212,7 +212,7 @@
                     <tr>
 
                         <!-- NÚMERO -->
-                        <td>
+                        <td class="text-center">
                             {{ forloop.counter }}
                         </td>
 
@@ -225,7 +225,7 @@
 
 
                         <!-- MARCA -->
-                        <td>
+                        <td class="text-center">
 
                             {% if p.vehiculo.marca %}
                                 {{ p.vehiculo.marca }}
@@ -237,7 +237,7 @@
 
 
                         <!-- MODELO -->
-                        <td>
+                        <td class="text-center">
 
                             {% if p.vehiculo.modelo %}
                                 {{ p.vehiculo.modelo }}
@@ -269,7 +269,7 @@
 
 
                         <!-- CARGA -->
-                        <td>
+                        <td class="text-center">
                             {% if p.vehiculo.carga %}
                                 {{ p.vehiculo.carga }}
                             {% else %}
@@ -317,7 +317,7 @@
 
 
                         <!-- MUNICIPALIDAD -->
-                        <td>
+                        <td class="text-center">
 
                             {% if permiso and permiso.municipalidad %}
 
@@ -519,7 +519,7 @@
 
 
                         <!-- LUGAR MANTENCIÓN -->
-                        <td>
+                        <td class="text-center">
 
                             {% if p.vehiculo.lugar_mantencion %}
 
@@ -535,7 +535,7 @@
 
 
                         <!-- OBSERVACIÓN -->
-                        <td>
+                        <td class="text-center">
 
                             {% if p.observacion %}
 
