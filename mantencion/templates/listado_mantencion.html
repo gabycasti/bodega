@@ -172,15 +172,7 @@
 
                         <th class="text-center">Modelo</th>
 
-                         <th class="text-center">Propietario</th>
-
-                        <th class="text-center">Carga</th>
-
-                        <th class="text-center">Permiso Circulación</th>
-
-                        <th class="text-center">Archivo Permiso</th>
-
-                        <th class="text-center">Municipalidad</th>
+                        <th class="text-center">Propietario</th>
 
                         <th class="text-center">Fecha RT</th>
 
@@ -190,9 +182,17 @@
 
                         <th class="text-center">Archivo Gases</th>
 
+                        <th class="text-center">Carga</th>
+
+                        <th class="text-center">Permiso Circulación</th>
+
+                        <th class="text-center">Archivo P</th>
+
                         <th class="text-center">KM</th>
 
                         <th class="text-center">KM Cambio Aceite</th>
+
+                        <th class="text-center">Municipalidad</th>
 
                         <th class="text-center">Lugar Mantención</th>
 
@@ -272,71 +272,10 @@
 
                         </td>
 
-                        <!-- CARGA -->
-                        <td class="text-center">
-                            {% if p.vehiculo.carga %}
-                                {{ p.vehiculo.carga }}
-                            {% else %}
-                                -
-                            {% endif %}
-                        </td>
 
 
-                        <!-- PERMISO CIRCULACIÓN -->
-                        <td class="text-center">
 
-                            {% if permiso %}
-
-                                {{ permiso.fecha_vencimiento|date:"d/m/Y" }}
-
-                            {% else %}
-
-                                -
-
-                            {% endif %}
-                        </td>
-
-
-                        <!-- ARCHIVO PERMISO -->
-                        <td class="text-center">
-
-                            {% if permiso and permiso.archivo %}
-
-                                <a href="{{ permiso.archivo.url }}"
-                                   target="_blank"
-                                   class="btn btn-success btn-sm"
-                                   title="Ver Permiso de Circulación">
-
-                                    <i class="bi bi-file-earmark-pdf"></i>
-
-                                </a>
-
-                            {% else %}
-
-                                -
-
-                            {% endif %}
-
-                        </td>
-
-
-                        <!-- MUNICIPALIDAD -->
-                        <td class="text-center">
-
-                            {% if permiso and permiso.municipalidad %}
-
-                                {{ permiso.municipalidad }}
-
-                            {% else %}
-
-                                -
-
-                            {% endif %}
-
-                        </td>
-
-
-                       <!-- FECHA RT -->
+                          <!-- FECHA RT -->
                             <td class="text-center">
 
                                 {% if p.fecha_revision_tecnica %}
@@ -391,6 +330,7 @@
 
 
 
+                        
 
                      <!-- GASES -->
                         <td class="text-center">
@@ -445,6 +385,59 @@
 
                         </td>
 
+
+
+                        <!-- CARGA -->
+                        <td class="text-center">
+                            {% if p.vehiculo.carga %}
+                                {{ p.vehiculo.carga }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+
+                        <!-- PERMISO CIRCULACIÓN -->
+                        <td class="text-center">
+
+                            {% if permiso %}
+
+                                {{ permiso.fecha_vencimiento|date:"d/m/Y" }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+                        </td>
+
+
+                        <!-- ARCHIVO PERMISO -->
+                        <td class="text-center">
+
+                            {% if permiso and permiso.archivo %}
+
+                                <a href="{{ permiso.archivo.url }}"
+                                   target="_blank"
+                                   class="btn btn-success btn-sm"
+                                   title="Ver Permiso de Circulación">
+
+                                    <i class="bi bi-file-earmark-pdf"></i>
+
+                                </a>
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+
+                        
+                     
 
                         <!-- KM -->
                        <td class="text-center km-warning">
@@ -519,6 +512,24 @@
                             {% endif %}
 
                         </td>
+
+
+
+                        <!-- MUNICIPALIDAD -->
+                        <td class="text-center">
+
+                            {% if permiso and permiso.municipalidad %}
+
+                                {{ permiso.municipalidad }}
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
 
 
                         <!-- LUGAR MANTENCIÓN -->
