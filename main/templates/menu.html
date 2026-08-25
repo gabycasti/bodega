@@ -155,6 +155,30 @@
               </li>
 
 
+           <!-- SEGURO -->
+             <li class="nav-item 
+              {% if request.resolver_match.url_name == 'registro_vehiculo' or request.resolver_match.url_name == 'vehiculo_listado' %}
+              menu-open
+              {% endif %}">
+                <a href="#" class="nav-link {% if 'cliente' in request.path %}active{% endif %}">
+                 <i class="nav-icon bi bi-truck"></i>
+                  <p>
+                    Seguro Vehículo
+                    <i class="nav-arrow bi bi-chevron-right"></i>
+                  </p>
+                </a>
+
+                  <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="{% url 'seguro_listado' %}"
+                          class="nav-link {% if request.resolver_match.url_name == 'seguro_listado' %}active{% endif %}">
+                          <p>Listado Seguro</p>
+                      </a>
+                  </li>
+                </ul>
+              </li>
+
+              
 
 
           <!-- Gestión Vehículos -->
