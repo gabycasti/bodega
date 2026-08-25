@@ -34,7 +34,7 @@ table.dataTable {
 <div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
      <div class="row  ms-3 me-3">
           <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
-               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Agregar  Vehículo</h3>
+               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Editar Vehículo</h3>
                <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
                  <br>
                  <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
@@ -44,119 +44,199 @@ table.dataTable {
           
           <hr style="border: 2px solid #3c8dbc;">
 
-         <div class="col-8">
-            <form method="post" class="form-control border-0">
-                  {% csrf_token %}
-                  <br>
-
-                  <!-- PATENTE -->
-                  <div class="row mb-3">
-                      <div class="col-md-4 text-end">
-                          <label class="form-label">Patente</label>
-                      </div>
-                      <div class="col-md-8">
-                          <input type="text" name="patente" class="form-control"
-                                value="{{ vehiculo.patente }}">
-                      </div>
-                  </div>
-
-                  <!-- MARCA -->
-                  <div class="row mb-3">
-                      <div class="col-md-4 text-end">
-                          <label class="form-label">Marca</label>
-                      </div>
-                      <div class="col-md-8">
-                          <input type="text" name="marca" class="form-control"
-                                value="{{ vehiculo.marca }}">
-                      </div>
-                  </div>
-
-                  <!-- MODELO -->
-                  <div class="row mb-3">
-                      <div class="col-md-4 text-end">
-                          <label class="form-label">Modelo</label>
-                      </div>
-                      <div class="col-md-8">
-                          <input type="text" name="modelo" class="form-control"
-                                value="{{ vehiculo.modelo }}">
-                      </div>
-                  </div>
-
-                  <!-- CARGA -->
-                  <div class="row mb-3">
-                      <div class="col-md-4 text-end">
-                          <label class="form-label">Carga</label>
-                      </div>
-                      <div class="col-md-8">
-                          <input type="text" name="carga" class="form-control"
-                                value="{{ vehiculo.carga }}">
-                      </div>
-                  </div>
-
-
-
-                  <!-- PROPIETARIO -->
-                    <div class="row mb-3">
-                    <div class="col-md-4 text-end">
-                        <label class="form-label">Propietario</label>
-                    </div>
-                    <div class="col-md-8">
-                        <input 
-                        type="text" 
-                        name="propietario" 
-                        class="form-control"
-                        value="{{ vehiculo.propietario|default:'' }}"
-                        >
-                    </div>
-                    </div>
-
-                  
                     
+            <div class="col-8">
+                <form method="post" class="form-control border-0">
+                    {% csrf_token %}
+                    <br>
+
+                    <!-- PATENTE -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">Patente</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text"
+                                name="patente"
+                                class="form-control"
+                                value="{{ vehiculo.patente }}">
+                        </div>
+                    </div>
+
+                    <!-- MARCA -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">Marca</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text"
+                                name="marca"
+                                class="form-control"
+                                value="{{ vehiculo.marca|default:'' }}">
+                        </div>
+                    </div>
+
+                    <!-- MODELO -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">Modelo</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text"
+                                name="modelo"
+                                class="form-control"
+                                value="{{ vehiculo.modelo|default:'' }}">
+                        </div>
+                    </div>
+
+                    <!-- TIPO VEHÍCULO -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end">
+                            <label for="tipo_vehiculo" class="form-label">
+                                Tipo vehículo
+                            </label>
+                        </div>
+
+                        <div class="col-md-8">
+                            <select name="tipo_vehiculo"
+                                    id="tipo_vehiculo"
+                                    class="form-select">
+
+                                <option value="">Seleccione un tipo</option>
+
+                                <option value="CAMIONETA"
+                                    {% if vehiculo.tipo_vehiculo == "CAMIONETA" %}selected{% endif %}>
+                                    CAMIONETA
+                                </option>
+
+                                <option value="CAMION_LIVIANO"
+                                    {% if vehiculo.tipo_vehiculo == "CAMION_LIVIANO" %}selected{% endif %}>
+                                    CAMIÓN LIVIANO
+                                </option>
+
+                                <option value="CAMION"
+                                    {% if vehiculo.tipo_vehiculo == "CAMION" %}selected{% endif %}>
+                                    CAMION
+                                </option>
+
+                                <option value="TODO_TERRENO"
+                                    {% if vehiculo.tipo_vehiculo == "TODO_TERRENO" %}selected{% endif %}>
+                                    TODO TERRENO
+                                </option>
+
+                                <option value="FURGON"
+                                    {% if vehiculo.tipo_vehiculo == "FURGON" %}selected{% endif %}>
+                                    FURGON
+                                </option>
+
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- AÑO -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">Año</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="number"
+                                name="anio"
+                                class="form-control"
+                                min="1900"
+                                max="2100"
+                                value="{{ vehiculo.anio|default:'' }}">
+                        </div>
+                    </div>
+
+                    <!-- NÚMERO MOTOR -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">N° Motor</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text"
+                                name="n_motor"
+                                class="form-control"
+                                value="{{ vehiculo.n_motor|default:'' }}">
+                        </div>
+                    </div>
+
+                    <!-- CARGA -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">Carga</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text"
+                                name="carga"
+                                class="form-control"
+                                value="{{ vehiculo.carga|default:'' }}">
+                        </div>
+                    </div>
+
+                    <!-- PROPIETARIO -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">Propietario</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text"
+                                name="propietario"
+                                class="form-control"
+                                value="{{ vehiculo.propietario|default:'' }}">
+                        </div>
+                    </div>
+
                     <!-- LUGAR DE MANTENCIÓN -->
                     <div class="row mb-3">
-                    <div class="col-md-4 text-end">
-                        <label class="form-label">Lugar de mantención</label>
-                    </div>
-                    <div class="col-md-8">
-                        <input 
-                        type="text" 
-                        name="lugar_mantencion" 
-                        class="form-control"
-                        value="{{ vehiculo.lugar_mantencion|default:'' }}"
-                        >
-                    </div>
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">Lugar de mantención</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="text"
+                                name="lugar_mantencion"
+                                class="form-control"
+                                value="{{ vehiculo.lugar_mantencion|default:'' }}">
+                        </div>
                     </div>
 
-                  <!-- ACTIVO -->
-                  <div class="row mb-3">
-                      <div class="col-md-4 text-end">
-                          <label class="form-label">Activo</label>
-                      </div>
-                      <div class="col-md-8">
-                          <input type="checkbox" name="activo"
+                    <!-- ACTIVO -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end">
+                            <label class="form-label">Activo</label>
+                        </div>
+                        <div class="col-md-8">
+                            <input type="checkbox"
+                                name="activo"
                                 {% if vehiculo.activo %}checked{% endif %}>
-                      </div>
-                  </div>
+                        </div>
+                    </div>
+
+                    <!-- BOTONES -->
+                    <div class="row mb-3">
+                        <div class="col-md-4 text-end"></div>
+
+                        <div class="col-md-8 d-flex justify-content-start gap-2">
+
+                            <button type="submit"
+                                    class="btn btn-primary btn-sm">
+                                Guardar
+                            </button>
+
+                            <button type="button"
+                                    class="btn btn-secondary btn-sm"
+                                    onclick="window.location.href='{% url 'vehiculo_listado' %}'">
+                                Cancelar
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <hr>
+                </form>
+            </div>
 
 
-                  
-                  <!-- Botones -->
-                  <div class="row mb-3">
-                      <div class="col-md-4"></div>
-                      <div class="col-md-8 d-flex gap-2">
-                          <button type="submit" class="btn btn-primary btn-sm">
-                              Guardar cambios
-                          </button>
-
-                          <a href="{% url 'vehiculo_listado' %}" class="btn btn-secondary btn-sm">
-                              Cancelar
-                          </a>
-                      </div>
-                  </div>
-
-                  <hr>
-              </form>
-          </div>
      </div>
 </div>
 

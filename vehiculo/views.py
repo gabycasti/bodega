@@ -28,15 +28,19 @@ def vehiculo_listado(request):
 
 
 
+
+
 # REGISTRO VEHICULO
 def registro_vehiculo(request):
     if request.method == 'POST':
         patente = request.POST.get('patente')
         marca = request.POST.get('marca')
         modelo = request.POST.get('modelo')
+        tipo_vehiculo = request.POST.get('tipo_vehiculo')
+        anio = request.POST.get('anio')
+        n_motor = request.POST.get('n_motor')
         carga = request.POST.get('carga')
         propietario = request.POST.get('propietario')
-        #municipalidad = request.POST.get('municipalidad')
         lugar_mantencion = request.POST.get('lugar_mantencion')
 
         activo = request.POST.get('activo') == 'on'
@@ -44,10 +48,12 @@ def registro_vehiculo(request):
         Vehiculo.objects.create(
             patente=patente,
             marca=marca,
-            carga=carga,
             modelo=modelo,
+            tipo_vehiculo=tipo_vehiculo,
+            anio=anio,
+            n_motor=n_motor,
+            carga=carga,
             propietario=propietario,
-           # municipalidad=municipalidad,
             lugar_mantencion=lugar_mantencion,
             activo=activo
         )
@@ -68,9 +74,11 @@ def editar_vehiculo(request, id):
         vehiculo.patente = request.POST.get('patente')
         vehiculo.marca = request.POST.get('marca')
         vehiculo.modelo = request.POST.get('modelo')
+        vehiculo.tipo_vehiculo = request.POST.get('tipo_vehiculo')
+        vehiculo.anio = request.POST.get('anio')
+        vehiculo.n_motor = request.POST.get('n_motor')
         vehiculo.carga = request.POST.get('carga')
         vehiculo.propietario = request.POST.get('propietario')
-        #vehiculo.municipalidad = request.POST.get('municipalidad')
         vehiculo.lugar_mantencion = request.POST.get('lugar_mantencion')
         vehiculo.activo = request.POST.get('activo') == 'on'
 
@@ -81,7 +89,6 @@ def editar_vehiculo(request, id):
     return render(request, 'editar_vehiculo.html', {
         'vehiculo': vehiculo
     })
-
 
 
 
