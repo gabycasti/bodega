@@ -134,7 +134,7 @@ def entrega_tarjeta(request):
 # EDITAR TARJETA
 def editar_tarjeta(request, id):
     registro = get_object_or_404(ControlTarjeta, id=id)
-    empleados = Empleado.objects.filter(activo=True, cargo__iexact="chofer")
+    empleados = Empleado.objects.filter(activo=True)
     vehiculos = Vehiculo.objects.all()
 
     if request.method == "POST":
