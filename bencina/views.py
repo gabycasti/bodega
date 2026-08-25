@@ -84,7 +84,7 @@ def eliminar_bencina(request, id):
 
 # ENTREGAR TARJETA BENCINA
 def entrega_tarjeta(request):
-    empleados = Empleado.objects.filter(activo=True, cargo__iexact="chofer")
+    empleados = Empleado.objects.filter(activo=True)
     vehiculos = Vehiculo.objects.all()
 
     if request.method == "POST":
