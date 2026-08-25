@@ -84,64 +84,88 @@
 
             
                
-                  <table class="table table-bordered table-hover align-middle small-text-table table_general">
+                <table class="table table-bordered table-hover align-middle small-text-table table_general">
                     <thead class="table-primary text-center">
                         <tr>
                             <th>#</th>
                             <th>Patente</th>
+                            <th>Tipo</th>
                             <th>Marca</th>
                             <th>Modelo</th>
+                            <th>Año</th>
+                            <th>N° Motor</th>
                             <th>Carga</th>
                             <th>Propietario</th>
                             <th>Lugar Mantención</th>
                             <th>Activo</th>
                             <th>Editar</th>
-
                         </tr>
                     </thead>
+
                     <tbody>
-                            {% for veh in vehiculos %}
-                                <tr>
-                                    <td>{{ forloop.counter }}</td>
-                                    <td>{{ veh.patente }}</td>
-                                    <td>{{ veh.marca }}</td>
-                                    <td>{{ veh.modelo }}</td>
-                                    <td>{{ veh.carga }}</td>
-                                    <td>{{ veh.propietario }}</td>
-                                    <td>{{ veh.lugar_mantencion }}</td>
 
-                                    <td class="text-center">
-                                            {% if veh.activo %}
-                                               
-                                                <a href="{% url 'cambiar_estado_vehiculo' veh.id %}"
-                                                class="btn btn-danger btn-sm">
-                                                   <i class="bi bi-x-lg"></i>
-                                                </a>
-                                            {% else %}
-                                                
-                                                <a href="{% url 'cambiar_estado_vehiculo' veh.id %}"
-                                                class="btn btn-success btn-sm">
-                                                    <i class="bi bi-check-lg"></i>
-                                                </a>
-                                            {% endif %}
-                                    </td>
-                                     <td class="text-center">
-                                        <a href="{% url 'editar_vehiculo' veh.id %}"
-                                        class="btn btn-warning btn-sm">
-                                            <i class="bi bi-pencil-square"></i>
+                        {% for veh in vehiculos %}
+                            <tr>
+
+                                <td>{{ forloop.counter }}</td>
+
+                                <td>{{ veh.patente }}</td>
+
+                                <td>{{ veh.get_tipo_vehiculo_display }}</td>
+
+                                <td>{{ veh.marca }}</td>
+
+                                <td>{{ veh.modelo }}</td>
+
+                                <td>{{ veh.anio }}</td>
+
+                                <td>{{ veh.n_motor }}</td>
+
+                                <td>{{ veh.carga }}</td>
+
+                                <td>{{ veh.propietario }}</td>
+
+                                <td>{{ veh.lugar_mantencion }}</td>
+
+                                <td class="text-center">
+                                    {% if veh.activo %}
+
+                                        <a href="{% url 'cambiar_estado_vehiculo' veh.id %}"
+                                        class="btn btn-danger btn-sm">
+                                            <i class="bi bi-x-lg"></i>
                                         </a>
-                                    </td>
-                                </tr>
-                            {% empty %}
-                                <tr>
-                                    <td colspan="4" class="text-center">
-                                        No existen vehículos registrados.
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                </table>
 
+                                    {% else %}
+
+                                        <a href="{% url 'cambiar_estado_vehiculo' veh.id %}"
+                                        class="btn btn-success btn-sm">
+                                            <i class="bi bi-check-lg"></i>
+                                        </a>
+
+                                    {% endif %}
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="{% url 'editar_vehiculo' veh.id %}"
+                                    class="btn btn-warning btn-sm">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+                                <td colspan="12" class="text-center">
+                                    No existen vehículos registrados.
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+                </table>
 
             </div>
         </div>          
