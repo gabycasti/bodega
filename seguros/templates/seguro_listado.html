@@ -95,6 +95,8 @@
                                 <th>N° MOTOR</th>
                                 <th>VENCE</th>
                                 <th>ARCHIVO</th>
+                                <th>EDITAR</th>
+                                <th>ELIMINAR</th>
                             </tr>
                         </thead>
 
@@ -135,6 +137,23 @@
                                     {% else %}
                                         -
                                     {% endif %}
+                                </td>
+
+                               <td class="text-center">
+                                    <a href="{% url 'editar_seguro' p.id %}"
+                                    class="btn btn-warning btn-sm"
+                                    title="Editar seguro">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                </td>
+
+                                <td class="text-center">
+                                    <a href="{% url 'eliminar_seguro' p.id %}"
+                                    class="btn btn-danger btn-sm"
+                                    title="Eliminar seguro"
+                                    onclick="return confirm('¿Está seguro de eliminar este seguro?');">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
 

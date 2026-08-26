@@ -31,164 +31,230 @@ table.dataTable {
 
 
 </style>
-<div class="main-container " style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
-     <div class="row  ms-3 me-3">
-          <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
-               <h3 style="margin: 10px;"><i class="fa fa-user icon-title"></i> Editar  Permiso Circulación</h3>
-               <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
-                 <br>
-                 <li style="margin-right: 5px;"><a href="{% url 'dashboard' %}" class=" me-2 link-sin-color"><i class="fa fa-home"></i> Inicio ></a></li>
-                 <li style="margin-right: 5px;"><a href="{% url 'gestion_listado' %}" class="link-sin-color">Listado Gestión</a></li>
-               </ol>
-          </section>
-          
-          <hr style="border: 2px solid #3c8dbc;">
-          <div class="col-8">
+<div class="main-container" style="border-style: solid;border-width: 0px 1px 1px 1px; border-color: blue;">
+
+    <div class="row ms-3 me-3">
+
+        <section class="content-header" style="display: flex; justify-content: space-between; align-items: center;">
+
+            <h3 style="margin: 10px;">
+                <i class="fa fa-user icon-title"></i> Editar Seguro
+            </h3>
+
+            <ol class="breadcrumb" style="margin: 0; padding: 0; display: flex; align-items: center;">
+                <br>
+
+                <li style="margin-right: 5px;">
+                    <a href="{% url 'dashboard' %}" class="me-2 link-sin-color">
+                        <i class="fa fa-home"></i> Inicio >
+                    </a>
+                </li>
+
+                <li style="margin-right: 5px;">
+                    <a href="{% url 'seguro_listado' %}" class="link-sin-color">
+                        Listado Seguro
+                    </a>
+                </li>
+            </ol>
+
+        </section>
+
+        <hr style="border: 2px solid #3c8dbc;">
+
+        <div class="col-8">
+
             <form action="" method="post" enctype="multipart/form-data" class="form-control border-0">
-              {% csrf_token %}
-             
-             
-            
-            <!-- Vehículo -->
-            <div class="row mb-3">
-              <div class="col-md-4 text-end">
-                <label for="vehiculo_id" class="form-label">Vehículo</label>
-              </div>
-              <div class="col-md-8">
-                <select name="vehiculo" id="vehiculo" class="form-select" required>
-                    <option value="">Seleccione un vehículo</option>
-                    {% for v in vehiculos %}
-                        <option value="{{ v.id }}"
-                            {% if permiso.vehiculo.id == v.id %}selected{% endif %}>
-                            {{ v.patente }} - {{ v.marca }} {{ v.modelo }}
-                        </option>
-                    {% endfor %}
-                </select>
-              </div>
-            </div>
 
+                {% csrf_token %}
 
+                <!-- Vehículo -->
+                <div class="row mb-3">
 
-           
-            <!-- Municipalidad -->
-            <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                    <label class="form-label">Municipalidad</label>
-                </div>
-
-                <div class="col-md-8">
-                    <input type="text"
-                        name="municipalidad"
-                        class="form-control"
-                        value="{{ permiso.municipalidad }}"
-                        required>
-                </div>
-            </div>
-
-
-
-
-            <!-- Fecha emisión -->
-            <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                    <label class="form-label">Fecha emisión</label>
-                </div>
-
-                <div class="col-md-8">
-                    <input type="date"
-                        name="fecha_emision"
-                        class="form-control"
-                        value="{{ permiso.fecha_emision|date:'Y-m-d' }}"
-                        required>
-                </div>
-            </div>
-
-
-
-            <!-- Fecha vencimiento -->
-            <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                    <label class="form-label">Fecha vencimiento</label>
-                </div>
-
-                <div class="col-md-8">
-                   <input type="date"
-                        name="fecha_vencimiento"
-                        class="form-control"
-                        value="{{ permiso.fecha_vencimiento|date:'Y-m-d' }}"
-                        required>
-                </div>
-            </div>
-
-
-
-
-            <!-- Archivo -->
-            <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                    <label class="form-label">Archivo</label>
-                </div>
-
-                <div class="col-md-8">
-
-                    <div class="d-flex align-items-center gap-2">
-
-                        <input type="file"
-                            name="archivo"
-                            class="form-control"
-                            accept=".pdf">
-                                                                
-                        {% if permiso.archivo %}
-                            <a href="{{ permiso.archivo.url }}"
-                            target="_blank"
-                            class="btn btn-light border"
-                            title="Ver documento">
-                                <i class="bi bi-file-earmark-pdf-fill fs-5 text-success"></i>
-                            </a>
-                        {% endif %}
+                    <div class="col-md-4 text-end">
+                        <label for="vehiculo" class="form-label">Vehículo</label>
                     </div>
 
-                    <small class="text-muted">
-                        Deje este campo vacío si no desea cambiar el archivo.
-                    </small>
+                    <div class="col-md-8">
+
+                        <select name="vehiculo" id="vehiculo" class="form-select" required>
+
+                            <option value="">Seleccione un vehículo</option>
+
+                            {% for v in vehiculos %}
+
+                                <option value="{{ v.id }}"
+                                    {% if seguro.vehiculo.id == v.id %}selected{% endif %}>
+
+                                    {{ v.patente }} - {{ v.marca }} {{ v.modelo }}
+
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
 
                 </div>
-            </div>
 
 
+                <!-- Banco -->
+                <div class="row mb-3">
 
+                    <div class="col-md-4 text-end">
+                        <label for="banco" class="form-label">Banco</label>
+                    </div>
 
-            <!-- Observación -->
-            <div class="row mb-3">
-                <div class="col-md-4 text-end">
-                    <label class="form-label">Observación</label>
+                    <div class="col-md-8">
+
+                        <select name="banco" id="banco" class="form-select" required>
+
+                            <option value="">Seleccione un banco</option>
+
+                            <option value="BCI"
+                                {% if seguro.banco == "BCI" %}selected{% endif %}>
+                                Banco BCI
+                            </option>
+
+                        </select>
+
+                    </div>
+
                 </div>
 
-                <div class="col-md-8">
-                   <textarea name="observacion"
-                        class="form-control"
-                        rows="3">{{ permiso.observacion }}</textarea>
+
+                <!-- Póliza -->
+                <div class="row mb-3">
+
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">N° Póliza</label>
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <input type="text"
+                               name="numero_poliza"
+                               class="form-control"
+                               value="{{ seguro.numero_poliza }}"
+                               required>
+
+                    </div>
+
                 </div>
-            </div>
 
 
+                <!-- Ítem -->
+                <div class="row mb-3">
 
-           <!-- Botón -->
-              <div class="row mb-3">
-                <div class="col-md-4 text-end"></div> <!-- Columna vacía para alineación -->
-                <div class="col-md-4 d-flex justify-content-center gap-2">
-                  <button type="submit" class="btn btn-primary btn-sm">Guardar</button>
-                  <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{% url 'gestion_listado' %}'">
-                    Cancelar
-                </button>
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Ítem</label>
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <input type="text"
+                               name="item"
+                               class="form-control"
+                               value="{{ seguro.item }}"
+                               required>
+
+                    </div>
+
                 </div>
-              </div>
 
-              <hr>
-              <br>
+
+                <!-- Fecha vencimiento -->
+                <div class="row mb-3">
+
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Fecha vencimiento</label>
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <input type="date"
+                               name="fecha_vencimiento"
+                               class="form-control"
+                               value="{{ seguro.fecha_vencimiento|date:'Y-m-d' }}"
+                               required>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Archivo -->
+                <div class="row mb-3">
+
+                    <div class="col-md-4 text-end">
+                        <label class="form-label">Archivo</label>
+                    </div>
+
+                    <div class="col-md-8">
+
+                        <div class="d-flex align-items-center gap-2">
+
+                            <input type="file"
+                                   name="archivo"
+                                   class="form-control"
+                                   accept=".pdf">
+
+                            {% if seguro.archivo %}
+
+                                <a href="{{ seguro.archivo.url }}"
+                                   target="_blank"
+                                   class="btn btn-light border"
+                                   title="Ver documento">
+
+                                    <i class="bi bi-file-earmark-pdf-fill fs-5 text-success"></i>
+
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                        <small class="text-muted">
+                            Deje este campo vacío si no desea cambiar el archivo.
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Botones -->
+                <div class="row mb-3">
+
+                    <div class="col-md-4 text-end"></div>
+
+                    <div class="col-md-4 d-flex justify-content-center gap-2">
+
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            Guardar
+                        </button>
+
+                        <button type="button"
+                                class="btn btn-secondary btn-sm"
+                                onclick="window.location.href='{% url 'seguro_listado' %}'">
+
+                            Cancelar
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <hr>
+                <br>
+
             </form>
-          </div>
-     </div>
+
+        </div>
+
+    </div>
+
 </div>
 
 {% endblock %}
