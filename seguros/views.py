@@ -30,6 +30,7 @@ def seguro(request):
         vehiculo_id = request.POST.get('vehiculo')
         banco = request.POST.get('banco')
         numero_poliza = request.POST.get('numero_poliza')
+        item = request.POST.get('item')
         fecha_vencimiento = request.POST.get('fecha_vencimiento')
         archivo = request.FILES.get('archivo')
 
@@ -39,6 +40,7 @@ def seguro(request):
             vehiculo=vehiculo,
             banco=banco,
             numero_poliza=numero_poliza,
+            item=item,
             fecha_vencimiento=fecha_vencimiento,
             archivo=archivo
         )
