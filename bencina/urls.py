@@ -2,6 +2,7 @@ from django.urls import path,include
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
+from .api_views import api_bencina
 
 urlpatterns = [
     path('listado/', views.listado, name='bencina_listado'),
@@ -10,6 +11,7 @@ urlpatterns = [
     path('tarjeta_listado/', views.tarjeta_listado, name='tarjeta_listado'),
     path('tarjeta/editar/<int:id>/', views.editar_tarjeta, name='editar_tarjeta'),
     path('tarjeta/eliminar/<int:id>/', views.eliminar_tarjeta, name='eliminar_tarjeta'),
+    path('api/bencina/', api_bencina, name='api_bencina'),
 
     path('bencina/', include('formulario_bencina.urls')),
 ]
