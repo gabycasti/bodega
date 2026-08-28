@@ -10,4 +10,8 @@ urlpatterns = [
     path('vehiculo/editar/<int:id>/', views.editar_vehiculo, name='editar_vehiculo'),
 
     path('vehiculos/estado/<int:id>/',views.cambiar_estado_vehiculo,name='cambiar_estado_vehiculo'),
+
+    path("vehiculos/reporte/excel/",views.vehiculo_reporte_excel,name="vehiculo_reporte_excel"),
+
+    path("vehiculos/reporte/pdf/",views.vehiculo_reporte_pdf,name="vehiculo_reporte_pdf"),
 ]
