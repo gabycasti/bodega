@@ -18,8 +18,9 @@ def rut_existe(rut):
 
 
 
-
 def registro_bencina(request):
+
+    vehiculos = Vehiculo.objects.all()
 
     if request.method == 'POST':
 
@@ -34,16 +35,17 @@ def registro_bencina(request):
         if not rut_existe(rut):
             return render(request, 'home.html', {
                 'error': 'El RUT no existe en empleados',
-                'form_data': request.POST
+                'form_data': request.POST,
+                'vehiculos': vehiculos
             })
 
-        # validar números
+        # Validar números
         if not monto.isdigit() or not kilometraje.isdigit():
             return render(request, 'home.html', {
                 'error': 'Datos inválidos.',
-                'form_data': request.POST
+                'form_data': request.POST,
+                'vehiculos': vehiculos
             })
-
 
         Bencina.objects.create(
             rut=rut,
@@ -56,4 +58,6 @@ def registro_bencina(request):
         messages.success(request, "Registro enviado correctamente 🚗")
         return redirect('registro_bencina')
 
-    return render(request, 'home.html')
+    return render(request, 'home.html', {
+        'vehiculos': vehiculos
+    })
