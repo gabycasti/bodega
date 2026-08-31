@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.db import connection
 from django.contrib import messages
 from .models import Bencina
+from vehiculo.models import Vehiculo
+
 
 
 def home(request):
