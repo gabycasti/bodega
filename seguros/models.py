@@ -6,6 +6,7 @@ class Seguro(models.Model):
 
     BANCO_CHOICES = [
         ('BCI', 'Banco BCI'),
+        ('SURA', 'SURA'),
     ]
 
     vehiculo = models.ForeignKey(
@@ -18,6 +19,8 @@ class Seguro(models.Model):
         max_length=100,
         blank=True
     )
+
+
 
     banco = models.CharField(
         max_length=50,
