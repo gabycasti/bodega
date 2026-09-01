@@ -15,7 +15,8 @@ class Seguro(models.Model):
     )
 
     item = models.CharField(
-        max_length=100
+        max_length=100,
+        blank=True
     )
 
     banco = models.CharField(
