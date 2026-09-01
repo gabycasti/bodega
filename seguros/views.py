@@ -3,19 +3,35 @@ from django.contrib import messages
 from .models import Seguro
 from vehiculo.models import Vehiculo
 from django.shortcuts import get_object_or_404
+from datetime import date, timedelta
 
 
 
 
-
-#LISTADO PERMISO DE CIRCULACIÓN
+# LISTADO SEGURO
 def seguro_listado(request):
 
     seguros = Seguro.objects.select_related("vehiculo")
 
+    hoy = date.today()
+    limite = hoy + timedelta(days=30)
+
+    for seguro in seguros:
+        seguro.alerta_vencimiento = (
+            seguro.fecha_vencimiento <= limite
+        )
+
     return render(
-        request,"seguro_listado.html",{"seguros": seguros,},
+        request,
+        "seguro_listado.html",
+        {
+            "seguros": seguros,
+        },
     )
+
+
+
+
 
 
 

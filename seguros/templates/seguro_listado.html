@@ -123,9 +123,15 @@
 
                                 <td>{{ p.vehiculo.n_motor }}</td>
 
-                                <td class="text-center">
-                                    {{ p.fecha_vencimiento|date:"d/m/Y" }}
-                                </td>
+                                
+                               <td class="text-center"> {% if p.alerta_vencimiento %} 
+                                <span class="text-danger fw-bold"> {{ p.fecha_vencimiento|date:"d/m/Y" }}
+                                     <i class="fa fa-bell ms-1" title="Seguro próximo a vencer"></i> 
+                                </span>
+                                      {% else %} {{ p.fecha_vencimiento|date:"d/m/Y" }} {% endif %}
+                               </td>
+
+
 
                                 <td class="text-center">
                                     {% if p.archivo %}
