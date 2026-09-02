@@ -107,16 +107,24 @@ table.dataTable {
 
                     <div class="col-md-8">
 
-                        <select name="banco" id="banco" class="form-select" required>
+                       
+                    <select name="banco" id="banco" class="form-select" required>
 
-                            <option value="">Seleccione un banco</option>
+                        <option value="">Seleccione un banco</option>
 
-                            <option value="BCI"
-                                {% if seguro.banco == "BCI" %}selected{% endif %}>
-                                Banco BCI
-                            </option>
+                        <option value="BCI"
+                            {% if seguro.banco == "BCI" %}selected{% endif %}>
+                            Banco BCI
+                        </option>
 
-                        </select>
+                        <option value="SURA"
+                            {% if seguro.banco == "SURA" %}selected{% endif %}>
+                            SURA
+                        </option>
+
+                    </select>
+
+
 
                     </div>
 
