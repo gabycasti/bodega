@@ -95,6 +95,7 @@
                         <thead class="table-primary text-center">
                             <tr>
                                 <th>#</th>
+                                <th>PATENTE</th>
                                 <th>BANCO</th>
                                 <th>PÓLIZA</th>
                                 <th>ITEMS</th>
@@ -102,7 +103,6 @@
                                 <th>MARCA</th>
                                 <th>MODELO</th>
                                 <th>AÑO</th>
-                                <th>PATENTE</th>
                                 <th>N° MOTOR</th>
                                 <th>VENCE</th>
                                 <th>ARCHIVO</th>
@@ -115,6 +115,8 @@
                             {% for p in seguros %}
                             <tr>
                                 <td>{{ forloop.counter }}</td>
+
+                                <td class="text-center">{{ p.vehiculo.patente }}</td>
 
                                 <td>{{ p.banco }}</td>
 
@@ -130,7 +132,7 @@
 
                                 <td>{{ p.vehiculo.anio }}</td>
 
-                                <td class="text-center">{{ p.vehiculo.patente }}</td>
+                             
 
                                 <td>{{ p.vehiculo.n_motor }}</td>
 

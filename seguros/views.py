@@ -31,7 +31,7 @@ from reportlab.platypus import (
 # LISTADO SEGURO
 def seguro_listado(request):
 
-    seguros = Seguro.objects.select_related("vehiculo")
+    seguros = Seguro.objects.select_related("vehiculo").order_by("vehiculo__patente")
 
     hoy = date.today()
     limite = hoy + timedelta(days=30)
