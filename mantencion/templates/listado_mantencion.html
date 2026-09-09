@@ -397,20 +397,36 @@
                         </td>
 
 
-                        <!-- PERMISO CIRCULACIÓN -->
+                       <!-- PERMISO CIRCULACIÓN -->
                         <td class="text-center">
 
                             {% if permiso %}
 
-                                {{ permiso.fecha_vencimiento|date:"d/m/Y" }}
+                                {% if permiso.pc_vencido %}
+
+                                    <span style="color: red; font-weight: bold;">
+                                        🔔 {{ permiso.fecha_vencimiento|date:"d/m/Y" }}
+                                    </span>
+
+                                {% elif permiso.pc_proximo %}
+
+                                    <span style="color: red; font-weight: bold;">
+                                        🔔 {{ permiso.fecha_vencimiento|date:"d/m/Y" }}
+                                    </span>
+
+                                {% else %}
+
+                                    {{ permiso.fecha_vencimiento|date:"d/m/Y" }}
+
+                                {% endif %}
 
                             {% else %}
 
                                 -
 
                             {% endif %}
-                        </td>
 
+                        </td>
 
                         <!-- ARCHIVO PERMISO -->
                         <td class="text-center">

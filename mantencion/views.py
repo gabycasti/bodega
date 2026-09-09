@@ -7,7 +7,6 @@ from datetime import date, timedelta
 
 
 
-
 # LISTADO MANTENCIÓN
 
 def listado_mantencion(request):
@@ -15,7 +14,8 @@ def listado_mantencion(request):
     mantenciones = Mantencion.objects.select_related(
         "vehiculo"
     ).prefetch_related(
-        "vehiculo__permisos_circulacion"
+        "vehiculo__permisos_circulacion",
+        "vehiculo__seguros"
     ).all()
 
     hoy = date.today()
@@ -49,13 +49,46 @@ def listado_mantencion(request):
                 p.gases_proxima = True
 
 
+        # SEGURO
+        p.seguro_proxima = False
+        p.seguro_vencido = False
+
+        seguro = p.vehiculo.seguros.first()
+
+        if seguro and seguro.fecha_vencimiento:
+
+            if seguro.fecha_vencimiento < hoy:
+                p.seguro_vencido = True
+
+            elif seguro.fecha_vencimiento <= limite:
+                p.seguro_proxima = True
+
+
+        # PERMISO DE CIRCULACIÓN
+        for permiso in p.vehiculo.permisos_circulacion.all():
+
+            permiso.pc_proximo = False
+            permiso.pc_vencido = False
+
+            if permiso.fecha_vencimiento:
+
+                if permiso.fecha_vencimiento < hoy:
+                    permiso.pc_vencido = True
+
+                elif permiso.fecha_vencimiento <= limite:
+                    permiso.pc_proximo = True
+
+
         # CAMBIO DE ACEITE
         p.aceite_1000 = False
         p.aceite_500 = False
         p.aceite_300 = False
         p.aceite_vencido = False
 
-        if p.kilometraje is not None and p.kilometraje_cambio_aceite is not None:
+        if (
+            p.kilometraje is not None
+            and p.kilometraje_cambio_aceite is not None
+        ):
 
             faltan = p.kilometraje_cambio_aceite - p.kilometraje
 
