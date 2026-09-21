@@ -95,3 +95,27 @@ class TelegramAvisoAceite(models.Model):
 
     def __str__(self):
         return f"{self.vehiculo} - {self.tipo_aviso}"
+
+
+
+
+
+
+## REVISIÓN TÉCNICA
+class TelegramAvisoRevisionTecnica(models.Model):
+    vehiculo = models.ForeignKey(
+        Vehiculo,
+        on_delete=models.CASCADE
+    )
+
+    fecha_revision_tecnica = models.DateField()
+
+    fecha_envio = models.DateTimeField(
+        auto_now_add=True
+    )
+
+    class Meta:
+        unique_together = ("vehiculo", "fecha_revision_tecnica")
+
+    def __str__(self):
+        return f"{self.vehiculo} - {self.fecha_revision_tecnica}"
