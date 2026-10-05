@@ -276,7 +276,7 @@ def exportar_mantenciones_excel(request):
             p.vehiculo.propietario or "",
             p.fecha_revision_tecnica or "",
             p.fecha_gases or "",
-            f"{p.vehiculo.carga:,.0f} KG".replace(",", ".") if p.vehiculo.carga else "",
+            f"{int(p.vehiculo.carga):,} KG".replace(",", ".") if p.vehiculo.carga else "",
             fecha_permiso,
             p.kilometraje if p.kilometraje is not None else "",
             p.kilometraje_cambio_aceite
