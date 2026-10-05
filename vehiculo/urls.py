@@ -14,4 +14,6 @@ urlpatterns = [
     path("vehiculos/reporte/excel/",views.vehiculo_reporte_excel,name="vehiculo_reporte_excel"),
 
     path("vehiculos/reporte/pdf/",views.vehiculo_reporte_pdf,name="vehiculo_reporte_pdf"),
+
+  
 ]

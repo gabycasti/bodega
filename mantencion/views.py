@@ -4,6 +4,10 @@ from vehiculo.models import Vehiculo
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from datetime import date, timedelta
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+from openpyxl.utils import get_column_letter
+from django.http import HttpResponse
 
 
 
@@ -110,6 +114,319 @@ def listado_mantencion(request):
         "listado_mantencion.html",
         {"mantenciones": mantenciones}
     )
+
+
+
+
+
+
+# EXPORTAR MANTENCIONES A EXCEL
+
+def exportar_mantenciones_excel(request):
+
+    mantenciones = Mantencion.objects.select_related(
+        "vehiculo"
+    ).prefetch_related(
+        "vehiculo__permisos_circulacion"
+    ).all()
+
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Mantenciones"
+
+    # ==========================================================
+    # CONFIGURACIÓN GENERAL
+    # ==========================================================
+
+    ws.sheet_view.showGridLines = False
+
+    # ==========================================================
+    # ENCABEZADOS
+    # ==========================================================
+
+    encabezados = [
+        "PATENTE",
+        "MARCA",
+        "MODELO",
+        "PROPIETARIO",
+        "FECHA RT",
+        "GASES",
+        "CARGA",
+        "PERMISO CIRCULACIÓN",
+        "KM",
+        "CAMBIO ACEITE",
+        "MUNI",
+        "LUGAR MANTENCIÓN",
+
+      
+    ]
+
+    # Los encabezados comienzan ahora en la fila 2
+    for columna, encabezado in enumerate(encabezados, start=1):
+        celda = ws.cell(
+            row=2,
+            column=columna,
+            value=encabezado
+        )
+
+        celda.fill = PatternFill(
+            fill_type="solid",
+            fgColor="D9D9D9"
+        )
+
+        celda.font = Font(
+            color="FFFFFF",
+            bold=True,
+            size=10
+        )
+
+        celda.alignment = Alignment(
+            horizontal="center",
+            vertical="center",
+            wrap_text=True
+        )
+
+        celda.border = Border(
+            left=Side(style="thin", color="FFFFFF"),
+            right=Side(style="thin", color="FFFFFF"),
+            top=Side(style="thin", color="FFFFFF"),
+            bottom=Side(style="thin", color="FFFFFF")
+        )
+
+    ws.row_dimensions[2].height = 35
+
+    # ==========================================================
+    # DATOS
+    # ==========================================================
+
+    for numero, p in enumerate(mantenciones, start=1):
+
+        
+        print(
+            "PATENTE:", p.vehiculo.patente,
+            "| MARCA:", p.vehiculo.marca,
+            "| PROPIETARIO:", p.vehiculo.propietario,
+            "| LUGAR:", p.vehiculo.lugar_mantencion
+        )
+
+
+        permiso = p.vehiculo.permisos_circulacion.first()
+
+        fecha_permiso = ""
+        municipalidad = ""
+
+        if permiso:
+
+            if permiso.fecha_vencimiento:
+                fecha_permiso = permiso.fecha_vencimiento
+
+            if permiso.municipalidad:
+                municipalidad = permiso.municipalidad
+
+        fila = [
+            p.vehiculo.patente or "",
+            p.vehiculo.marca or "",
+            p.vehiculo.modelo or "",
+            p.vehiculo.propietario or "",
+            p.fecha_revision_tecnica or "",
+            p.fecha_gases or "",
+            p.vehiculo.carga or "",
+            fecha_permiso,
+            p.kilometraje if p.kilometraje is not None else "",
+            p.kilometraje_cambio_aceite
+            if p.kilometraje_cambio_aceite is not None else "",
+            municipalidad,
+            p.vehiculo.lugar_mantencion or "",
+        ]
+
+        ws.append(fila)
+
+    # ==========================================================
+    # BORDES Y FORMATO DE DATOS
+    # ==========================================================
+
+    borde = Border(
+        left=Side(style="thin", color="B7B7B7"),
+        right=Side(style="thin", color="B7B7B7"),
+        top=Side(style="thin", color="B7B7B7"),
+        bottom=Side(style="thin", color="B7B7B7")
+    )
+
+    for fila in ws.iter_rows(
+        min_row=3,
+        max_row=ws.max_row,
+        min_col=1,
+        max_col=12
+    ):
+
+        for celda in fila:
+
+            celda.border = borde
+
+            celda.alignment = Alignment(
+                horizontal="center",
+                vertical="center",
+                wrap_text=True
+            )
+
+            celda.font = Font(
+                size=10
+            )
+
+    # ==========================================================
+    # FILAS ALTERNADAS
+    # ==========================================================
+
+    for numero_fila in range(3, ws.max_row + 1):
+
+        if numero_fila % 2 == 0:
+
+            for columna in range(1, 13):
+
+                ws.cell(
+                    row=numero_fila,
+                    column=columna
+                ).fill = PatternFill(
+                    fill_type="solid",
+                    fgColor="EAF2F8"
+                )
+
+    # ==========================================================
+    # FORMATO DE FECHAS
+    # ==========================================================
+
+    columnas_fecha = [5, 6, 8]
+
+    for fila in range(3, ws.max_row + 1):
+
+        for columna in columnas_fecha:
+
+            celda = ws.cell(
+                row=fila,
+                column=columna
+            )
+
+            if celda.value:
+
+                celda.number_format = "DD/MM/YYYY"
+
+    # ==========================================================
+    # FORMATO DE NÚMEROS
+    # ==========================================================
+
+    for fila in range(3, ws.max_row + 1):
+
+        # KM
+        ws.cell(
+            row=fila,
+            column=9
+        ).number_format = '#,##0'
+
+        # ACEITE
+        ws.cell(
+            row=fila,
+            column=10
+        ).number_format = '#,##0'
+
+    # ==========================================================
+    # ANCHO DE COLUMNAS
+    # ==========================================================
+
+    anchos = {
+        "A": 12,
+        "B": 15,
+        "C": 18,
+        "D": 25,
+        "E": 15,
+        "F": 15,
+        "G": 12,
+        "H": 20,
+        "I": 15,
+        "J": 20,
+        "K": 22,
+        "L": 25,
+    }
+
+    for columna, ancho in anchos.items():
+
+        ws.column_dimensions[columna].width = ancho
+
+    # ==========================================================
+    # ALTURA DE LAS FILAS
+    # ==========================================================
+
+    for fila in range(3, ws.max_row + 1):
+
+        ws.row_dimensions[fila].height = 28
+
+    # ==========================================================
+    # CONGELAR ENCABEZADOS
+    # ==========================================================
+
+    ws.freeze_panes = "A3"
+
+    # ==========================================================
+    # FILTROS
+    # ==========================================================
+
+    if ws.max_row >= 2:
+
+        ws.auto_filter.ref = (
+           f"A2:L{ws.max_row}"
+        )
+
+    # ==========================================================
+    # CONFIGURACIÓN DE IMPRESIÓN
+    # ==========================================================
+
+    ws.page_setup.orientation = "landscape"
+    ws.page_setup.paperSize = ws.PAPERSIZE_A4
+    ws.page_setup.fitToWidth = 1
+    ws.page_setup.fitToHeight = 0
+
+    ws.sheet_properties.pageSetUpPr.fitToPage = True
+
+    ws.page_margins.left = 0.25
+    ws.page_margins.right = 0.25
+    ws.page_margins.top = 0.50
+    ws.page_margins.bottom = 0.50
+
+    # ==========================================================
+    # REPETIR ENCABEZADOS AL IMPRIMIR
+    # ==========================================================
+
+    ws.print_title_rows = "1:2"
+
+    # ==========================================================
+    # ÁREA DE IMPRESIÓN
+    # ==========================================================
+
+    if ws.max_row >= 2:
+
+       ws.print_area = f"A1:L{ws.max_row}"
+
+    # ==========================================================
+    # RESPUESTA
+    # ==========================================================
+
+    response = HttpResponse(
+        content_type=(
+            "application/vnd.openxmlformats-officedocument."
+            "spreadsheetml.sheet"
+        )
+    )
+
+    response["Content-Disposition"] = (
+        'attachment; filename="reporte_mantenciones.xlsx"'
+    )
+
+    wb.save(response)
+
+    return response
+
+
+
+
 
 
 
