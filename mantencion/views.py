@@ -187,12 +187,12 @@ def exportar_mantenciones_excel(request):
         )
 
         celda.fill = PatternFill(
-            fill_type="solid",
-            fgColor="D9D9D9"
-        )
+        fill_type="solid",
+        fgColor="A6A6A6"
+            )
 
         celda.font = Font(
-            color="FFFFFF",
+            color="000000",
             bold=True,
             size=10
         )
