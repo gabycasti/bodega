@@ -130,6 +130,23 @@ def exportar_mantenciones_excel(request):
         "vehiculo__permisos_circulacion"
     ).all()
 
+    orden_marcas = {
+        "HYUNDAI": 1,
+        "FUSO": 2,
+        "CITROEN": 3,
+        "CHEVROLET": 4,
+        "JAC": 5,
+        "NISSAN": 6,
+    }
+
+    mantenciones = sorted(
+        mantenciones,
+        key=lambda p: orden_marcas.get(
+            (p.vehiculo.marca or "").upper().strip(),
+            99
+        )
+    )
+
     wb = Workbook()
     ws = wb.active
     ws.title = "Mantenciones"
@@ -320,13 +337,13 @@ def exportar_mantenciones_excel(request):
         ws.cell(
             row=fila,
             column=9
-        ).number_format = '#,##0'
+        ).number_format = '0'
 
         # ACEITE
         ws.cell(
             row=fila,
             column=10
-        ).number_format = '#,##0'
+        ).number_format = '0'
 
     # ==========================================================
     # ANCHO DE COLUMNAS
