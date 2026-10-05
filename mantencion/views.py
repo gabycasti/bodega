@@ -117,9 +117,6 @@ def listado_mantencion(request):
 
 
 
-
-
-
 # EXPORTAR MANTENCIONES A EXCEL
 
 def exportar_mantenciones_excel(request):
@@ -139,11 +136,23 @@ def exportar_mantenciones_excel(request):
         "NISSAN": 6,
     }
 
+    orden_propietarios = {
+        "TRANSPORTES CHECK SPA": 1,
+        "BANCO CHILE": 2,
+        "BANCO ESTADO": 3,
+    }
+
     mantenciones = sorted(
         mantenciones,
-        key=lambda p: orden_marcas.get(
-            (p.vehiculo.marca or "").upper().strip(),
-            99
+        key=lambda p: (
+            orden_marcas.get(
+                (p.vehiculo.marca or "").upper().strip(),
+                99
+            ),
+            orden_propietarios.get(
+                (p.vehiculo.propietario or "").upper().strip(),
+                99
+            )
         )
     )
 
@@ -267,7 +276,7 @@ def exportar_mantenciones_excel(request):
             p.vehiculo.propietario or "",
             p.fecha_revision_tecnica or "",
             p.fecha_gases or "",
-            p.vehiculo.carga or "",
+            f"{p.vehiculo.carga:,.0f} KG".replace(",", ".") if p.vehiculo.carga else "",
             fecha_permiso,
             p.kilometraje if p.kilometraje is not None else "",
             p.kilometraje_cambio_aceite
@@ -393,7 +402,7 @@ def exportar_mantenciones_excel(request):
         "I": 15,
         "J": 20,
         "K": 22,
-        "L": 25,
+        "L": 40,
     }
 
     for columna, ancho in anchos.items():
