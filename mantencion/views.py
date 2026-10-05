@@ -212,20 +212,40 @@ def exportar_mantenciones_excel(request):
 
     ws.row_dimensions[2].height = 35
 
+
     # ==========================================================
     # DATOS
     # ==========================================================
 
+    marca_anterior = None
+
     for numero, p in enumerate(mantenciones, start=1):
 
-        
+        marca_actual = (p.vehiculo.marca or "").upper().strip()
+
+        if marca_anterior is not None and marca_actual != marca_anterior:
+
+            ws.append([""] * 12)
+
+            fila_separador = ws.max_row
+
+            for columna in range(1, 13):
+                ws.cell(
+                    row=fila_separador,
+                    column=columna
+                ).fill = PatternFill(
+                    fill_type="solid",
+                    fgColor="000000"
+                )
+
+            ws.row_dimensions[fila_separador].height = 8
+
         print(
             "PATENTE:", p.vehiculo.patente,
             "| MARCA:", p.vehiculo.marca,
             "| PROPIETARIO:", p.vehiculo.propietario,
             "| LUGAR:", p.vehiculo.lugar_mantencion
         )
-
 
         permiso = p.vehiculo.permisos_circulacion.first()
 
@@ -257,6 +277,8 @@ def exportar_mantenciones_excel(request):
         ]
 
         ws.append(fila)
+
+        marca_anterior = marca_actual
 
     # ==========================================================
     # BORDES Y FORMATO DE DATOS
@@ -290,6 +312,10 @@ def exportar_mantenciones_excel(request):
                 size=10
             )
 
+
+
+
+            
     # ==========================================================
     # FILAS ALTERNADAS
     # ==========================================================
@@ -297,6 +323,10 @@ def exportar_mantenciones_excel(request):
     for numero_fila in range(3, ws.max_row + 1):
 
         if numero_fila % 2 == 0:
+
+            # No pintar las filas separadoras negras
+            if ws.cell(row=numero_fila, column=1).fill.fgColor.rgb == "00000000":
+                continue
 
             for columna in range(1, 13):
 
@@ -307,6 +337,8 @@ def exportar_mantenciones_excel(request):
                     fill_type="solid",
                     fgColor="EAF2F8"
                 )
+
+
 
     # ==========================================================
     # FORMATO DE FECHAS
