@@ -376,15 +376,21 @@ def exportar_mantenciones_excel(request):
 
     for fila in range(3, ws.max_row + 1):
 
-        for columna in [5, 6]:
+            # No pintar de verde las filas separadoras negras
+            if ws.cell(row=fila, column=1).fill.fill_type == "solid" and \
+            ws.cell(row=fila, column=1).fill.fgColor.rgb in ("000000", "00000000"):
 
-            ws.cell(
-                row=fila,
-                column=columna
-            ).fill = PatternFill(
-                fill_type="solid",
-                fgColor="00B050"
-            )
+                continue
+
+            for columna in [5, 6]:
+
+                ws.cell(
+                    row=fila,
+                    column=columna
+                ).fill = PatternFill(
+                    fill_type="solid",
+                    fgColor="00B050"
+                )
 
     # ==========================================================
     # FORMATO DE NÚMEROS
