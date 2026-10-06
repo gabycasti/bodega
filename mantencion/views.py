@@ -203,7 +203,7 @@ def exportar_mantenciones_excel(request):
         celda.font = Font(
             color="000000",
             bold=True,
-            size=10
+            size=8
         )
 
         celda.alignment = Alignment(
@@ -276,7 +276,7 @@ def exportar_mantenciones_excel(request):
             p.vehiculo.propietario or "",
             p.fecha_revision_tecnica or "",
             p.fecha_gases or "",
-            f"{int(p.vehiculo.carga):,} KG".replace(",", ".") if p.vehiculo.carga else "",
+            f"{p.vehiculo.carga} KG" if p.vehiculo.carga else "",
             fecha_permiso,
             p.kilometraje if p.kilometraje is not None else "",
             p.kilometraje_cambio_aceite
@@ -318,7 +318,7 @@ def exportar_mantenciones_excel(request):
             )
 
             celda.font = Font(
-                size=10
+                size=8
             )
 
 
@@ -367,6 +367,24 @@ def exportar_mantenciones_excel(request):
             if celda.value:
 
                 celda.number_format = "DD/MM/YYYY"
+
+
+
+    # ==========================================================
+    # FECHA RT Y GASES EN VERDE
+    # ==========================================================
+
+    for fila in range(3, ws.max_row + 1):
+
+        for columna in [5, 6]:
+
+            ws.cell(
+                row=fila,
+                column=columna
+            ).fill = PatternFill(
+                fill_type="solid",
+                fgColor="00B050"
+            )
 
     # ==========================================================
     # FORMATO DE NÚMEROS
