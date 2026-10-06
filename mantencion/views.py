@@ -117,6 +117,8 @@ def listado_mantencion(request):
 
 
 
+
+
 # EXPORTAR MANTENCIONES A EXCEL
 
 def exportar_mantenciones_excel(request):
@@ -180,14 +182,11 @@ def exportar_mantenciones_excel(request):
         "CARGA",
         "PERMISO CIRCULACIÓN",
         "KM",
-        "CAMBIO ACEITE",
+        "ACEITE",
         "MUNI",
-        "LUGAR MANTENCIÓN",
-
-      
+        "LUGAR DE MANTENCIÓN",
     ]
 
-    # Los encabezados comienzan ahora en la fila 2
     for columna, encabezado in enumerate(encabezados, start=1):
         celda = ws.cell(
             row=2,
@@ -196,9 +195,9 @@ def exportar_mantenciones_excel(request):
         )
 
         celda.fill = PatternFill(
-        fill_type="solid",
-        fgColor="A6A6A6"
-            )
+            fill_type="solid",
+            fgColor="A6A6A6"
+        )
 
         celda.font = Font(
             color="000000",
@@ -221,7 +220,6 @@ def exportar_mantenciones_excel(request):
 
     ws.row_dimensions[2].height = 35
 
-
     # ==========================================================
     # DATOS
     # ==========================================================
@@ -232,10 +230,10 @@ def exportar_mantenciones_excel(request):
 
         marca_actual = (p.vehiculo.marca or "").upper().strip()
 
+        # Insertar fila separadora si cambia la marca
         if marca_anterior is not None and marca_actual != marca_anterior:
 
             ws.append([""] * 12)
-
             fila_separador = ws.max_row
 
             for columna in range(1, 13):
@@ -247,14 +245,7 @@ def exportar_mantenciones_excel(request):
                     fgColor="000000"
                 )
 
-            ws.row_dimensions[fila_separador].height = 8
-
-        print(
-            "PATENTE:", p.vehiculo.patente,
-            "| MARCA:", p.vehiculo.marca,
-            "| PROPIETARIO:", p.vehiculo.propietario,
-            "| LUGAR:", p.vehiculo.lugar_mantencion
-        )
+            ws.row_dimensions[fila_separador].height = 15
 
         permiso = p.vehiculo.permisos_circulacion.first()
 
@@ -262,10 +253,8 @@ def exportar_mantenciones_excel(request):
         municipalidad = ""
 
         if permiso:
-
             if permiso.fecha_vencimiento:
                 fecha_permiso = permiso.fecha_vencimiento
-
             if permiso.municipalidad:
                 municipalidad = permiso.municipalidad
 
@@ -279,183 +268,138 @@ def exportar_mantenciones_excel(request):
             f"{p.vehiculo.carga} KG" if p.vehiculo.carga else "",
             fecha_permiso,
             p.kilometraje if p.kilometraje is not None else "",
-            p.kilometraje_cambio_aceite
-            if p.kilometraje_cambio_aceite is not None else "",
+            p.kilometraje_cambio_aceite if p.kilometraje_cambio_aceite is not None else "",
             municipalidad,
             p.vehiculo.lugar_mantencion or "",
         ]
 
         ws.append(fila)
-
         marca_anterior = marca_actual
 
     # ==========================================================
-    # BORDES Y FORMATO DE DATOS
+    # COLORES Y FORMATOS DE CELDAS SEGÚN MUESTRA
     # ==========================================================
+
+    FILL_CHECK_SPA = PatternFill(fill_type="solid", fgColor="1F497D")    # Azul Oscuro
+    FILL_BANCO_CHILE = PatternFill(fill_type="solid", fgColor="00B0F0")  # Azul Claro
+    FILL_BANCO_ESTADO = PatternFill(fill_type="solid", fgColor="FFC000") # Amarillo/Naranja
+    FILL_VERDE = PatternFill(fill_type="solid", fgColor="92D050")        # Verde Claro
+    FILL_NARANJA_MANT = PatternFill(fill_type="solid", fgColor="F8CBAD") # Naranja Mantención
+
+    FONT_BLANCA_BOLD = Font(size=7, bold=True, color="FFFFFF")
+    FONT_NEGRA_BOLD = Font(size=7, bold=True, color="000000")
+    FONT_AZUL_BOLD = Font(size=7, bold=True, color="0070C0")
 
     borde = Border(
-        left=Side(style="thin", color="B7B7B7"),
-        right=Side(style="thin", color="B7B7B7"),
-        top=Side(style="thin", color="B7B7B7"),
-        bottom=Side(style="thin", color="B7B7B7")
+        left=Side(style="thin", color="000000"),
+        right=Side(style="thin", color="000000"),
+        top=Side(style="thin", color="000000"),
+        bottom=Side(style="thin", color="000000")
     )
 
-    for fila in ws.iter_rows(
-        min_row=3,
-        max_row=ws.max_row,
-        min_col=1,
-        max_col=12
-    ):
+    for fila in range(3, ws.max_row + 1):
 
-        for celda in fila:
+        # Saltar la fila si es un separador negro (sin patente)
+        if not ws.cell(row=fila, column=1).value:
+            ws.row_dimensions[fila].height = 15
+            continue
 
+        ws.row_dimensions[fila].height = 15
+
+        # Formato base a toda la fila de datos
+        for col in range(1, 13):
+            celda = ws.cell(row=fila, column=col)
             celda.border = borde
+            celda.alignment = Alignment(horizontal="center", vertical="center", wrap_text=True)
+            celda.font = FONT_NEGRA_BOLD
 
-            celda.alignment = Alignment(
-                horizontal="center",
-                vertical="center",
-                wrap_text=True
-            )
+        # 1. PROPIETARIO (COLUMNA 4 / D)
+        celda_propietario = ws.cell(row=fila, column=4)
+        val_prop = str(celda_propietario.value or "").upper().strip()
 
-            celda.font = Font(
-                size=8
-            )
+        if "CHECK" in val_prop:
+            celda_propietario.fill = FILL_CHECK_SPA
+            celda_propietario.font = FONT_BLANCA_BOLD
+        elif "BANCO CHILE" in val_prop or "BANCO DE CHILE" in val_prop:
+            celda_propietario.fill = FILL_BANCO_CHILE
+            celda_propietario.font = FONT_BLANCA_BOLD
+        elif "BANCO ESTADO" in val_prop or "ESTADO" in val_prop:
+            celda_propietario.fill = FILL_BANCO_ESTADO
+            celda_propietario.font = FONT_NEGRA_BOLD
 
+        # 2. FECHA RT (COL 5) Y GASES (COL 6)
+        c_rt = ws.cell(row=fila, column=5)
+        c_gases = ws.cell(row=fila, column=6)
 
+        if c_rt.value and str(c_rt.value).strip() != "-":
+            c_rt.fill = FILL_VERDE
+        if c_gases.value and str(c_gases.value).strip() != "-":
+            c_gases.fill = FILL_VERDE
 
+        # 3. KM (COL 9) Y CAMBIO ACEITE (COL 10)
+        celda_km = ws.cell(row=fila, column=9)
+        celda_aceite = ws.cell(row=fila, column=10)
 
-            
+        if str(celda_km.value or "").startswith("**"):
+            celda_km.fill = FILL_VERDE
+
+        celda_aceite.font = FONT_AZUL_BOLD
+
+        # 4. LUGAR DE MANTENCIÓN (COLUMNA 12 / L)
+        celda_mant = ws.cell(row=fila, column=12)
+        val_mant = str(celda_mant.value or "").upper().strip()
+
+        if "FRENOS LENG" in val_mant:
+            celda_mant.fill = FILL_VERDE
+        elif any(k in val_mant for k in ["HYUNDAI", "KOVACS", "POMPEYO"]):
+            celda_mant.fill = FILL_NARANJA_MANT
+
     # ==========================================================
-    # FILAS ALTERNADAS
-    # ==========================================================
-
-    for numero_fila in range(3, ws.max_row + 1):
-
-        if numero_fila % 2 == 0:
-
-            # No pintar las filas separadoras negras
-            if ws.cell(row=numero_fila, column=1).fill.fgColor.rgb == "00000000":
-                continue
-
-            for columna in range(1, 13):
-
-                ws.cell(
-                    row=numero_fila,
-                    column=columna
-                ).fill = PatternFill(
-                    fill_type="solid",
-                    fgColor="EAF2F8"
-                )
-
-
-
-    # ==========================================================
-    # FORMATO DE FECHAS
+    # FORMATO DE FECHAS Y NÚMEROS
     # ==========================================================
 
     columnas_fecha = [5, 6, 8]
 
     for fila in range(3, ws.max_row + 1):
+        if ws.cell(row=fila, column=1).value:
+            for columna in columnas_fecha:
+                celda = ws.cell(row=fila, column=columna)
+                if celda.value and celda.value != "-":
+                    celda.number_format = "DD/MM/YYYY"
 
-        for columna in columnas_fecha:
-
-            celda = ws.cell(
-                row=fila,
-                column=columna
-            )
-
-            if celda.value:
-
-                celda.number_format = "DD/MM/YYYY"
-
-
+            ws.cell(row=fila, column=9).number_format = '0'
+            ws.cell(row=fila, column=10).number_format = '0'
 
     # ==========================================================
-    # FECHA RT Y GASES EN VERDE
-    # ==========================================================
-
-    for fila in range(3, ws.max_row + 1):
-
-            # No pintar de verde las filas separadoras negras
-            if ws.cell(row=fila, column=1).fill.fill_type == "solid" and \
-            ws.cell(row=fila, column=1).fill.fgColor.rgb in ("000000", "00000000"):
-
-                continue
-
-            for columna in [5, 6]:
-
-                ws.cell(
-                    row=fila,
-                    column=columna
-                ).fill = PatternFill(
-                    fill_type="solid",
-                    fgColor="00B050"
-                )
-
-    # ==========================================================
-    # FORMATO DE NÚMEROS
-    # ==========================================================
-
-    for fila in range(3, ws.max_row + 1):
-
-        # KM
-        ws.cell(
-            row=fila,
-            column=9
-        ).number_format = '0'
-
-        # ACEITE
-        ws.cell(
-            row=fila,
-            column=10
-        ).number_format = '0'
-
-    # ==========================================================
-    # ANCHO DE COLUMNAS
+    # ANCHO DE COLUMNAS (OPTIMIZADO)
     # ==========================================================
 
     anchos = {
-        "A": 12,
-        "B": 15,
-        "C": 18,
-        "D": 25,
-        "E": 15,
-        "F": 15,
-        "G": 12,
-        "H": 20,
-        "I": 15,
-        "J": 20,
-        "K": 22,
-        "L": 40,
+        "A": 10,  # PATENTE
+        "B": 9,   # MARCA
+        "C": 9,   # MODELO
+        "D": 22,  # PROPIETARIO
+        "E": 11,  # FECHA RT
+        "F": 11,  # GASES
+        "G": 10,  # CARGA
+        "H": 15,  # PERMISO CIRCULACIÓN
+        "I": 9,   # KM
+        "J": 9,   # ACEITE
+        "K": 13,  # MUNI
+        "L": 22,  # LUGAR DE MANTENCIÓN
     }
 
     for columna, ancho in anchos.items():
-
         ws.column_dimensions[columna].width = ancho
 
     # ==========================================================
-    # ALTURA DE LAS FILAS
-    # ==========================================================
-
-    for fila in range(3, ws.max_row + 1):
-
-        ws.row_dimensions[fila].height = 28
-
-    # ==========================================================
-    # CONGELAR ENCABEZADOS
+    # CONGELAR ENCABEZADOS Y FILTROS
     # ==========================================================
 
     ws.freeze_panes = "A3"
 
-    # ==========================================================
-    # FILTROS
-    # ==========================================================
-
     if ws.max_row >= 2:
-
-        ws.auto_filter.ref = (
-           f"A2:L{ws.max_row}"
-        )
+        ws.auto_filter.ref = f"A2:L{ws.max_row}"
 
     # ==========================================================
     # CONFIGURACIÓN DE IMPRESIÓN
@@ -465,7 +409,6 @@ def exportar_mantenciones_excel(request):
     ws.page_setup.paperSize = ws.PAPERSIZE_A4
     ws.page_setup.fitToWidth = 1
     ws.page_setup.fitToHeight = 0
-
     ws.sheet_properties.pageSetUpPr.fitToPage = True
 
     ws.page_margins.left = 0.25
@@ -473,42 +416,23 @@ def exportar_mantenciones_excel(request):
     ws.page_margins.top = 0.50
     ws.page_margins.bottom = 0.50
 
-    # ==========================================================
-    # REPETIR ENCABEZADOS AL IMPRIMIR
-    # ==========================================================
-
     ws.print_title_rows = "1:2"
 
-    # ==========================================================
-    # ÁREA DE IMPRESIÓN
-    # ==========================================================
-
     if ws.max_row >= 2:
-
-       ws.print_area = f"A1:L{ws.max_row}"
+        ws.print_area = f"A1:L{ws.max_row}"
 
     # ==========================================================
     # RESPUESTA
     # ==========================================================
 
     response = HttpResponse(
-        content_type=(
-            "application/vnd.openxmlformats-officedocument."
-            "spreadsheetml.sheet"
-        )
+        content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
-
-    response["Content-Disposition"] = (
-        'attachment; filename="reporte_mantenciones.xlsx"'
-    )
+    response["Content-Disposition"] = 'attachment; filename="reporte_mantenciones.xlsx"'
 
     wb.save(response)
 
     return response
-
-
-
-
 
 
 
